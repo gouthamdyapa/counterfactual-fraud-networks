@@ -1,0 +1,50 @@
+{
+  "experiment": "Graph-Structural TEMF v0",
+  "seed": 42,
+  "split": {
+    "train": "1-34",
+    "validation": "35-41",
+    "test": "42-49"
+  },
+  "graph_source": "AddrAddr_edgelist, 2,868,964 directed edge rows",
+  "graph_features": [
+    "log1p(in_degree)",
+    "log1p(out_degree)",
+    "log1p(total_degree)",
+    "log1p(self_loop_count)",
+    "direction_balance"
+  ],
+  "label_leakage": "No class labels used to construct graph features",
+  "baseline": {
+    "name": "temf_gru",
+    "loss": [
+      0.6403424585409963,
+      0.5402697486610182,
+      0.513865493975209
+    ],
+    "threshold": 0.9301773309707642,
+    "pr_auc": 0.147046007934733,
+    "roc_auc": 0.7220746016972742,
+    "precision": 0.3389967637540453,
+    "recall": 0.16202629543696828,
+    "f1": 0.21925693354264783,
+    "recurrent_pr_auc": 0.09786825435485004,
+    "recurrent_roc_auc": 0.8669387479762548
+  },
+  "graph_temf": {
+    "name": "graph_structural_temf",
+    "loss": [
+      0.6213414331590732,
+      0.5223306958556879,
+      0.49048190628330635
+    ],
+    "threshold": 0.8439380395412445,
+    "pr_auc": 0.1942918574959476,
+    "roc_auc": 0.7500874081317881,
+    "precision": 0.27211796246648795,
+    "recall": 0.2354988399071926,
+    "f1": 0.2524875621890547,
+    "recurrent_pr_auc": 0.0904000396935382,
+    "recurrent_roc_auc": 0.8455587223421479
+  }
+}

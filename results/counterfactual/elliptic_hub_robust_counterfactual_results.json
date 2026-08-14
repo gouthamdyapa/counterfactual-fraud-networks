@@ -1,0 +1,105 @@
+{
+  "experiment": "Hub-Robust Counterfactual Graph Memory",
+  "seed": 42,
+  "comparison": {
+    "plain_mean_graph_memory": {
+      "predictive": {
+        "pr_auc": 0.2910575430275123,
+        "roc_auc": 0.8299416167378916,
+        "f1": 0.2591566635887966,
+        "recurrent_pr_auc": 0.12577157350122362
+      },
+      "counterfactual_concentration": {
+        "top1_neighbor_share_abs_effect": 0.23914081620066222,
+        "top5_neighbor_share_abs_effect": 0.4595890464677284,
+        "top10_neighbor_share_abs_effect": 0.5696656327474356
+      }
+    },
+    "renormalized_inverse_sqrt_degree": {
+      "predictive": {
+        "pr_auc": 0.2758517535083156,
+        "roc_auc": 0.8307033281584866,
+        "precision": 0.6181318681318682,
+        "recall": 0.1740139211136891,
+        "f1": 0.27157513578756787,
+        "recurrent_pr_auc": 0.14617471832533707,
+        "recurrent_roc_auc": 0.8966414260658392,
+        "threshold": 0.9625128841400147
+      },
+      "counterfactual_concentration": {
+        "top1": 0.24099035923681297,
+        "top5": 0.4768436984985645,
+        "top10": 0.5899552459806607
+      }
+    },
+    "strict_hub_suppressed_inverse_sqrt_degree": {
+      "predictive": {
+        "pr_auc": 0.28245339896431454,
+        "roc_auc": 0.8183694646148794,
+        "precision": 0.4731993299832496,
+        "recall": 0.21848414539829852,
+        "f1": 0.29894179894179895,
+        "recurrent_pr_auc": 0.12262589469692681,
+        "recurrent_roc_auc": 0.8625455342687534,
+        "threshold": 0.9460649287700653
+      },
+      "counterfactual_concentration": {
+        "top1": 0.1026012600999192,
+        "top5": 0.34971375511603925,
+        "top10": 0.4523962128045267
+      }
+    }
+  },
+  "strict_hub_suppressed_historical_counterfactual": {
+    "matched_targets": {
+      "licit": 164,
+      "illicit": 164,
+      "total": 328
+    },
+    "relationship_interventions": 578,
+    "by_class": {
+      "0": {
+        "interventions": 268,
+        "mean_delta": -0.03449024475238689,
+        "median_delta": -0.0012946230126544833,
+        "mean_abs_delta": 0.050211741261483075,
+        "risk_increasing_share": 0.23134328358208955,
+        "protective_share": 0.7686567164179104,
+        "decision_flip_share": 0.011194029850746268
+      },
+      "1": {
+        "interventions": 310,
+        "mean_delta": 0.005039837975205193,
+        "median_delta": -0.007496971637010574,
+        "mean_abs_delta": 0.09166135253429773,
+        "risk_increasing_share": 0.3580645161290323,
+        "protective_share": 0.6419354838709678,
+        "decision_flip_share": 0.05806451612903226
+      }
+    },
+    "target_level": {
+      "0": {
+        "targets": 164,
+        "mean_max_abs_effect": 0.07375045121993824,
+        "median_max_abs_effect": 0.010078810155391693,
+        "targets_with_any_flip": 0.018292682926829267,
+        "targets_with_risk_increasing_neighbor": 0.3231707317073171,
+        "targets_with_protective_neighbor": 0.8719512195121951
+      },
+      "1": {
+        "targets": 164,
+        "mean_max_abs_effect": 0.15404368373962893,
+        "median_max_abs_effect": 0.07209381461143494,
+        "targets_with_any_flip": 0.07926829268292683,
+        "targets_with_risk_increasing_neighbor": 0.5365853658536586,
+        "targets_with_protective_neighbor": 0.6890243902439024
+      }
+    },
+    "effect_concentration": {
+      "top1": 0.1026012600999192,
+      "top5": 0.34971375511603925,
+      "top10": 0.4523962128045267
+    }
+  },
+  "interpretation_guardrail": "These are model counterfactual sensitivities under graph-message interventions, not claims of real-world causal effect."
+}

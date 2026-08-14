@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the associated paper."
+title: "Historical Counterfactual Fraud Networks: Graph-Aware Temporal Memory with Hub-Robust Relationship Explanations"
+type: software
+authors:
+  - family-names: Dyapa
+    given-names: Goutam
+    email: goutamdyapa@gmail.com
+year: 2026
+repository-code: "https://github.com/REPLACE_WITH_USERNAME/counterfactual-fraud-networks"

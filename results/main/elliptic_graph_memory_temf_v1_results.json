@@ -1,0 +1,156 @@
+{
+  "experiment": "Graph-Aware Temporal Fraud Memory v1",
+  "seed": 42,
+  "split": {
+    "train": "1-34",
+    "validation": "35-41",
+    "test": "42-49"
+  },
+  "neighbor_memory": {
+    "construction": "incoming/outgoing means of neighbors' most recent transformed behavioral state strictly before t",
+    "neighbor_scope": "labeled\u2194labeled AddrAddr edges only",
+    "labeled_edges": 1118222,
+    "nonself_labeled_edges": 1110448,
+    "behavior_dims_aggregated": 10,
+    "observations_with_any_prior_neighbor_memory": 0.38106300550067085
+  },
+  "temf_gru": {
+    "name": "temf_gru",
+    "loss": [
+      0.6403424585409963,
+      0.5402697486610182,
+      0.513865493975209
+    ],
+    "threshold": 0.9301773309707642,
+    "pr_auc": 0.147046007934733,
+    "roc_auc": 0.7220746016972742,
+    "precision": 0.3389967637540453,
+    "recall": 0.16202629543696828,
+    "f1": 0.21925693354264783,
+    "recurrent_pr_auc": 0.09786825435485004,
+    "recurrent_roc_auc": 0.8669387479762548
+  },
+  "graph_structural_temf": {
+    "name": "graph_structural_temf",
+    "loss": [
+      0.6213414331590732,
+      0.5223306958556879,
+      0.49048190628330635
+    ],
+    "threshold": 0.8439380395412445,
+    "pr_auc": 0.1942918574959476,
+    "roc_auc": 0.7500874081317881,
+    "precision": 0.27211796246648795,
+    "recall": 0.2354988399071926,
+    "f1": 0.2524875621890547,
+    "recurrent_pr_auc": 0.0904000396935382,
+    "recurrent_roc_auc": 0.8455587223421479
+  },
+  "neighbor_memory_temf": {
+    "name": "neighbor_memory_temf",
+    "loss": [
+      0.58023645577028,
+      0.4429501813122882,
+      0.40786726877497964
+    ],
+    "threshold": 0.9173778891563416,
+    "pr_auc": 0.2102753762660919,
+    "roc_auc": 0.8201965329995589,
+    "precision": 0.36387959866220737,
+    "recall": 0.21036349574632637,
+    "f1": 0.2666013232050968,
+    "recurrent_pr_auc": 0.11571376722440752,
+    "recurrent_roc_auc": 0.9071480369670805
+  },
+  "full_graph_memory_temf": {
+    "name": "full_graph_memory_temf",
+    "loss": [
+      0.5755488454606454,
+      0.40967530728169455,
+      0.3760272156228402
+    ],
+    "threshold": 0.9647462439537048,
+    "pr_auc": 0.2910575430275123,
+    "roc_auc": 0.8299416167378916,
+    "precision": 0.6349924585218703,
+    "recall": 0.16279969064191802,
+    "f1": 0.2591566635887966,
+    "recurrent_pr_auc": 0.12577157350122362,
+    "recurrent_roc_auc": 0.9010304236373448
+  },
+  "counterfactual_remove_all_neighbor_memory": {
+    "pr_auc": 0.21730225454148144,
+    "roc_auc": 0.7900534076900277,
+    "precision": 0.314878892733564,
+    "recall": 0.24632637277648878,
+    "f1": 0.27641570839661533,
+    "recurrent_pr_auc": 0.07489263842459873,
+    "recurrent_roc_auc": 0.8132884174311927,
+    "mean_score_delta_full_minus_removed": -0.036850836127996445,
+    "mean_abs_score_delta": 0.043711256235837936,
+    "positive_mean_delta": -0.0007198186940513551,
+    "negative_mean_delta": -0.03854028135538101
+  },
+  "relationship_counterfactual_examples": [
+    {
+      "address": "1J7Yb6aMNw1fWUMhqDApjrsLvX2mpLwBdU",
+      "time": 49,
+      "full_probability": 0.9851742386817932,
+      "active_prior_neighbors": 2,
+      "top_effects": [
+        {
+          "neighbor": "18QUa57MjVrZ13Y2vQvCpayG9qaRMXR66H",
+          "delta_full_minus_removed": -0.006003260612487793,
+          "prob_without_neighbor": 0.991177499294281
+        },
+        {
+          "neighbor": "15FkN73MjCXkfWnyWWw6phiTpwrUMRYXqF",
+          "delta_full_minus_removed": -0.0012382864952087402,
+          "prob_without_neighbor": 0.986412525177002
+        }
+      ]
+    },
+    {
+      "address": "13Rzqhwyw5i79r1LWwRyQQceRoQMS1me1n",
+      "time": 49,
+      "full_probability": 0.9816858768463135,
+      "active_prior_neighbors": 3,
+      "top_effects": [
+        {
+          "neighbor": "122cArGCaKzoAj7dsf7KH2tdhhejy23n7r",
+          "delta_full_minus_removed": -0.006753146648406982,
+          "prob_without_neighbor": 0.9884390234947205
+        },
+        {
+          "neighbor": "16FTZ3gTGqLZo5eV2zqkQwdn7oTsAnwTb4",
+          "delta_full_minus_removed": 0.0037685632705688477,
+          "prob_without_neighbor": 0.9779173135757446
+        },
+        {
+          "neighbor": "1KEz8TcfKPeq8qA3dPhFmTQx2umyh2yRDa",
+          "delta_full_minus_removed": -0.003069162368774414,
+          "prob_without_neighbor": 0.9847550392150879
+        }
+      ]
+    },
+    {
+      "address": "188oP5jZot7JF4fZsK9V1L1Kq4YCdDuZCe",
+      "time": 49,
+      "full_probability": 0.9733778238296509,
+      "active_prior_neighbors": 2,
+      "top_effects": [
+        {
+          "neighbor": "15uepg7WpadtMYxc8Lzd1cyKKjLsZ4qhco",
+          "delta_full_minus_removed": -0.01586812734603882,
+          "prob_without_neighbor": 0.9892459511756897
+        },
+        {
+          "neighbor": "16FTZ3gTGqLZo5eV2zqkQwdn7oTsAnwTb4",
+          "delta_full_minus_removed": 0.006698727607727051,
+          "prob_without_neighbor": 0.9666790962219238
+        }
+      ]
+    }
+  ],
+  "relationship_counterfactual_scope": "decision-time intervention: remove one neighbor from the target wallet's incoming/outgoing prior-neighbor aggregate at the target time only; earlier hidden-state history remains unchanged"
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "file": "wallets_classes(2).txt",
+    "bytes": 30421134,
+    "sha256": "4e5132c99f941666bf1fefd4100a1428d339c9252ec6987909e1adf8eac902f9"
+  },
+  {
+    "file": "wallets_features_part1(2).txt",
+    "bytes": 41942722,
+    "sha256": "8da39c9db51c6c861c83e06f565810bb68b716342a423bb5af3bf6934969082a"
+  },
+  {
+    "file": "wallets_features_part2(2).txt",
+    "bytes": 41942701,
+    "sha256": "6af8c0a1c9edb30e16c1dd55a7bf266fd760a45b6221dd6ab818335c923d3a1a"
+  },
+  {
+    "file": "wallets_features_part3(1).txt",
+    "bytes": 41942647,
+    "sha256": "c86df7f4288f6bc692259f4f73a5bddc2f3ae536f41f8e111807beb8f9d2990a"
+  },
+  {
+    "file": "wallets_features_part4(1).txt",
+    "bytes": 41942918,
+    "sha256": "cee9173a73d8d1dc2d368ef9c8343a8ca2f21865b28705dcade13aa26bd425d8"
+  },
+  {
+    "file": "wallets_features_part5(1).txt",
+    "bytes": 41942791,
+    "sha256": "844e33a1e8a930ec7d39f09908ffef3bc0bbb02052d643dc064cbeef73ec82ea"
+  },
+  {
+    "file": "wallets_features_part6(1).txt",
+    "bytes": 41942876,
+    "sha256": "f9d5032cd62c507026fff5ab5df9c382dc7e3a12d69f3872146ced0f10c36e93"
+  },
+  {
+    "file": "wallets_features_part7(1).txt",
+    "bytes": 41942624,
+    "sha256": "63881c6959b63ee9ae464510d575cfd132d9cc7139a327627ac44c16eb0fb839"
+  },
+  {
+    "file": "wallets_features_part8(1).txt",
+    "bytes": 41942665,
+    "sha256": "958e5de3178084623852763266fd56ecd24d2d56b1b283b3443a9dcc6248a921"
+  },
+  {
+    "file": "wallets_features_part9(1).txt",
+    "bytes": 41942895,
+    "sha256": "415551dfc80402a48f81fa3ccf371cc73c5c1f12d4c236d5c4fd415f1b6e01b7"
+  },
+  {
+    "file": "wallets_features_part10(1).txt",
+    "bytes": 41942451,
+    "sha256": "c74ecc2b2318064cc06d6d262513eeb0a52ef790ddb76d1d7c38e5cc800265e8"
+  },
+  {
+    "file": "wallets_features_part11(1).txt",
+    "bytes": 41942577,
+    "sha256": "b0e5e0130d5f06c8b85023a658575b32b78a1c775fd5f8a1a67db63da6e4953e"
+  },
+  {
+    "file": "wallets_features_part12(1).txt",
+    "bytes": 41942993,
+    "sha256": "82d2339663407c4ae40707439cae3e7af5eab93b4ca0d6050c000cec112cfdc0"
+  },
+  {
+    "file": "wallets_features_part13(1).txt",
+    "bytes": 41942986,
+    "sha256": "aba828f94d138cc60fee18db12df311cf78b7603b0c95de2bc2fc9e9eea2e161"
+  },
+  {
+    "file": "wallets_features_part14(1).txt",
+    "bytes": 41942777,
+    "sha256": "1c0a10a56e22bbcf7a517101257b92b49097e905407d2feb799838304752a8c9"
+  },
+  {
+    "file": "wallets_features_part15(1).txt",
+    "bytes": 19264899,
+    "sha256": "1ed7ff8bccb524b389523dada9a68c6ffd63a791bd2399ec1eb0c99333cbe8dc"
+  },
+  {
+    "file": "AddrAddr_edgelist_part1(2).txt",
+    "bytes": 41942995,
+    "sha256": "67a355f1b046367bf9092d23c4f845f93c28d6b78e0dd5712cb562504b468ca1"
+  },
+  {
+    "file": "AddrAddr_edgelist_part2(1).txt",
+    "bytes": 41942978,
+    "sha256": "f796bbff026a085d53305684148329e2e910fbd91f1c5d159b183da8b281f948"
+  },
+  {
+    "file": "AddrAddr_edgelist_part3.txt",
+    "bytes": 41943009,
+    "sha256": "6801778bb77628450e81a8992344a05057a1dde34e3b319e01ea52b4fedc530e"
+  },
+  {
+    "file": "AddrAddr_edgelist_part4.txt",
+    "bytes": 41943034,
+    "sha256": "4db8224f71e79b656ccc5865508780e93b3674038f5e57b261a645ee6c40aa50"
+  },
+  {
+    "file": "AddrAddr_edgelist_part5.txt",
+    "bytes": 32859465,
+    "sha256": "efb255255e1ba1a4fcc11356b95726aa1c0ea9cde0596a2e048dc6d2af0040e5"
+  }
+]

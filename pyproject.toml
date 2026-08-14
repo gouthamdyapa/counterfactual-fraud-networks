@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "counterfactual-fraud-networks"
+version = "0.1.0"
+description = "Reproducibility package for Historical Counterfactual Fraud Networks"
+requires-python = ">=3.10"
+dependencies = ["numpy", "pandas", "scipy", "scikit-learn", "torch", "matplotlib"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

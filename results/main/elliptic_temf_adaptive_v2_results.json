@@ -1,0 +1,97 @@
+{
+  "seed": 42,
+  "split": {
+    "train": 193663,
+    "val": 39865,
+    "test": 57891
+  },
+  "architecture": "48-d behavior projection -> GRUCell candidate + explicit adaptive retention gate alpha(current behavior, prior memory, log gap); h=alpha*h_prev+(1-alpha)*candidate -> classifier",
+  "training": [
+    {
+      "epoch": 1,
+      "train_loss": 0.7830277234932191,
+      "seconds": 11.951225519180298
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.5932392872652256,
+      "seconds": 13.110821723937988
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.5509878585867941,
+      "seconds": 10.26957654953003
+    }
+  ],
+  "gate_stats": {
+    "mean_retention_gate": 0.5243006348609924,
+    "std_retention_gate": 0.11736246198415756,
+    "corr_gate_with_log_gap": -0.02524835243821144
+  },
+  "results": [
+    {
+      "name": "static_robust_all",
+      "n": 57891,
+      "positives": 2586,
+      "threshold": 0.968780821121018,
+      "val_best_f1": 0.48321513002364064,
+      "pr_auc": 0.08532125206277942,
+      "roc_auc": 0.6661233846783564,
+      "precision": 0.13746065057712487,
+      "recall": 0.1519721577726218,
+      "f1": 0.1443526170798898,
+      "tn": 52839,
+      "fp": 2466,
+      "fn": 2193,
+      "tp": 393
+    },
+    {
+      "name": "temf_adaptive_v2_all",
+      "n": 57891,
+      "positives": 2586,
+      "threshold": 0.9257109866142272,
+      "val_best_f1": 0.5793294158313169,
+      "pr_auc": 0.1551791815797001,
+      "roc_auc": 0.7391301405067714,
+      "precision": 0.2842160461457787,
+      "recall": 0.20959010054137664,
+      "f1": 0.24126418873803696,
+      "tn": 53940,
+      "fp": 1365,
+      "fn": 2044,
+      "tp": 542
+    },
+    {
+      "name": "static_robust_recurrent_subset_threshold",
+      "n": 3556,
+      "positives": 68,
+      "threshold": 0.9600632335332366,
+      "val_best_f1": 0.3027027027027027,
+      "pr_auc": 0.058150787517555425,
+      "roc_auc": 0.7847662574203993,
+      "precision": 0.08333333333333333,
+      "recall": 0.17647058823529413,
+      "f1": 0.11320754716981132,
+      "tn": 3356,
+      "fp": 132,
+      "fn": 56,
+      "tp": 12
+    },
+    {
+      "name": "temf_adaptive_v2_recurrent_subset_threshold",
+      "n": 3556,
+      "positives": 68,
+      "threshold": 0.7599935803413392,
+      "val_best_f1": 0.2857142857142857,
+      "pr_auc": 0.0789655926306219,
+      "roc_auc": 0.855095621964382,
+      "precision": 0.08333333333333333,
+      "recall": 0.08823529411764706,
+      "f1": 0.08571428571428572,
+      "tn": 3422,
+      "fp": 66,
+      "fn": 62,
+      "tp": 6
+    }
+  ]
+}

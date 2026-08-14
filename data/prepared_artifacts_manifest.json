@@ -1,0 +1,20 @@
+[
+  {
+    "file": "temf_prepared.npz",
+    "bytes": 121106393,
+    "sha256": "79ab5db6f9371e2083415ea7af0d2abaec9ccf45f4b4a44eccdfcfa4ad5780af",
+    "git_tracked": false
+  },
+  {
+    "file": "temf_graph_structural_prepared.npz",
+    "bytes": 21244632,
+    "sha256": "d2b86cb06cfeb72455dd39220b8c45debc240be6cb0ad538e5d1a6ab1828c1eb",
+    "git_tracked": false
+  },
+  {
+    "file": "temf_final_graph_prepared.npz",
+    "bytes": 52789891,
+    "sha256": "9f7019c6db3c664d91c9780356414cd01b6150d5c635b2de235811b3f64259fc",
+    "git_tracked": false
+  }
+]

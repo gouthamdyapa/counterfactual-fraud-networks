@@ -1,0 +1,96 @@
+{
+  "seed": 42,
+  "split": {
+    "train": 193663,
+    "val": 39865,
+    "test": 57891
+  },
+  "architecture": "same v0 features + log gap; projection -> GRUCell with per-hidden-channel learned exponential decay h_prior*exp(-lambda_j*gap) -> classifier",
+  "training": [
+    {
+      "epoch": 1,
+      "train_loss": 0.68889362266831
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.55464152403375
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.5325340977493168
+    }
+  ],
+  "learned_decay": {
+    "min_lambda": 0.045449148863554,
+    "median_lambda": 0.04923037812113762,
+    "mean_lambda": 0.048798106610774994,
+    "max_lambda": 0.05245077237486839,
+    "median_half_life_timesteps": 14.079663959808887
+  },
+  "results": [
+    {
+      "name": "static_robust_all",
+      "n": 57891,
+      "positives": 2586,
+      "threshold": 0.968780821121018,
+      "val_best_f1": 0.48321513002364064,
+      "pr_auc": 0.08532125206277942,
+      "roc_auc": 0.6661233846783564,
+      "precision": 0.13746065057712487,
+      "recall": 0.1519721577726218,
+      "f1": 0.1443526170798898,
+      "tn": 52839,
+      "fp": 2466,
+      "fn": 2193,
+      "tp": 393
+    },
+    {
+      "name": "temf_decay_v1_all",
+      "n": 57891,
+      "positives": 2586,
+      "threshold": 0.9462896862030029,
+      "val_best_f1": 0.5975885455915599,
+      "pr_auc": 0.14737730743162428,
+      "roc_auc": 0.7322790483456258,
+      "precision": 0.31227038941954444,
+      "recall": 0.16434648105181748,
+      "f1": 0.2153534329870788,
+      "tn": 54369,
+      "fp": 936,
+      "fn": 2161,
+      "tp": 425
+    },
+    {
+      "name": "static_robust_recurrent_subset_threshold",
+      "n": 3556,
+      "positives": 68,
+      "threshold": 0.9600632335332366,
+      "val_best_f1": 0.3027027027027027,
+      "pr_auc": 0.058150787517555425,
+      "roc_auc": 0.7847662574203993,
+      "precision": 0.08333333333333333,
+      "recall": 0.17647058823529413,
+      "f1": 0.11320754716981132,
+      "tn": 3356,
+      "fp": 132,
+      "fn": 56,
+      "tp": 12
+    },
+    {
+      "name": "temf_decay_v1_recurrent_subset_threshold",
+      "n": 3556,
+      "positives": 68,
+      "threshold": 0.8468170719146728,
+      "val_best_f1": 0.4142857142857143,
+      "pr_auc": 0.09107657313637325,
+      "roc_auc": 0.8684270439827307,
+      "precision": 0.13043478260869565,
+      "recall": 0.1323529411764706,
+      "f1": 0.13138686131386862,
+      "tn": 3428,
+      "fp": 60,
+      "fn": 59,
+      "tp": 9
+    }
+  ]
+}

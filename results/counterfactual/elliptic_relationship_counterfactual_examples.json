@@ -1,0 +1,64 @@
+{
+  "scope": "decision-time intervention: remove one neighbor from the target wallet's incoming/outgoing prior-neighbor aggregate at the target time only; earlier hidden-state history remains unchanged",
+  "examples": [
+    {
+      "address": "1J7Yb6aMNw1fWUMhqDApjrsLvX2mpLwBdU",
+      "time": 49,
+      "full_probability": 0.9851742386817932,
+      "active_prior_neighbors": 2,
+      "top_effects": [
+        {
+          "neighbor": "18QUa57MjVrZ13Y2vQvCpayG9qaRMXR66H",
+          "delta_full_minus_removed": -0.006003260612487793,
+          "prob_without_neighbor": 0.991177499294281
+        },
+        {
+          "neighbor": "15FkN73MjCXkfWnyWWw6phiTpwrUMRYXqF",
+          "delta_full_minus_removed": -0.0012382864952087402,
+          "prob_without_neighbor": 0.986412525177002
+        }
+      ]
+    },
+    {
+      "address": "13Rzqhwyw5i79r1LWwRyQQceRoQMS1me1n",
+      "time": 49,
+      "full_probability": 0.9816858768463135,
+      "active_prior_neighbors": 3,
+      "top_effects": [
+        {
+          "neighbor": "122cArGCaKzoAj7dsf7KH2tdhhejy23n7r",
+          "delta_full_minus_removed": -0.006753146648406982,
+          "prob_without_neighbor": 0.9884390234947205
+        },
+        {
+          "neighbor": "16FTZ3gTGqLZo5eV2zqkQwdn7oTsAnwTb4",
+          "delta_full_minus_removed": 0.0037685632705688477,
+          "prob_without_neighbor": 0.9779173135757446
+        },
+        {
+          "neighbor": "1KEz8TcfKPeq8qA3dPhFmTQx2umyh2yRDa",
+          "delta_full_minus_removed": -0.003069162368774414,
+          "prob_without_neighbor": 0.9847550392150879
+        }
+      ]
+    },
+    {
+      "address": "188oP5jZot7JF4fZsK9V1L1Kq4YCdDuZCe",
+      "time": 49,
+      "full_probability": 0.9733778238296509,
+      "active_prior_neighbors": 2,
+      "top_effects": [
+        {
+          "neighbor": "15uepg7WpadtMYxc8Lzd1cyKKjLsZ4qhco",
+          "delta_full_minus_removed": -0.01586812734603882,
+          "prob_without_neighbor": 0.9892459511756897
+        },
+        {
+          "neighbor": "16FTZ3gTGqLZo5eV2zqkQwdn7oTsAnwTb4",
+          "delta_full_minus_removed": 0.006698727607727051,
+          "prob_without_neighbor": 0.9666790962219238
+        }
+      ]
+    }
+  ]
+}

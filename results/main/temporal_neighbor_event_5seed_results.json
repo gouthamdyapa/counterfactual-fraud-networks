@@ -1,0 +1,143 @@
+{
+  "protocol": "3-epoch five-seed temporal-neighbor event baseline; chronological split 1-34/35-41/42-49",
+  "baseline_definition": {
+    "input": "current wallet representation (50 dims) + strictly-prior directional neighbor-event summaries (22 dims)",
+    "excluded": "static graph structural features and recurrent target-wallet hidden state",
+    "classifier": "MLP 72->48->32->1 with ReLU/LayerNorm",
+    "purpose": "test whether locked Graph-Memory gains persist beyond a non-recurrent event-driven temporal-neighborhood representation"
+  },
+  "seeds": [
+    13,
+    21,
+    42,
+    77,
+    101
+  ],
+  "runs": [
+    {
+      "seed": 13,
+      "model": "temporal_neighbor_event_mlp",
+      "epochs": 3,
+      "loss": [
+        0.6951004750084262,
+        0.48261057168869637,
+        0.4331477831778655
+      ],
+      "threshold": 0.9595998799800873,
+      "seconds": 22.568337202072144,
+      "pr_auc": 0.21209331060400238,
+      "roc_auc": 0.808637732274647,
+      "precision": 0.3187830687830688,
+      "recall": 0.18638824439288476,
+      "f1": 0.23523670082967302,
+      "recurrent_pr_auc": 0.11757625125000015,
+      "recurrent_roc_auc": 0.9073504114948733
+    },
+    {
+      "seed": 21,
+      "model": "temporal_neighbor_event_mlp",
+      "epochs": 3,
+      "loss": [
+        0.7760511988937957,
+        0.5023044272376634,
+        0.4451367687830122
+      ],
+      "threshold": 0.940748780965805,
+      "seconds": 13.85953688621521,
+      "pr_auc": 0.1916982585887525,
+      "roc_auc": 0.7830080577557919,
+      "precision": 0.38878504672897196,
+      "recall": 0.1608662026295437,
+      "f1": 0.2275711159737418,
+      "recurrent_pr_auc": 0.11692923344064465,
+      "recurrent_roc_auc": 0.9076202441985969
+    },
+    {
+      "seed": 42,
+      "model": "temporal_neighbor_event_mlp",
+      "epochs": 3,
+      "loss": [
+        0.7526174856673981,
+        0.5134113168276989,
+        0.45809294050427396
+      ],
+      "threshold": 0.9097382426261902,
+      "seconds": 14.06882619857788,
+      "pr_auc": 0.2157802291525684,
+      "roc_auc": 0.8026816942088635,
+      "precision": 0.29,
+      "recall": 0.2242846094354215,
+      "f1": 0.2529437418229394,
+      "recurrent_pr_auc": 0.09890890583509494,
+      "recurrent_roc_auc": 0.8994999662709121
+    },
+    {
+      "seed": 77,
+      "model": "temporal_neighbor_event_mlp",
+      "epochs": 3,
+      "loss": [
+        0.721215767727343,
+        0.48940307216416334,
+        0.4395047151220568
+      ],
+      "threshold": 0.9498130238056183,
+      "seconds": 13.726214170455933,
+      "pr_auc": 0.2149179014319294,
+      "roc_auc": 0.7767416792192184,
+      "precision": 0.3877086494688923,
+      "recall": 0.19760247486465585,
+      "f1": 0.2617827868852459,
+      "recurrent_pr_auc": 0.10532563499188269,
+      "recurrent_roc_auc": 0.8894360496492176
+    },
+    {
+      "seed": 101,
+      "model": "temporal_neighbor_event_mlp",
+      "epochs": 3,
+      "loss": [
+        0.7379200865494518,
+        0.499376755102114,
+        0.4409563161100846
+      ],
+      "threshold": 0.9263948535919195,
+      "seconds": 14.232009649276733,
+      "pr_auc": 0.21015989982781708,
+      "roc_auc": 0.7999264012482841,
+      "precision": 0.3560551124002901,
+      "recall": 0.18986852281515854,
+      "f1": 0.24766708701134932,
+      "recurrent_pr_auc": 0.11732687033776419,
+      "recurrent_roc_auc": 0.901506847004857
+    }
+  ],
+  "summary": {
+    "pr_auc": {
+      "mean": 0.20892991992101395,
+      "sd": 0.009889801598074366
+    },
+    "roc_auc": {
+      "mean": 0.794199112941361,
+      "sd": 0.013631135800909947
+    },
+    "precision": {
+      "mean": 0.3482663754762446,
+      "sd": 0.04336575839695491
+    },
+    "recall": {
+      "mean": 0.19180201082753287,
+      "sd": 0.022797127380071686
+    },
+    "f1": {
+      "mean": 0.2450402865045899,
+      "sd": 0.013701808429811486
+    },
+    "recurrent_pr_auc": {
+      "mean": 0.11121337917107732,
+      "sd": 0.008611003149522808
+    },
+    "recurrent_roc_auc": {
+      "mean": 0.9010827037236913,
+      "sd": 0.007422147645119398
+    }
+  }
+}

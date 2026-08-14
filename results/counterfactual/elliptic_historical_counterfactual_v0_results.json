@@ -1,0 +1,331 @@
+{
+  "experiment": "Historical Counterfactual Fraud Networks v0",
+  "seed": 42,
+  "intervention_definition": "Remove one AddrAddr neighbor from every prior-neighbor aggregation in the target wallet's full observed history through prediction time, replay the fixed trained Graph-Memory TEMF sequence, and compare final fraud probability.",
+  "causal_scope_warning": "Model counterfactual/interventional sensitivity, not a claim of real-world causal effect.",
+  "eligibility": "test observations with prior-neighbor memory and 1-15 active historical neighbors",
+  "matched_targets": {
+    "illicit": 164,
+    "licit": 164,
+    "total": 328
+  },
+  "relationship_interventions": 578,
+  "threshold": 0.9647462439537048,
+  "by_class": {
+    "licit": {
+      "interventions": 268,
+      "mean_delta_full_minus_removed": -0.04078910262028534,
+      "median_delta": -0.0007893438450992107,
+      "mean_abs_delta": 0.049966391689429034,
+      "risk_increasing_relationship_share": 0.22014925373134328,
+      "protective_relationship_share": 0.7798507462686567,
+      "decision_flip_relationship_share": 0.0
+    },
+    "illicit": {
+      "interventions": 310,
+      "mean_delta_full_minus_removed": -0.011525540228842968,
+      "median_delta": -0.001974642276763916,
+      "mean_abs_delta": 0.05302911245699732,
+      "risk_increasing_relationship_share": 0.38064516129032255,
+      "protective_relationship_share": 0.6193548387096774,
+      "decision_flip_relationship_share": 0.03225806451612903
+    }
+  },
+  "target_level": {
+    "licit": {
+      "mean_max_abs_effect": 0.07841828383971006,
+      "median_max_abs_effect": 0.009061851305887103,
+      "share_with_any_decision_flip": 0.0,
+      "share_with_any_risk_increasing_neighbor": 0.2804878048780488,
+      "share_with_any_protective_neighbor": 0.8658536585365854
+    },
+    "illicit": {
+      "mean_max_abs_effect": 0.09195834189431923,
+      "median_max_abs_effect": 0.030563049018383026,
+      "share_with_any_decision_flip": 0.06097560975609756,
+      "share_with_any_risk_increasing_neighbor": 0.5609756097560976,
+      "share_with_any_protective_neighbor": 0.6280487804878049
+    }
+  },
+  "effect_concentration": {
+    "top1_neighbor_share_abs_effect": 0.23914081620066222,
+    "top5_neighbor_share_abs_effect": 0.4595890464677284,
+    "top10_neighbor_share_abs_effect": 0.5696656327474356
+  },
+  "top_risk_increasing": [
+    {
+      "class": 1,
+      "wallet": "1FWzCrQUVz7Fawj1dG5HERbSXirK4bEZNM",
+      "time": 49,
+      "neighbor": "1GZbccX3cJJbfRC8WuKW1sFiTQXj8MPYpQ",
+      "full_probability": 0.8714413046836853,
+      "without_probability": 0.3598601520061493,
+      "delta": 0.511581152677536
+    },
+    {
+      "class": 1,
+      "wallet": "18aXA5T5BEPgpqQ38rSgShRq7ghT5S9tvz",
+      "time": 47,
+      "neighbor": "394H6wHnsdBxQqFSLLPzeTJ7kmLeKTvcRY",
+      "full_probability": 0.6141238808631897,
+      "without_probability": 0.21313665807247162,
+      "delta": 0.4009872227907181
+    },
+    {
+      "class": 1,
+      "wallet": "1Hmm1KKPDUnwzZjRLSRPtVtTYe2KrEE4U3",
+      "time": 48,
+      "neighbor": "39sfuA8pY4UfybgEZi7uvA13jkGzZpsg5K",
+      "full_probability": 0.9257346987724304,
+      "without_probability": 0.5826972723007202,
+      "delta": 0.3430374264717102
+    },
+    {
+      "class": 1,
+      "wallet": "18ZfGYxQ9kLFVps2v76tX6JksZnAMWWusr",
+      "time": 49,
+      "neighbor": "1DDmgYSiSA5VckjXxDNMi1DxWZfuHt1gVg",
+      "full_probability": 0.6670989990234375,
+      "without_probability": 0.35991016030311584,
+      "delta": 0.30718883872032166
+    },
+    {
+      "class": 1,
+      "wallet": "141Zu4pHzkYZefE2audb1FU1gRkJ1TNKT6",
+      "time": 42,
+      "neighbor": "17my9ExMmuyCBGSpC42jW7K1KPbCMEBnaL",
+      "full_probability": 0.6915785670280457,
+      "without_probability": 0.3985322415828705,
+      "delta": 0.29304632544517517
+    },
+    {
+      "class": 1,
+      "wallet": "1L8PsiDHmetA5rAgW6W9ry8LE7yPEBXwBB",
+      "time": 44,
+      "neighbor": "15ymZ1HC2WuUc2T9rXjjjbFUrpWf213fkR",
+      "full_probability": 0.9154030680656433,
+      "without_probability": 0.6654783487319946,
+      "delta": 0.24992471933364868
+    },
+    {
+      "class": 1,
+      "wallet": "1asrsnCiseKwF1cKqRvsszHnq6FUYuAX7",
+      "time": 43,
+      "neighbor": "1F8zLazqH3pM3RQWPnzuaEnytobGvwS85R",
+      "full_probability": 0.3574240207672119,
+      "without_probability": 0.10970036685466766,
+      "delta": 0.24772365391254425
+    },
+    {
+      "class": 1,
+      "wallet": "16FUM9sZXp8wbxH6Mx8MvH8biFsjqFtEr5",
+      "time": 44,
+      "neighbor": "15ymZ1HC2WuUc2T9rXjjjbFUrpWf213fkR",
+      "full_probability": 0.5475571155548096,
+      "without_probability": 0.31152617931365967,
+      "delta": 0.2360309362411499
+    },
+    {
+      "class": 1,
+      "wallet": "18H2NS8ngY6iDSJnKkG2qmMhkZUTUk1G3L",
+      "time": 46,
+      "neighbor": "3BgGDrAfviBztVooGNqW5Eqjj8hmkEwfYc",
+      "full_probability": 0.6077341437339783,
+      "without_probability": 0.40883395075798035,
+      "delta": 0.19890019297599792
+    },
+    {
+      "class": 1,
+      "wallet": "16cg3wqcDyjdUgbaHWPQT2DLF3RMgZzLZY",
+      "time": 46,
+      "neighbor": "3BgGDrAfviBztVooGNqW5Eqjj8hmkEwfYc",
+      "full_probability": 0.6077341437339783,
+      "without_probability": 0.40883395075798035,
+      "delta": 0.19890019297599792
+    }
+  ],
+  "top_protective": [
+    {
+      "class": 0,
+      "wallet": "1GGUWCzitM6NsMztt3QMH4CTaaCnM4JAgy",
+      "time": 44,
+      "neighbor": "12cgpFdJViXbwHbhrA3TuW1EGnL25Zqc3P",
+      "full_probability": 0.008215480484068394,
+      "without_probability": 0.9455742239952087,
+      "delta": -0.9373587435111403
+    },
+    {
+      "class": 0,
+      "wallet": "1HiiuQPFdQrRL4maTn2puqnd1Ku9zfnDoR",
+      "time": 48,
+      "neighbor": "1GX28yLjVWux7ws4UQ9FB4MnLH4UKTPK2z",
+      "full_probability": 0.026393145322799683,
+      "without_probability": 0.9275825023651123,
+      "delta": -0.9011893570423126
+    },
+    {
+      "class": 0,
+      "wallet": "1DQ27qFhGPiYgQmibPsVvwXRRjcSMoEK9j",
+      "time": 47,
+      "neighbor": "12cgpFdJViXbwHbhrA3TuW1EGnL25Zqc3P",
+      "full_probability": 0.004992366768419743,
+      "without_probability": 0.9015956521034241,
+      "delta": -0.8966032853350043
+    },
+    {
+      "class": 1,
+      "wallet": "12j3zc9YSxnRfnQ4iZBvW9zEDv2hqXyD8s",
+      "time": 42,
+      "neighbor": "12cgpFdJViXbwHbhrA3TuW1EGnL25Zqc3P",
+      "full_probability": 0.12985989451408386,
+      "without_probability": 0.9192250370979309,
+      "delta": -0.789365142583847
+    },
+    {
+      "class": 0,
+      "wallet": "1JmRRGzphv5TAJ9f81S1AELdR3Wjz5bmBG",
+      "time": 45,
+      "neighbor": "12cgpFdJViXbwHbhrA3TuW1EGnL25Zqc3P",
+      "full_probability": 0.004758173134177923,
+      "without_probability": 0.7361049652099609,
+      "delta": -0.731346792075783
+    },
+    {
+      "class": 1,
+      "wallet": "1NSn81TebU8xJm9YqCMgNqe1GA7c8ZZKYu",
+      "time": 42,
+      "neighbor": "12cgpFdJViXbwHbhrA3TuW1EGnL25Zqc3P",
+      "full_probability": 0.2693212330341339,
+      "without_probability": 0.9942740797996521,
+      "delta": -0.7249528467655182
+    },
+    {
+      "class": 0,
+      "wallet": "1AvvBDAjMCG36tPTdoSVwqYtWh3wjBsWeA",
+      "time": 44,
+      "neighbor": "12cgpFdJViXbwHbhrA3TuW1EGnL25Zqc3P",
+      "full_probability": 0.004820309113711119,
+      "without_probability": 0.694005012512207,
+      "delta": -0.6891847033984959
+    },
+    {
+      "class": 0,
+      "wallet": "1MmtuUustpJJmnuEQT9VFYH1CqLRVSiygn",
+      "time": 47,
+      "neighbor": "12cgpFdJViXbwHbhrA3TuW1EGnL25Zqc3P",
+      "full_probability": 0.0071038370952010155,
+      "without_probability": 0.6468914747238159,
+      "delta": -0.6397876376286149
+    },
+    {
+      "class": 1,
+      "wallet": "1JHBUqaCHZpMpUeFGxBDsQ2vE1By7t5vYD",
+      "time": 43,
+      "neighbor": "1FAv42GaDuQixSzEzSbx6aP1Kf4WVWpQUY",
+      "full_probability": 0.30411142110824585,
+      "without_probability": 0.9294514656066895,
+      "delta": -0.6253400444984436
+    },
+    {
+      "class": 1,
+      "wallet": "1Ae7dFZsct57hpAt2vGkYytKwEvSjEggQ8",
+      "time": 42,
+      "neighbor": "1N52wHoVR79PMDishab2XmRHsbekCdGquK",
+      "full_probability": 0.2615834176540375,
+      "without_probability": 0.8270686268806458,
+      "delta": -0.5654852092266083
+    }
+  ],
+  "top_effect_neighbors": [
+    {
+      "neighbor": "12cgpFdJViXbwHbhrA3TuW1EGnL25Zqc3P",
+      "interventions": 18,
+      "total_abs_effect": 7.133574812207371,
+      "mean_abs_effect": 0.3963097117892984,
+      "mean_delta": -0.3963097117892984,
+      "out_degree": 1592,
+      "in_degree": 2687
+    },
+    {
+      "neighbor": "1GX28yLjVWux7ws4UQ9FB4MnLH4UKTPK2z",
+      "interventions": 24,
+      "total_abs_effect": 2.8178863055072725,
+      "mean_abs_effect": 0.11741192939613636,
+      "mean_delta": -0.11741192939613636,
+      "out_degree": 26660,
+      "in_degree": 0
+    },
+    {
+      "neighbor": "17A16QmavnUfCW11DAApiJxp7ARnxN5pGX",
+      "interventions": 36,
+      "total_abs_effect": 1.5103764890227467,
+      "mean_abs_effect": 0.04195490247285408,
+      "mean_delta": -0.03996028295174862,
+      "out_degree": 11788,
+      "in_degree": 58
+    },
+    {
+      "neighbor": "1N52wHoVR79PMDishab2XmRHsbekCdGquK",
+      "interventions": 55,
+      "total_abs_effect": 1.2770686235744506,
+      "mean_abs_effect": 0.023219429519535466,
+      "mean_delta": -0.02277332154441286,
+      "out_degree": 2795,
+      "in_degree": 7285
+    },
+    {
+      "neighbor": "3BgGDrAfviBztVooGNqW5Eqjj8hmkEwfYc",
+      "interventions": 5,
+      "total_abs_effect": 0.9706432223320007,
+      "mean_abs_effect": 0.19412864446640016,
+      "mean_delta": 0.19412864446640016,
+      "out_degree": 45,
+      "in_degree": 0
+    },
+    {
+      "neighbor": "1BrT827NCgxjctnEBdLiuDzukupwWHP1i2",
+      "interventions": 8,
+      "total_abs_effect": 0.6913786232471466,
+      "mean_abs_effect": 0.08642232790589333,
+      "mean_delta": 0.07674490287899971,
+      "out_degree": 0,
+      "in_degree": 793
+    },
+    {
+      "neighbor": "38BoHtepsEZyWoCRKKyAe9gKW8wp3aPouM",
+      "interventions": 6,
+      "total_abs_effect": 0.6854105889797211,
+      "mean_abs_effect": 0.11423509816328685,
+      "mean_delta": 0.11423509816328685,
+      "out_degree": 44,
+      "in_degree": 0
+    },
+    {
+      "neighbor": "1ETa4q9o8sCpxsHJCUmupaq9iDCvC7adQf",
+      "interventions": 2,
+      "total_abs_effect": 0.6433386206626892,
+      "mean_abs_effect": 0.3216693103313446,
+      "mean_delta": -0.3216693103313446,
+      "out_degree": 2,
+      "in_degree": 0
+    },
+    {
+      "neighbor": "1Dym1yThrVo5T1Q7bzgu8ekQBYEma2ftge",
+      "interventions": 2,
+      "total_abs_effect": 0.6381186544895172,
+      "mean_abs_effect": 0.3190593272447586,
+      "mean_delta": -0.3190593272447586,
+      "out_degree": 2,
+      "in_degree": 0
+    },
+    {
+      "neighbor": "1FAv42GaDuQixSzEzSbx6aP1Kf4WVWpQUY",
+      "interventions": 1,
+      "total_abs_effect": 0.6253400444984436,
+      "mean_abs_effect": 0.6253400444984436,
+      "mean_delta": -0.6253400444984436,
+      "out_degree": 567,
+      "in_degree": 1594
+    }
+  ]
+}
