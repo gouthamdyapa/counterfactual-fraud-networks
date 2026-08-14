@@ -3,10 +3,27 @@ from torch import nn
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import Dataset,DataLoader
 from sklearn.metrics import average_precision_score,roc_auc_score,precision_recall_fscore_support
-base='/mnt/data'; seeds=[13,21,42,77,101]
-z=np.load(base+'/temf_prepared.npz'); X=z['Xseq']; times=z['times']; y=z['y']; prior=z['prior_count']; starts=z['starts']; ends=z['ends']
+from pathlib import Path
+
+repo = Path(__file__).resolve().parents[1]
+processed_dir = repo / "data" / "processed"
+results_dir = repo / "results" / "main"
+predictions_dir = repo / "artifacts" / "predictions"
+
+results_dir.mkdir(parents=True, exist_ok=True)
+
+seeds = [13, 21, 42, 77, 101]
+z = np.load(processed_dir / "temf_prepared.npz")
+X = z["Xseq"]
+times = z["times"]
+y = z["y"]
+prior = z["prior_count"]
+starts = z["starts"]
+ends = z["ends"]
 tr=times<=34; va=(times>=35)&(times<=41); te=times>=42; rec=prior>0
-pstatic=np.load(base+'/elliptic_temf_gru_v0_predictions.npz')['pstatic']
+pstatic = np.load(
+    predictions_dir / "elliptic_temf_gru_v0_predictions.npz"
+)["pstatic"]
 class DS(Dataset):
  def __init__(self,train):
   self.items=[]
@@ -74,4 +91,7 @@ for model in ['gru','adaptive']:
  summary[model+'_mean_sd']={}
  for scope in ['all','recurrent']:
   summary[model+'_mean_sd'][scope]={k:{'mean':float(np.mean([r[scope][k] for r in rr])),'sd':float(np.std([r[scope][k] for r in rr],ddof=1))} for k in ['pr_auc','roc_auc','f1']}
-open(base+'/temf_5seed_robustness_results.json','w').write(json.dumps(summary,indent=2));print(json.dumps(summary,indent=2))
+with open(results_dir / "temf_5seed_robustness_results.json", "w") as f:
+    json.dump(summary, f, indent=2)
+
+print(json.dumps(summary, indent=2))
