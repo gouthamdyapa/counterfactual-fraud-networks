@@ -3,9 +3,14 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import average_precision_score, roc_auc_score, precision_recall_fscore_support, confusion_matrix
 
-base='/mnt/data'
+from pathlib import Path
+
+repo = Path(__file__).resolve().parents[1]
+processed_dir = repo / "data" / "processed"
+results_dir = repo / "results" / "main"
+results_dir.mkdir(parents=True, exist_ok=True)
 parts=[]
-for p in glob.glob(base+'/wallets_features_part*.txt'):
+for p in glob.glob(str(repo / "data" / "raw" / "wallets_features_part*.txt")):
     b=os.path.basename(p)
     # authoritative replacements only: part1(2), part2(2), and parts3-15(1)
     if b in ['wallets_features_part1(2).txt','wallets_features_part2(2).txt'] or re.match(r'wallets_features_part(?:[3-9]|1[0-5])\(1\)\.txt$',b):
@@ -35,7 +40,7 @@ agg=df.groupby(['address','Time step'],as_index=False,sort=False)[behavior].mean
 del df
 obs_rows=len(agg)
 # labels
-classes=pd.read_csv(base+'/wallets_classes(2).txt')
+classes=pd.read_csv(repo / "data" / "raw" / "wallets_classes(2).txt")
 agg=agg.merge(classes,on='address',how='left',validate='many_to_one')
 # labeled only; class1 illicit=1, class2 licit=0, class3 unknown excluded
 lab=agg[agg['class'].isin([1,2])].copy()
@@ -103,7 +108,7 @@ summary={
  'memory_features':mem,
  'results':[res_static,res_temf]
 }
-out=base+'/elliptic_temf_baseline_results.json'
+out=results_dir / "elliptic_temf_baseline_results.json"
 with open(out,'w') as f: json.dump(summary,f,indent=2)
 print(json.dumps(summary,indent=2))
 print('SAVED',out)

@@ -12,11 +12,16 @@ from sklearn.metrics import average_precision_score, roc_auc_score, precision_re
 SEED=42
 random.seed(SEED); np.random.seed(SEED); torch.manual_seed(SEED)
 torch.set_num_threads(max(1,min(8,os.cpu_count() or 1)))
-base='/mnt/data'
+from pathlib import Path
+
+repo = Path(__file__).resolve().parents[1]
+raw_dir = repo / "data" / "raw"
+processed_dir = repo / "data" / "processed"
+processed_dir.mkdir(parents=True, exist_ok=True)
 
 # authoritative parts only
 parts=[]
-for p in glob.glob(base+'/wallets_features_part*.txt'):
+for p in glob.glob(str(raw_dir / 'wallets_features_part*.txt')):
     b=os.path.basename(p)
     if b in ['wallets_features_part1(2).txt','wallets_features_part2(2).txt'] or re.match(r'wallets_features_part(?:[3-9]|1[0-5])\(1\)\.txt$',b):
         parts.append(p)
@@ -28,7 +33,7 @@ behavior=[c for c in header if c not in {'address','Time step'} and c not in exc
 use=['address','Time step']+behavior
 
 # Stream parts and retain only labeled wallets before concatenation to control memory.
-classes=pd.read_csv(base+'/wallets_classes(2).txt')
+classes=pd.read_csv(raw_dir / 'wallets_classes(2).txt')
 classes=classes[classes['class'].isin([1,2])].copy()
 label_map=dict(zip(classes['address'],classes['class']))
 labeled_addr=set(label_map)
@@ -83,6 +88,6 @@ recurrence={
 print('recurrence',recurrence,flush=True)
 
 
-np.savez(base+'/temf_prepared.npz',X=X,Xseq=Xseq,times=times,y=y,prior_count=prior_count,starts=starts,ends=ends)
-with open(base+'/temf_prepared_meta.json','w') as f: json.dump({'behavior':behavior,'exclude':sorted(exclude),'raw_rows':raw_rows,'labeled_exact_dups':labeled_exact_dups,'recurrence':recurrence},f,indent=2)
+np.savez(processed_dir / 'temf_prepared.npz',X=X,Xseq=Xseq,times=times,y=y,prior_count=prior_count,starts=starts,ends=ends)
+with open(processed_dir / 'temf_prepared_meta.json','w') as f: json.dump({'behavior':behavior,'exclude':sorted(exclude),'raw_rows':raw_rows,'labeled_exact_dups':labeled_exact_dups,'recurrence':recurrence},f,indent=2)
 print('SAVED prepared', X.shape, flush=True)
