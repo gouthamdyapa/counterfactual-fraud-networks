@@ -4,6 +4,12 @@
 
 This repository contains the code, experiments, results, figures, and reproducibility materials for our research on temporal and graph-aware cryptocurrency fraud detection.
 
+## Architecture Overview
+
+![Historical Counterfactual Fraud Networks architecture](paper/figures/architecture_overview.png)
+
+The pipeline combines wallet history, strictly prior neighbor information, graph-aware temporal memory, and fraud prediction. Historical relationship interventions then replay the target sequence without a selected relationship to measure its signed counterfactual effect.
+
 ## Paper
 
 **Historical Counterfactual Fraud Networks: Graph-Aware Temporal Memory with Hub-Robust Relationship Explanations**
