@@ -8,15 +8,23 @@ from torch.utils.data import Dataset, DataLoader
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import average_precision_score, roc_auc_score, precision_recall_fscore_support, confusion_matrix
+from pathlib import Path
 
 SEED=42
 random.seed(SEED); np.random.seed(SEED); torch.manual_seed(SEED)
 torch.set_num_threads(max(1,min(8,os.cpu_count() or 1)))
-base='/mnt/data'
+
+repo = Path(__file__).resolve().parents[1]
+raw_dir = repo / "data" / "raw"
+results_dir = repo / "results" / "main"
+models_dir = repo / "artifacts" / "models"
+
+results_dir.mkdir(parents=True, exist_ok=True)
+models_dir.mkdir(parents=True, exist_ok=True)
 
 # authoritative parts only
 parts=[]
-for p in glob.glob(base+'/wallets_features_part*.txt'):
+for p in glob.glob(str(raw_dir / "wallets_features_part*.txt")):
     b=os.path.basename(p)
     if b in ['wallets_features_part1(2).txt','wallets_features_part2(2).txt'] or re.match(r'wallets_features_part(?:[3-9]|1[0-5])\(1\)\.txt$',b):
         parts.append(p)
@@ -28,7 +36,7 @@ behavior=[c for c in header if c not in {'address','Time step'} and c not in exc
 use=['address','Time step']+behavior
 
 # Stream parts and retain only labeled wallets before concatenation to control memory.
-classes=pd.read_csv(base+'/wallets_classes(2).txt')
+classes=pd.read_csv(raw_dir / "wallets_classes(2).txt")
 classes=classes[classes['class'].isin([1,2])].copy()
 label_map=dict(zip(classes['address'],classes['class']))
 labeled_addr=set(label_map)
@@ -194,6 +202,14 @@ summary={
  'training':{'epochs':6,'batch_wallet_sequences':1024,'optimizer':'AdamW','lr':1e-3,'class_pos_weight':float(neg/max(pos,1)),'history':history},
  'results':results
 }
-with open(base+'/elliptic_temf_gru_v0_results.json','w') as f: json.dump(summary,f,indent=2)
-torch.save({'model_state':model.state_dict(),'behavior':behavior,'scaler_mean':scaler.mean_,'scaler_scale':scaler.scale_},base+'/elliptic_temf_gru_v0.pt')
+with open(results_dir / "elliptic_temf_gru_v0_results.json", "w") as f: json.dump(summary,f,indent=2)
+torch.save(
+    {
+        "model_state": model.state_dict(),
+        "behavior": behavior,
+        "scaler_mean": scaler.mean_,
+        "scaler_scale": scaler.scale_,
+    },
+    models_dir / "elliptic_temf_gru_v0.pt",
+)
 print(json.dumps(summary,indent=2),flush=True)
