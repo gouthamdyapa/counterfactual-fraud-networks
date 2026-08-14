@@ -6,9 +6,16 @@ from torch import nn
 from torch.utils.data import TensorDataset, DataLoader
 from sklearn.metrics import average_precision_score, roc_auc_score, precision_recall_fscore_support
 
-BASE="/content"
-DATA=f"{BASE}/temf_final_graph_prepared.npz"
-OUT=f"{BASE}/temporal_neighbor_event_5seed_results.json"
+from pathlib import Path
+
+repo = Path(__file__).resolve().parents[1]
+processed_dir = repo / "data" / "processed"
+results_dir = repo / "results" / "main"
+
+results_dir.mkdir(parents=True, exist_ok=True)
+
+DATA = processed_dir / "temf_final_graph_prepared.npz"
+OUT = results_dir / "temporal_neighbor_event_5seed_results.json"
 
 SEEDS=[13,21,42,77,101]
 EPOCHS=3
