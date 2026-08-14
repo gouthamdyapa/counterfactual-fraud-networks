@@ -145,3 +145,9 @@ IEEE Member
 The accompanying paper has been submitted to **IEEE BigData 2026**.
 
 The submitted experimental results are frozen. Documentation and reproducibility improvements may continue while the paper is under review.
+
+## License
+
+This project is licensed under the **Apache License 2.0**.
+
+See the [LICENSE](LICENSE) file for details.
