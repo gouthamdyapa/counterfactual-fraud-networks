@@ -47,6 +47,16 @@ with the chronological split:
 - Validation: time steps 35–41
 - Test: time steps 42–49
 
+## Figures
+
+### Predictive Progression
+
+![Predictive progression](paper/figures/predictive_progression.png)
+
+### Counterfactual Effect Concentration
+
+![Counterfactual concentration](paper/figures/counterfactual_concentration.png)
+
 ## Historical Counterfactual Analysis
 
 The counterfactual experiment contains:
