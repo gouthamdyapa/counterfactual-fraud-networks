@@ -8,8 +8,11 @@ venv/
 .DS_Store
 
 # Raw / prepared data
-/data/raw/
-/data/prepared/
+/data/raw/*
+!/data/raw/.gitkeep
+
+/data/processed/*
+!/data/processed/.gitkeep
 *.parquet
 
 # Very large experiment caches (keep manifests instead)
