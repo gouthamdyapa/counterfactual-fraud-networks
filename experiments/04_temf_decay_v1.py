@@ -6,12 +6,24 @@ from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import Dataset, DataLoader
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import average_precision_score, roc_auc_score, precision_recall_fscore_support, confusion_matrix
+from pathlib import Path
 
 SEED=42
 random.seed(SEED); np.random.seed(SEED); torch.manual_seed(SEED)
 torch.set_num_threads(max(1,min(8,os.cpu_count() or 1)))
-base='/mnt/data'
-z=np.load(base+'/temf_prepared.npz')
+
+
+repo = Path(__file__).resolve().parents[1]
+processed_dir = repo / "data" / "processed"
+results_dir = repo / "results" / "main"
+models_dir = repo / "artifacts" / "models"
+predictions_dir = repo / "artifacts" / "predictions"
+
+results_dir.mkdir(parents=True, exist_ok=True)
+models_dir.mkdir(parents=True, exist_ok=True)
+predictions_dir.mkdir(parents=True, exist_ok=True)
+
+z = np.load(processed_dir / "temf_prepared.npz")
 X=z['X']; Xseq=z['Xseq']; times=z['times']; y=z['y']; prior_count=z['prior_count']; starts=z['starts']; ends=z['ends']
 train_mask=times<=34; val_mask=(times>=35)&(times<=41); test_mask=times>=42
 recurrent=prior_count>0
@@ -137,7 +149,18 @@ out={
                     'median_half_life_timesteps':float(np.log(2)/np.median(rates))},
  'results':results
 }
-with open(base+'/elliptic_temf_decay_v1_results.json','w') as f: json.dump(out,f,indent=2)
-torch.save({'model_state':model.state_dict(),'seed':SEED,'architecture':out['architecture']},base+'/elliptic_temf_decay_v1.pt')
-np.savez_compressed(base+'/elliptic_temf_decay_v1_predictions.npz',p_decay=p,p_static=pstatic)
+with open(results_dir / "elliptic_temf_decay_v1_results.json", "w") as f: json.dump(out,f,indent=2)
+torch.save(
+    {
+        "model_state": model.state_dict(),
+        "seed": SEED,
+        "architecture": out["architecture"],
+    },
+    models_dir / "elliptic_temf_decay_v1.pt",
+)
+np.savez_compressed(
+    predictions_dir / "elliptic_temf_decay_v1_predictions.npz",
+    p_decay=p,
+    p_static=pstatic,
+)
 print(json.dumps(out,indent=2),flush=True)
