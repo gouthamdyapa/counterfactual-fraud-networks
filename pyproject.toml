@@ -8,6 +8,8 @@ version = "0.1.0"
 description = "Reproducibility package for Historical Counterfactual Fraud Networks"
 requires-python = ">=3.10"
 dependencies = ["numpy", "pandas", "scipy", "scikit-learn", "torch", "matplotlib"]
+[project.optional-dependencies]
+dev = ["pytest"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
