@@ -113,20 +113,21 @@ cd counterfactual-fraud-networks
 Create a Python environment:
 
 ```bash
-python3 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 ```
 
 Install dependencies:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
 ```
 
 Run the tests:
 
 ```bash
-pytest -q
+python -m pytest -q
 ```
 
 ## Reproducibility
