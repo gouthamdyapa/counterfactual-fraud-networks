@@ -36,13 +36,6 @@ be unattainable even when a smaller count is cheap to obtain. A general fraud mo
 may use other features changed by deletions; this table alone does not establish a
 change in that model's prediction.
 
-## Data availability in this draft
-
-The original frozen `batch/cohort.json` is not included in this public draft.
-The bundled examples, saved aggregate results, and correctness material are available.
-Reproducing the exact 1,024-query IBM cohort additionally requires that manifest;
-[DATA.md](docs/DATA.md) records its identity and the required dataset.
-
 ## Quick start on macOS
 
 Python 3.8 or newer is required. The solver uses only the Python standard library;
@@ -84,7 +77,7 @@ not measured fraud-detection or money-laundering prevention effectiveness.
 |---|---|
 | `manuscript/` | Current named PDF and LaTeX source |
 | `implementation/` | Unchanged solver, examples, validator, frozen corpus and protocol |
-| `batch/` | Unchanged native batch runtime, frozen protocols, small demonstration and existing tests |
+| `batch/` | Unchanged native batch runtime, frozen cohort/protocols, small demonstration and existing tests |
 | `illustration/` | Separate frozen ten-event mathematical illustration |
 | `results/` | Original Mac aggregate export and its descriptive reaggregation |
 | `analysis/` | Portable aggregate-checking script |

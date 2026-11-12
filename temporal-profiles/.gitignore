@@ -23,6 +23,3 @@ manuscript/source/*.fls
 manuscript/source/*.log
 manuscript/source/*.out
 manuscript/source/main.pdf
-
-# Frozen IBM cohort is omitted from this public draft.
-batch/cohort.json

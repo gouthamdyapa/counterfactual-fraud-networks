@@ -16,11 +16,8 @@ positions define stable event IDs. The patterns file is not used.
 The fixed cohort contains 1,024 destination-account/minute queries selected from
 3,854,758 units with complete 24-hour lookback histories. The seed is `20261030`.
 Selection did not use laundering labels, eligibility, or solver outcomes.
-The original `batch/cohort.json` contains synthetic account identifiers and timestamps
-required for exact replay. It is a cohort specification, not a real-customer dataset.
-This public draft does not include that manifest. Its required SHA-256 is
-`7da306dda2c5f99c598b1ab91b9f5470f5a62d9c7794dd7dd81d7d34c83a5ca1`.
-The small demonstration and saved aggregate analysis work without it.
+`batch/cohort.json` contains synthetic account identifiers and timestamps required
+for exact replay. It is a cohort specification, not a real-customer dataset.
 
 `results/BATCH_RESULTS.zip` contains aggregate outcomes only. The original dataset,
 SQLite cache, detailed local contexts, full profiles and native witness files are

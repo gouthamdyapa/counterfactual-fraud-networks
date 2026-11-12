@@ -32,12 +32,8 @@ through Terminal with `bash` without changing macOS security settings.
 
 ## Optional native IBM batch reproduction
 
-The reported 1,024-query run is complete; reproducing it is optional. This public
-draft omits the frozen `batch/cohort.json` manifest. Exact reproduction requires
-restoring that original file alongside the runtime, with SHA-256
-`7da306dda2c5f99c598b1ab91b9f5470f5a62d9c7794dd7dd81d7d34c83a5ca1`.
-Obtain the exact original dataset described in [DATA.md](DATA.md). Once both
-inputs are present, run:
+The reported 1,024-query run is complete; reproducing it is optional. Obtain the
+exact original dataset described in [DATA.md](DATA.md), then run:
 
 ```bash
 bash batch/run_batch.command run --csv "/full/path/to/HI-Small_Trans.csv"
@@ -65,8 +61,8 @@ explicitly requests another output folder.
 The frozen policy and resource limits are in `batch/batch_protocol.json`.
 `SOURCE_COHORT_PROTOCOL.json` records the earlier sampling audit; that earlier
 audit's optimization variants are not the protocol of this completed batch.
-The original `cohort.json` preserves synthetic bank/account identifiers and cutoff
-minutes needed to reproduce the exact cohort. It is not included in this public draft.
+The bundled `cohort.json` preserves synthetic bank/account identifiers and cutoff
+minutes needed to reproduce the exact cohort.
 
 ## Optional correctness rerun
 
