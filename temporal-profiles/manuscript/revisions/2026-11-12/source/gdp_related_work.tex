@@ -1,0 +1,27 @@
+\subsection{Generalized deletion propagation}\label{sec:gdp}
+
+Generalized deletion propagation (GDP) permits simultaneous deletion and
+preservation requirements on multiple query outputs, with shared decisions
+on source tuples and an objective expressed through view-deletion counts
+\citep[Definition 4.1]{makhija2025gdp}. Its ILP framework supports self-joins
+and both set and bag semantics; its tractability results concern specified
+deletion-propagation variants and query conditions
+\citep[Sections 5--6]{makhija2025gdp}.
+
+Appendix~\ref{app:gdp} derives a polynomial-size GDP encoding of each
+unit-cost temporal profile entry. Protected compatibility relations compile
+strict timing and root incidence; retaining every event identifier in the
+query output preserves tuple multiplicity under set semantics. Deletion and
+preservation bounds on the same query enforce an exact count. Mandatory
+statuses are handled by normalization and singleton preservation queries.
+Polynomially many target pairs recover the full profile table. This is a
+derived encoding, not a temporal theorem stated in the cited work.
+
+The appendix also gives a weighted witness-indicator ILP with the original
+binary cost coefficients. That objective extends the literal cardinality
+objective of GDP Definition~4.1; expanding an event into one copy per cost
+unit would not justify polynomial input size. Thus the formulation and
+full-table output are not the claimed novelty. The contribution claimed in
+Theorem~\ref{thm:main} is the structural algorithm with its joint time and
+space guarantee. Obtaining that guarantee through GDP requires a solving-time
+and parameter-transfer argument beyond the encoding.

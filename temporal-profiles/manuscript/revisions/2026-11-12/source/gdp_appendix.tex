@@ -1,0 +1,132 @@
+\section{Deletion-propagation encoding and a weighted formulation}
+\label{app:gdp}
+
+This appendix derives a representation of the temporal problem in the GDP
+framework~\citep[Definition 4.1]{makhija2025gdp}, and a weighted ILP extension.
+The construction concerns expressibility. It does not transfer the
+running-time guarantee of Theorem~\ref{thm:main} to a general-purpose solver.
+
+Use the normalization of Section~\ref{sec:model}. In particular, validate the
+original temporal graph before applying forced deletions, set $E_0=E\setminus
+F$, and reserve the fixed cost $c(F)$. If $T_0>N_2$, return infeasibility.
+Otherwise let $R=N_2-T_0$. The original event identifiers are distinct even
+when endpoints and timestamps coincide.
+
+\subsection{Protected compatibility data and unit costs}
+
+Create a unary relation $\mathsf{Event}(i)$ with one row for every identifier
+in $E_0$. For $h\in\{2,3\}$, let $H_h$ contain exactly the ordered
+$h$-tuples of identifiers forming strictly time-increasing walks ending at
+the designated root in $E_0$. These relations have at most $M^2$ and $M^3$
+rows. They can be constructed by polynomially many endpoint and
+binary-timestamp comparisons; the numeric lifetime is not expanded.
+
+Protect each nonempty $H_h$ by placing its identity query in the GDP
+preservation list with threshold $|H_h|$. Since source deletion cannot add
+rows to an identity view, no row of that relation can be deleted. An empty
+relation needs no protection requirement. The remaining view queries are
+ordinary conjunctive queries:
+\begin{align*}
+ Q_2(i,j)&\mathbin{:\!-}H_2(i,j),\mathsf{Event}(i),\mathsf{Event}(j),\\
+ Q_3(i,j,k)&\mathbin{:\!-}H_3(i,j,k),\mathsf{Event}(i),
+                 \mathsf{Event}(j),\mathsf{Event}(k).
+\end{align*}
+Strict comparisons and the root requirement are thus compiled into protected
+relation membership, without assuming built-in inequality syntax in GDP.
+
+\begin{proposition}[Unit-cost profile encoding]\label{prop:gdp-encoding}
+Suppose all optional events have unit deletion cost. For every
+$0\le\ell\le R$ and $0\le w\le N_3$, a GDP instance of size polynomial in
+$L$ has a feasible solution exactly when $C(\ell,w)<\infv$; its optimum is
+$C(\ell,w)$. An optimal source-deletion set yields an attaining original-event
+witness in polynomial time.
+\end{proposition}
+
+\begin{proof}
+Write $w_2=N_2-\ell$ and $w_3=w$. For each $h\in\{2,3\}$, put $Q_h$ in
+the deletion list with requirement $N_h-w_h$ whenever this value is positive,
+and in the preservation list with requirement $w_h$ whenever that value is
+positive. The former requires at most $w_h$ surviving output rows; the latter
+requires at least $w_h$. Omit every zero requirement, consistent with the
+positive thresholds in GDP Definition~4.1. At the endpoints, the omitted
+inequality is automatic because $0\le |Q_h|\le N_h$.
+
+For each $e\in K$, preserve the Boolean singleton query
+$\mathsf{Keep}_e()\mathbin{:\!-}\mathsf{Event}(e)$ with requirement one.
+Here $e$ is the constant original identifier. Minimize deletions in the
+identity view $Q_E(i)\mathbin{:\!-}\mathsf{Event}(i)$, with no maximization
+views. The protected compatibility rows cannot be deleted, and these
+singleton requirements prohibit deletion of events in $K$. Therefore every
+feasible source-deletion set is exactly a set $D_0\subseteq O$ of optional
+event rows.
+
+For any such $D_0$, a row of $Q_h$ survives precisely when every event in its
+identifier tuple belongs to $E_0\setminus D_0$. Its cardinality is therefore
+$W_h(E_0\setminus D_0)$. All tuple identifiers are output coordinates, so set
+semantics does not merge parallel-event walks. A single deleted event affects
+all rows containing it in both views. Hence the two exact-count requirements
+hold exactly for the deletion sets defining $C(\ell,w)$, and the objective
+equals $|D_0|$. There are $O((M+1)^3)$ data rows and $O(M+1)$ view
+requirements, with polynomially encoded identifiers and thresholds. This
+proves the size, feasibility, optimum, and witness assertions.
+\end{proof}
+
+The full deletion witness is $F\cup D_0$ and its total cost is
+$c(F)+C(\ell,w)$. The GDP objective above concerns optional deletions only;
+forced cost remains the reserved constant.
+
+\subsection{Binary costs and full-profile recovery}
+
+For arbitrary nonnegative binary-encoded costs, use a binary retention
+variable $x_e$ for every $e\in E_0$, fixed to one for $e\in K$. Introduce a
+binary variable $z_q$ for each tuple $q\in H_2\cup H_3$, and impose
+\begin{align}
+ z_q&\le x_e &&(q\in H_2\cup H_3,\ e\in q),\label{eq:gdp-and-upper}\\
+ z_q&\ge \sum_{e\in q}x_e-|q|+1
+              &&(q\in H_2\cup H_3),\label{eq:gdp-and-lower}\\
+ \sum_{q\in H_2}z_q&=N_2-\ell,\qquad
+ \sum_{q\in H_3}z_q=w.\label{eq:gdp-exact}
+\end{align}
+The objective is
+\begin{equation}
+ \min\left(c(F)+\sum_{e\in E_0}c_e(1-x_e)\right).
+ \label{eq:gdp-cost}
+\end{equation}
+For binary variables,~\eqref{eq:gdp-and-upper}--\eqref{eq:gdp-and-lower}
+make $z_q$ the conjunction of its event-retention decisions. Thus this ILP
+has optimum $c(F)+C(\ell,w)$ whenever the target is attainable, and is
+otherwise infeasible. A walk destroyed by several deletions still contributes
+only one lost tuple. There are $O((M+1)^3)$ variables and constraints, and
+all coefficients have polynomial bit length in $L$. In particular, retaining
+$c_e$ as a binary coefficient avoids replication proportional to its value.
+This is an explicit weighted witness formulation, not a claim that arbitrary
+binary event costs are the literal objective of GDP Definition~4.1.
+
+Solving each target independently and retaining an optimal witness recovers
+the full table. The number of target pairs is at most
+\[
+ (R+1)(N_3+1)\le (M^2+1)(M^3+1)=O((M+1)^5).
+\]
+Consequently, full-profile output is expressible through polynomially many
+exact optimization calls. Their representation size does not bound their
+solving time in terms of $R$. The particular tractability results in
+\citet[Section 6]{makhija2025gdp} do not automatically transfer under these
+joint exact-count requirements and cost coefficients; a proposed transfer
+must verify the relevant hypotheses and parameter bounds.
+
+\paragraph{An elementary relaxation diagnostic.}
+Let $b_1,b_2:v\to u$ be distinct events at time zero, and let $c:u\to z$ be
+an event at time one. All three have unit cost and are optional. This
+depth-two instance has $(N_2,N_3)=(2,0)$. With $T_0=1$ and target
+$(W_2,W_3)=(1,0)$, the integral optimum is one: delete either middle event;
+deleting $c$ misses the target. In the relaxation of the displayed ILP to
+$[0,1]$, the assignment
+\[
+ x_{b_1}=x_{b_2}=1,\qquad x_c=\tfrac12,\qquad
+ z_{(b_1,c)}=z_{(b_2,c)}=\tfrac12
+\]
+is feasible and costs $\tfrac12$. Thus this relaxation is not automatically
+integral on the temporal class. This diagnostic concerns the displayed
+formulation; it excludes neither stronger formulations nor other algorithms.
+It does not replace the structural proof of Theorem~\ref{thm:main} or prove
+that no earlier result can imply its guarantee.
