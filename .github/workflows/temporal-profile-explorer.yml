@@ -1,0 +1,43 @@
+name: Temporal Profile Explorer
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'temporal-profiles/**'
+      - '.github/workflows/temporal-profile-explorer.yml'
+  pull_request:
+    paths:
+      - 'temporal-profiles/**'
+      - '.github/workflows/temporal-profile-explorer.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-explorer:
+    name: Verify on ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: '3.9'
+          - os: macos-latest
+            python: '3.12'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify frozen research artifacts
+        run: python temporal-profiles/verify_artifacts.py
+      - name: Check complete fixture profiles and witnesses
+        run: python temporal-profiles/explorer/verify_data.py
+      - name: Check selection and count behavior
+        run: node temporal-profiles/explorer/test_selection.js
+      - name: Check the portable viewer against its source files
+        run: python temporal-profiles/explorer/build_standalone.py --check

@@ -19,6 +19,7 @@ is retained in the original top-level directories.
 
 - [Read the named manuscript](temporal-profiles/manuscript/Goutam_Dyapa_Temporal_Walk_Profiles.pdf)
 - [Study README and solver examples](temporal-profiles/README.md)
+- [Interactive Temporal Profile Explorer — open locally on your Mac](temporal-profiles/explorer/README.md)
 - [Mac reproduction instructions](temporal-profiles/docs/REPRODUCIBILITY.md)
 - [Results and limitations](temporal-profiles/docs/RESULTS.md)
 - [Dataset and frozen cohort](temporal-profiles/docs/DATA.md)
@@ -273,3 +274,4 @@ Use [temporal-profiles/CITATION.cff](temporal-profiles/CITATION.cff) for the cur
 temporal-profile study and the root [CITATION.cff](CITATION.cff) for the earlier
 counterfactual fraud-network study. The repository's existing code license is
 [Apache License 2.0](LICENSE). Dataset terms are provided by the respective sources.
+
