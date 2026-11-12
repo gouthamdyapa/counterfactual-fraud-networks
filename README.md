@@ -20,6 +20,7 @@ is retained in the original top-level directories.
 - [Read the named manuscript](temporal-profiles/manuscript/Goutam_Dyapa_Temporal_Walk_Profiles.pdf)
 - [Study README and solver examples](temporal-profiles/README.md)
 - [Interactive Temporal Profile Explorer — open locally on your Mac](temporal-profiles/explorer/README.md)
+- [Reviewer guide and novelty comparison](temporal-profiles/review/REVIEWER_GUIDE.md) ([shareable PDF](temporal-profiles/review/Goutam_Dyapa_Reviewer_Packet.pdf))
 - [Mac reproduction instructions](temporal-profiles/docs/REPRODUCIBILITY.md)
 - [Results and limitations](temporal-profiles/docs/RESULTS.md)
 - [Dataset and frozen cohort](temporal-profiles/docs/DATA.md)
@@ -102,11 +103,16 @@ the neural-network dependencies used by the earlier study below.
 
 ### Current research status
 
-The included theory manuscript is a working paper. The completed finite checks and
-synthetic-data experiments support the reported implementation evidence; further
-independent proof assessment and prior-art comparison remain open. See the
-[study README](temporal-profiles/README.md) for the pending generalized deletion
-propagation comparison and the manuscript's assistance disclosure.
+The included theory manuscript is a working paper. The
+[review companion dated 12 November 2026](temporal-profiles/review/REVIEWER_GUIDE.md)
+now records a focused comparison with temporal reachability, path counting, and
+generalized deletion propagation. It derives a GDP encoding of the unit-cost
+formulation and an explicit weighted ILP extension, and identifies the specialized
+preservation-loss time/space guarantee as the candidate contribution to assess.
+Independent proof review and a broader theorem-level prior-art assessment remain
+open. The frozen 5 November manuscript and its evidence are unchanged; the new GDP
+analysis is in the companion. See the [study README](temporal-profiles/README.md)
+for the manuscript's assistance disclosure.
 
 ## Earlier study: Historical Counterfactual Fraud Networks
 
