@@ -1,0 +1,81 @@
+\section{Counting-model transfer and a reachability-summary distinction}
+
+\subsection{A simultaneous normalization for every deletion subset}
+\label{app:counting}
+
+The forest counting theorem of Enright, Meeks, and
+Molter~\citep{enright2025counting} uses undirected temporal paths with
+nondecreasing timestamps. The following explicit transformation explains
+why fixed-deletion counting transfers to the present directed, strict,
+parallel-event convention. The transformation below establishes the comparison;
+it is not asserted as a theorem stated in the cited work.
+
+\begin{proposition}[Deletion-preserving counting normalization]
+For an explicit depth-three temporal in-arborescence with $M>0$ events, there
+is a polynomial-time transformation to a temporal forest with at most $M$
+distinct time labels such that, simultaneously for every retained event
+subset, the number of temporal paths from vertices of original depth $h$
+to the root is exactly $W_h$, for $h=2,3$. Original event identities are
+preserved bijectively.
+\end{proposition}
+
+\begin{proof}
+Let $\rho(e)$ be the rank of $t(e)$ among distinct original timestamps,
+preserving ties. Let $d(e)\in\{1,2,3\}$ be the original depth of the source
+of $e$, and give each original event a distinct index
+$i(e)\in\{0,\ldots,M-1\}$. Define
+\[
+ t'(e)=4M\rho(e)+Md(e)+i(e).
+\]
+For consecutive rootward events $e,f$, their depths differ by one, so
+\[
+ t'(e)-t'(f)=4M(\rho(e)-\rho(f))+M+i(e)-i(f).
+\]
+The final term lies between $1$ and $2M-1$. Hence
+$t(e)<t(f)$ if and only if $t'(e)\le t'(f)$. Equal original timestamps
+are incompatible in the rootward direction. All transformed labels are
+distinct: different ranks are separated by the $4M$ term, different depths
+within a rank by $M$, and different identities within a rank and depth by
+their indices. Rank-compressing these labels preserves their order and
+leaves at most $M$ time labels.
+
+Forget arc directions. The underlying graph is a tree, so the unique simple
+path from any vertex to the root follows the original rootward direction.
+A temporal path cannot leave that route and return without repeating a
+vertex. Its successive transformed labels are nondecreasing exactly when
+the original labels are strictly increasing. Distinct original parallel
+contacts remain distinct time-edges. The correspondence survives deletion
+of any common subset of identities and preserves the number of events in
+each path. Summing over starting vertices of original depth $h$ gives the
+claimed equality.
+\end{proof}
+
+Empty histories are handled directly. Forced statuses and costs may be
+carried as identity metadata, but the cited counting theorem does not
+optimize them. Counting for each fixed deletion set therefore transfers;
+enumerating and optimizing a shared deletion set still requires a separate
+argument. This normalization concerns simple temporal paths on a forest,
+not arbitrary undirected walks that may return along an edge.
+
+\subsection{Reached sets and earliest arrivals do not encode tuple quotas}
+\label{app:reachability}
+
+Consider the path $a\to v\to u\to z$, with three optional first events at
+times $1,4,7$, three retained middle events at times $2,5,8$, and a retained
+final event at time $10$. There are three two-walks and six three-walks.
+Deleting the first event at time one or the first event at time four leaves,
+respectively, three or four triples; both choices leave all three pairs and
+have the same unit deletion cost.
+
+Reverse every arc and replace time $t$ by $11-t$, taking $z$ as the source
+and assigning traversal time one. For either deletion, the same four vertices
+are reachable with earliest-arrival times $(0,2,4,5)$ along the reversed
+path. The final reversed contact at time four comes from the undeleted
+original first event at time seven in both cases. Yet the original upper
+quota $W_3\le3$ accepts only the first deletion. No statistic consisting
+solely of these reached sets and earliest arrivals can distinguish the two
+choices, even after assigning fixed vertex weights.
+
+This example separates the indicated summary from tuple multiplicities.
+It does not prove that reachability methods cannot be extended, nor that an
+auxiliary encoding is impossible.

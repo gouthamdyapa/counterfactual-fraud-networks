@@ -1,0 +1,92 @@
+\section{Reproducibility and evidence provenance}\label{app:reproducibility}
+
+\subsection{Canonical artifacts}
+
+The repository preserves the 5 November 2026 manuscript snapshot together
+with the compatibility-corrected implementation, examples, frozen corpus and
+validator, retained output files and summaries, the macOS validation summary,
+and the separate ten-event illustration check. Its frozen manifest identifies
+those artifacts. The present 12 November revision is distributed separately
+with its own source and checksums; it adds the deletion-propagation comparison
+while retaining the same algorithm, proofs of the existing results, and
+reported experimental evidence. The original supplement and historical audit
+records identify earlier sources and must not be confused with this
+manuscript revision.
+
+The corrected implementation and frozen input identities are:
+\begin{lstlisting}
+Solver:
+a9f8f2c9f276055ab570940d784244192d177c16299f7a295ad75c481de7f4ba
+Validator:
+29ff8cfbe8df6f3aaedc9f7f0ae54c5a69a7081c805576a80d8f84760d5c8891
+Corpus:
+9a6979e08652fb949fa8eb7ca9d9a432204142c24e954d6fa046c172b631e67c
+Protocol:
+bcca092b7e763b8781fbdd261d3fff91f90c0dcdb70a965898f878de025e7297
+\end{lstlisting}
+
+The output digests recorded in the Mac summary and matched against the
+retained reference bytes are:
+\begin{lstlisting}
+Candidate outputs:
+faf9fc7f8960d46d81509ccbb711e83eb6c5a6657361b061113f7980131cad4a
+Selection outputs:
+133df11b935269866ea2766743a2b8037f0b88fd8b5be14bb2bf7743062e9f02
+\end{lstlisting}
+
+The macOS validation summary is identified by the following SHA-256 digest:
+\begin{lstlisting}
+26eb54eaebed908e15fe45371c48f7b9703eb8838b30ad9900c67af82d7f574f
+\end{lstlisting}
+The Linux compatibility checks and the macOS validation run are documented
+separately in the implementation archive.
+
+\subsection{Aggregate transaction-cohort evidence}
+
+The separate Mac batch in Section~\ref{sec:batch} used the same solver hash
+as the frozen correctness suite above. Its aggregate results archive
+(\texttt{BATCH\_RESULTS.zip}) has SHA-256
+\begin{lstlisting}
+cd16912a10fe1f1e8444824f5a0648b57f2c2b05133e50be5bb1f24d522204c2
+\end{lstlisting}
+It contains the batch protocol, one result per query, one result per policy
+condition, and machine- and human-readable summaries. Each query has 18
+policy conditions (three preservation levels, two target comparisons, and
+three budgets); repeated rounded lower quotas use the same table. The
+reported source, cohort, protocol and program hashes match the frozen
+configuration. The repository's frozen cohort file supplies the synthetic
+bank/account identifiers and cutoff times needed to select the same queries.
+The aggregate archive does not contain the original dataset, complete local
+contexts, full profiles, or native deletion-witness diagnostics; those detailed
+run files remained on the machine that ran the batch. The witness replays
+and exhaustive comparisons reported here were performed on that machine.
+Reaggregating the export checks outcome totals without independently
+replaying those witnesses. This batch and the worked application pilot are
+separate from the 375-history correctness suite.
+
+\subsection{The retained endpoint-specification correction}
+
+The initial checker specification omitted the requirement that a counted walk
+end at the root. For a three-event path, the checker therefore counted both
+length-two subwalks, although only one ends at the root. The solver already
+enforced this requirement and did not change. The corrected checker tests
+whether the final event ends at the root.
+
+All 375 original histories and 1,779 original quota queries were preserved.
+The amendment added 84 missing thresholds derived from the corrected root
+baseline, yielding 1,863 queries. The archive retains the initial failure,
+both corpus/protocol/oracle snapshots, exact query additions, and the amended
+successful run. This correction changed the expected counts used for validation.
+
+\subsection{Build and run separation}
+
+The solver and the exhaustive checker run locally with the Python standard
+library. The manuscript builds with \texttt{latexmk -pdf main.tex} from this
+revision's \texttt{source} directory; the accompanying Mac build script places
+generated files in a separate build directory. Rebuilding the PDF does not
+rerun scientific tests. The implementation and validation archive and the Mac
+cohort runner are distinct artifacts from this manuscript-source revision.
+
+\paragraph{Research workflow.}
+Goutam Dyapa ran the reported macOS experiments. ChatGPT assisted with
+manuscript drafting and revision, code development, and validation tasks.

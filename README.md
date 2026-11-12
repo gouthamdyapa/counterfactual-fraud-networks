@@ -15,16 +15,17 @@ is retained in the original top-level directories.
 ## Current study: Minimum-Cost Temporal Walk Profiles
 
 **Minimum-Cost Temporal Walk Profiles on Depth-Three In-Arborescences**  
-**Manuscript snapshot:** Working manuscript dated 5 November 2026
+**Current manuscript:** Working revision dated 12 November 2026 ([revision notes](temporal-profiles/manuscript/revisions/2026-11-12/README.md))
 
-- [Read the named manuscript](temporal-profiles/manuscript/Goutam_Dyapa_Temporal_Walk_Profiles.pdf)
-- [Study README and solver examples](temporal-profiles/README.md)
+- [Read the current manuscript](temporal-profiles/manuscript/revisions/2026-11-12/Goutam_Dyapa_Temporal_Walk_Profiles_2026-11-12.pdf)
+- [Frozen study README and solver examples](temporal-profiles/README.md)
 - [Interactive Temporal Profile Explorer — open locally on your Mac](temporal-profiles/explorer/README.md)
-- [Reviewer guide and novelty comparison](temporal-profiles/review/REVIEWER_GUIDE.md) ([shareable PDF](temporal-profiles/review/Goutam_Dyapa_Reviewer_Packet.pdf))
+- [Reviewer guide and novelty comparison for the 5 November snapshot](temporal-profiles/review/REVIEWER_GUIDE.md) ([shareable PDF](temporal-profiles/review/Goutam_Dyapa_Reviewer_Packet.pdf))
 - [Mac reproduction instructions](temporal-profiles/docs/REPRODUCIBILITY.md)
 - [Results and limitations](temporal-profiles/docs/RESULTS.md)
 - [Dataset and frozen cohort](temporal-profiles/docs/DATA.md)
-- [Study-specific citation](temporal-profiles/CITATION.cff)
+- [Current manuscript citation](temporal-profiles/manuscript/revisions/2026-11-12/CITATION.bib)
+- [Updated reviewer page map](temporal-profiles/manuscript/revisions/2026-11-12/REVIEW_MAP.md)
 
 ### Architecture overview: exact temporal-profile solver
 
@@ -103,16 +104,18 @@ the neural-network dependencies used by the earlier study below.
 
 ### Current research status
 
-The included theory manuscript is a working paper. The
-[review companion dated 12 November 2026](temporal-profiles/review/REVIEWER_GUIDE.md)
-now records a focused comparison with temporal reachability, path counting, and
-generalized deletion propagation. It derives a GDP encoding of the unit-cost
-formulation and an explicit weighted ILP extension, and identifies the specialized
-preservation-loss time/space guarantee as the candidate contribution to assess.
-Independent proof review and a broader theorem-level prior-art assessment remain
-open. The frozen 5 November manuscript and its evidence are unchanged; the new GDP
-analysis is in the companion. See the [study README](temporal-profiles/README.md)
-for the manuscript's assistance disclosure.
+The [12 November manuscript revision](temporal-profiles/manuscript/revisions/2026-11-12/README.md) incorporates the generalized
+deletion propagation comparison into the abstract, introduction, related work,
+conclusion, and new Appendix E. It gives a unit-cost GDP encoding and an explicit
+weighted ILP formulation, while focusing the contribution on the specialized
+preservation-loss time and space guarantee. Independent proof review and a broader
+theorem-level prior-art assessment remain open.
+
+The original 5 November manuscript, solver, correctness material, and transaction
+evidence remain frozen. The [reviewer companion](temporal-profiles/review/REVIEWER_GUIDE.md)
+maps that earlier snapshot; the [revision review map](temporal-profiles/manuscript/revisions/2026-11-12/REVIEW_MAP.md) gives the new
+PDF's page references. The revision and the [study README](temporal-profiles/README.md)
+retain the manuscript's research-workflow disclosure.
 
 ## Earlier study: Historical Counterfactual Fraud Networks
 

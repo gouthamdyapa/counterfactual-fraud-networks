@@ -1,0 +1,866 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=0.86in,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array,longtable,enumitem,xcolor}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\small,columns=fullflexible,breaklines=true,frame=single,rulecolor=\color{black!20}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Exact temporal walk profiles}
+\fancyhead[R]{\small Review manuscript / 12 November 2026}
+\fancyfoot[C]{\thepage}
+\setlength{\parskip}{0.35em}
+\setlength{\parindent}{0pt}
+\setlist{nosep,leftmargin=*}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\cost}{\operatorname{cost}}
+\newcommand{\poly}{\operatorname{poly}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\infv}{\infty}
+\newcommand{\Ppart}{P_{\le R}}
+\title{Minimum-Cost Temporal Walk Profiles\\[0.15em]
+on Depth-Three In-Arborescences\\[0.4em]
+\large Exact optimization parameterized by preservation loss}
+\author{Goutam Dyapa}
+\date{Working manuscript --- 12 November 2026}
+\hypersetup{pdfauthor={Goutam Dyapa},pdftitle={Minimum-Cost Temporal Walk Profiles on Depth-Three In-Arborescences},pdfsubject={Exact optimization parameterized by preservation loss}}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+This paper studies minimum-cost deletion of explicitly listed temporal events subject to
+preserving a prescribed number of two-event walks ending at a designated root.
+For temporal in-arborescences of depth at most three, the algorithm computes the minimum
+deletion cost for every attainable exact pair of surviving two- and three-event
+walk counts. Events have nonnegative binary-encoded costs and may be required
+to survive or to be deleted. If $R$ is the allowed loss of two-event walks after mandatory deletions,
+the algorithm runs in $2^{O(\sqrt R)}\poly(L)$ time and polynomial space,
+where $L$ is the complete encoded input length. The unit-cost formulation
+admits a polynomial-size generalized deletion propagation encoding, and
+binary deletion costs admit an explicit weighted ILP extension. The result
+concerns the specialized algorithm and its dependence on preservation loss. The argument
+charges deleted final events to preservation loss, groups them by
+continuation-equivalent neighborhoods, and enumerates a partition-bounded
+family of branch configurations. Chronological dynamic programs recover exact
+profiles and original-event witnesses. For contrast, the corresponding
+unit-cost quota decision problem is NP-complete and $\mathrm{W}[1]$-hard in
+the deletion budget on the same graph class. The profiles support arbitrary
+efficiently evaluated predicates of the two counts and deletion-invariant
+data; an elementary hardness example delineates an additional dynamic-feature
+boundary. An exhaustive check on small instances compares the reference
+implementation with direct enumeration. A study of synthetic
+transaction histories illustrates why a three-walk upper bound and the
+corresponding exact target can require different answers.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+Deleting a temporal event can destroy several time-respecting interactions
+at once. A decision may therefore have two competing effects: it can suppress
+longer interactions while also removing shorter ones that are required to
+survive. The model captures this tradeoff on a directed in-arborescence of depth at most three, with all walks
+ending at its root. Parallel contacts are separate events, and successive
+timestamps must increase strictly. The algorithm chooses a shared set of
+event deletions, preserving a lower quota on two-event walks and recording
+exactly which two- and three-event walk counts can remain.
+
+Temporal reachability modification and path counting already have substantial
+algorithmic foundations. Molter, Renken, and
+Zschoche~\citep[Theorems 14--15]{molter2024} give polynomial forest
+algorithms for multiple-source temporal reachability minimization by deletion
+or delay, and Enright, Meeks, and Molter give a polynomial forest algorithm
+for counting temporal paths~\citep{enright2025counting}.
+Generalized deletion propagation (GDP) also provides a framework for
+simultaneous deletion and preservation requirements over query
+outputs~\citep{makhija2025gdp}. Appendix~\ref{app:gdp} gives a polynomial-size
+encoding of the present unit-cost formulation in GDP and an explicit
+weighted ILP extension for binary deletion costs.
+
+The contribution here is the specialized temporal algorithm and its
+preservation-loss bound. Its sufficient state preserves the multiplicities
+needed for exact two- and three-event counts while optimizing one shared
+set of original-event deletions. The complete profile can also be obtained
+through polynomially many exact target optimizations; producing that table
+alone is therefore not the algorithmic distinction. Section~\ref{sec:prior}
+separates these representation issues from the parameter dependence required
+to derive Theorem~\ref{thm:main}.
+
+\paragraph{The preservation parameter.}
+After applying mandatory deletions, let $N_2$ be the baseline number of
+two-event walks and let $T_0$ be the nonnegative preservation quota. The allowed
+additional loss is $R=N_2-T_0$. The algorithm computes every admissible exact
+count pair, its minimum nonnegative binary-encoded deletion cost, and an
+attaining witness in $2^{O(\sqrt R)}\poly(L)$ time and polynomial space
+(Theorem~\ref{thm:main}). The polynomial exponent is absolute. Neither a
+monetary value nor the number of branches enters the exponential factor.
+The input is an explicit event list; binary multiplicities standing for
+unlisted events are outside the model.
+
+\paragraph{Where the bound comes from.}
+A final event is a contact incident to the root. Its deletion destroys a
+number of baseline two-event walks equal to the number of earlier middle
+events. These charges are disjoint across final events. Within one branch,
+equal charges identify equal prefix neighborhoods and therefore equal effects
+under every continuation on the other event layers. Nonnegative costs allow a
+canonical cheapest choice within each class. The possible charged
+multiplicities are bounded by the number of integer partitions of numbers at
+most $R$. The algorithm enumerates these configurations separately for each branch.
+For a fixed configuration, a chronological state records the retained
+first-event prefix count, exact two-event loss, and exact three-event count.
+Exact convolutions then assemble child and branch profiles. This order of
+operations keeps one partition factor rather than a product over branches.
+
+\paragraph{Why exact profiles matter.}
+A scalar optimum for a monotone quota can discard intermediate count values
+that are essential for a nonmonotone target. Moreover, two unfinished choices
+can have the same current cost and walk counts yet admit different optimal
+continuations. Proposition~\ref{prop:unfinished} gives a ten-event example
+where keeping either one of two scalar-equal contexts loses a profile entry
+or its minimum cost. The state keeps the information needed until it is safe
+to merge completed tables. Retaining exact coordinates, minimizing values,
+and min-plus convolution are standard techniques; the structural contribution
+is their sufficient temporal state and the preservation-loss bound proved
+here.
+
+\paragraph{Complexity boundaries and supported decisions.}
+The unit-cost quota problem is $\mathrm{W}[1]$-hard in the deletion budget
+even when every event is optional (Theorem~\ref{hard:budget}); its classical
+decision version is NP-complete (Corollary~\ref{full:np-complete}). This is a
+contrast between parameters on the same graph class, not a lower bound in
+$R$. Once a full profile is available, any efficiently evaluated acceptance
+predicate of the two counts and invariant auxiliary data can be optimized by
+a scan. This includes nonmonotone count-based classifiers. An arbitrary
+additional dynamic amount feature already permits NP-completeness at $R=0$
+(Proposition~\ref{prop:amount}), so exactness does not extend automatically to
+a richer feature pipeline.
+
+The remaining sections give the full structural proof, the companion hardness
+result, concrete profile examples, related-work comparisons, and validation.
+The complete budget-hardness construction and a counting-model normalization
+are included in the appendices. The implementation evidence concerns
+correctness on a finite corpus; no practical speed or application-effectiveness
+claim is needed for the formal result.
+
+\section{Model and main result}\label{sec:model}
+
+\subsection{Events, counts, and normalization}
+
+Let $E$ be a set of $M$ explicitly listed events, each with a unique original
+identifier, a source vertex, a target vertex, an integer timestamp $t(e)$, and
+a nonnegative integer deletion cost $c_e$. Costs and timestamps are encoded
+in binary for the complexity statement. Parallel events are distinct decisions,
+including events with identical endpoints and timestamps. After parallel arcs
+are collapsed, the original graph is an in-arborescence directed toward a
+designated root $z$, with depth at most three. Every mentioned vertex has a path
+to $z$. The empty history is allowed. Depth and roles refer to this original
+graph, even if subsequent mandatory deletions disconnect it.
+
+For $S\subseteq E$ and $h\in\{2,3\}$, define $W_h(S)$ as the number of ordered
+$h$-tuples of events of $S$ that form a directed walk \emph{ending at $z$}, with
+strictly increasing timestamps. Walks ending elsewhere are excluded. In particular, a path of
+three increasing events has $W_2=1$ and $W_3=1$, although it has two length-two
+subwalks if endpoints are unrestricted.
+
+Let $T$ be an integer preservation quota, and let $F$ and $K$ be disjoint
+forced-deleted and forced-retained sets. All other
+events are optional. Set
+\[
+ E_0=E\setminus F,\qquad O=E_0\setminus K,\qquad
+ N_2=W_2(E_0),\quad N_3=W_3(E_0),\quad T_0=\max\{T,0\}.
+\]
+If $T_0>N_2$, no deletion can meet the lower quota and the instance is rejected.
+Otherwise let
+\begin{equation}
+ R=N_2-T_0,\qquad
+ \lambda(D_0)=N_2-W_2(E_0\setminus D_0),\quad D_0\subseteq O.
+ \label{eq:parameter}
+\end{equation}
+Then $0\le R\le M^2$, and the quota is exactly $\lambda(D_0)\le R$.
+Forced cost $c(F)=\sum_{e\in F}c_e$ is reserved once. It is never charged again
+inside a dynamic-programming transition. The input length $L$ includes the
+complete explicit encodings of identifiers, graph, timestamps, statuses, costs,
+and quota.
+
+\subsection{Exact minimum-cost profiles}
+
+For $0\le\ell\le R$ and $0\le w\le N_3$, define
+\begin{equation}
+ C(\ell,w)=\min\left\{
+ \sum_{e\in D_0}c_e:
+ D_0\subseteq O,\quad
+ W_2(E_0\setminus D_0)=N_2-\ell,\quad
+ W_3(E_0\setminus D_0)=w
+ \right\},
+ \label{eq:profile}
+\end{equation}
+with value $\infv$ if the set is empty. A finite entry must include an attaining
+set of original identifiers. Its total cost is $c(F)+C(\ell,w)$ and its full
+deletion witness is $F\cup D_0$.
+
+\begin{theorem}[Weighted exact attainable profiles]\label{thm:main}
+For the model above, all finite entries of~\eqref{eq:profile}, their minimum
+costs, and attaining original-event witnesses can be computed in
+\[
+ 2^{O(\sqrt R)}(L+1)^{O(1)}
+\]
+time and polynomial space. The polynomial exponent does not depend on $R$,
+the number of branches, or the numerical magnitudes of the deletion costs.
+Strict timestamp ties, parallel events, and both forced statuses are supported.
+The output contains at most $(R+1)(N_3+1)$ entries.
+\end{theorem}
+
+The output is complete over the \emph{count pairs}, with one minimum-cost
+witness per pair. It does not list every attainable monetary cost or every
+witness. With unit costs, selecting the cheapest entry satisfying $w\le U$
+solves the corresponding upper/lower quota problem. A total monetary budget can be imposed
+by filtering entries. An additional, independent cardinality cap in a weighted
+instance is not represented by this table; it would require additional state.
+
+\section{Final-event structure and bounded enumeration}\label{sec:structure}
+
+For each depth-one vertex $u$, let $C_u$ be the events $u\to z$ in $E_0$.
+For each depth-two child $v$ of $u$, let $B_v$ be the events $v\to u$ in $E_0$,
+and let $A_v$ contain all events in $E_0$ from depth-three children into $v$. Put
+$B_u=\bigcup_{v\to u}B_v$. These event domains are disjoint. Original children
+remain present in the decomposition even if their surviving event lists are
+empty. For a retained $b\in B_v$, let
+\[
+ p_b=|\{a\in A_v\setminus D_0:t(a)<t(b)\}|,\qquad
+ s_b=|\{c\in C_u\setminus D_0:t(b)<t(c)\}|.
+\]
+The unique middle event identifies each counted walk, so
+\begin{equation}
+ W_2(E_0\setminus D_0)=\sum_u\sum_{v\to u}\sum_{b\in B_v\setminus D_0}s_b,
+ \qquad
+ W_3(E_0\setminus D_0)=\sum_u\sum_{v\to u}\sum_{b\in B_v\setminus D_0}p_bs_b.
+ \label{eq:identities}
+\end{equation}
+Deleting an $A$ event cannot affect $W_2$ under the root-ending definition.
+
+\begin{lemma}[Final-event charge and equal-degree equivalence]\label{lem:c}
+For $c\in C_u$, write
+\[
+ N(c)=\{b\in B_u:t(b)<t(c)\},\qquad d(c)=|N(c)|.
+\]
+Every optional deletion set satisfies
+\begin{equation}
+ \sum_u\sum_{c\in D_0\cap C_u}d(c)\le\lambda(D_0).
+ \label{eq:ccharge}
+\end{equation}
+Within one branch, $C$ events of equal degree have identical neighborhoods.
+For any fixed decisions on all $A$ and $B$ events, the two walk counts depend
+only on the number of deleted optional $C$ events of each degree, not on their
+identities.
+\end{lemma}
+
+\begin{proof}
+Deleting $c$ destroys the $d(c)$ baseline pairs $(b,c)$. Pairs charged to
+different final events are disjoint, including when some middle events are
+also deleted. They are a subset of all destroyed baseline pairs, proving the
+inequality. Sort $B_u$ by timestamp and break ties in any fixed way. Each
+$N(c)$ is a prefix of that same order. Strict comparison excludes a whole
+timestamp tie; it never selects only part of one. Equal-size prefixes are
+therefore identical. Under fixed $A$ and $B$ decisions, each retained final
+event of the same degree has the same retained middle neighbors and the same
+number of preceding retained $A$ events through each of those neighbors.
+Its pair and triple contributions are identical.
+\end{proof}
+
+\begin{corollary}[Minimum-cost canonical final choices]\label{cor:canonical}
+For each branch and each positive degree $j\le R$, order the optional $C$
+events by nondecreasing cost, breaking cost ties by any fixed identifier order.
+For each multiplicity $x_j$, it suffices to delete the cheapest $x_j$ identities
+in that group. A feasible deletion never removes a $C$ event of degree $j>R$.
+All optional degree-zero $C$ events may be retained when computing
+minimum-cost count profiles.
+\end{corollary}
+
+\begin{proof}
+The exchange in Lemma~\ref{lem:c} preserves both counts for every continuation.
+Replacing a chosen size-$x_j$ subset by the cheapest such subset can only
+decrease cost and never uses a forced-retained identity. The charge inequality
+excludes degrees above $R$. A degree-zero final event participates in no
+baseline pair and hence no triple; restoring it changes neither count and
+cannot increase cost because deletion costs are nonnegative.
+\end{proof}
+
+If $m_{u,j}$ optional events of degree $j$ exist in branch $u$, enumerate
+\begin{equation}
+ \mathcal X_u=\left\{(x_j):0\le x_j\le m_{u,j},\quad
+                    \sum_{j=1}^{R}jx_j\le R\right\}.
+ \label{eq:configs}
+\end{equation}
+Only present positive-degree groups need explicit coordinates. Groups from
+different branches are not merged. Configurations are processed one branch
+at a time; no Cartesian product of all branches' choices is enumerated.
+
+\begin{lemma}[Configuration bound]\label{lem:partitions}
+Let
+\[
+ \Ppart=\bigl|\{(x_1,\ldots,x_R)\in\mathbb Z_{\ge0}^{R}:
+                          \textstyle\sum_j jx_j\le R\}\bigr|,
+ \qquad P_{\le0}=1.
+\]
+For $R>0$, $|\mathcal X_u|\le\Ppart\le
+\exp(\pi\sqrt{2R/3})$. If $g_u$ positive-degree groups are present, a
+depth-first enumeration visits at most $(g_u+1)\Ppart$ nodes.
+\end{lemma}
+
+\begin{proof}
+The unrestricted multiplicity vectors are integer partitions of integers
+between zero and $R$. Capacities remove vectors. For completeness, the
+partition generating function gives, for every $\alpha>0$,
+\[
+ \Ppart\le e^{\alpha R}\prod_{j\ge1}(1-e^{-\alpha j})^{-1},\qquad
+ \log\prod_{j\ge1}(1-e^{-\alpha j})^{-1}
+ =\sum_{h\ge1}\frac{1}{h(e^{\alpha h}-1)}
+ \le\frac{\pi^2}{6\alpha}.
+\]
+The last inequality uses $e^x-1\ge x$ and
+$\sum_{h\ge1}h^{-2}=\pi^2/6$. Taking $\alpha=\pi/\sqrt{6R}$ proves the stated
+bound, an elementary form of the classical partition estimate
+\citep{hardy1918}. Enumerate each present group's count from zero to the
+minimum of its capacity and the remaining loss allowance divided by its
+degree. Every partial vector has a feasible zero extension. At a fixed
+depth these extensions are distinct, so there are at most $\Ppart$ nodes
+per depth. Counting the $g_u+1$ depths proves the traversal bound.
+\end{proof}
+
+For a fixed $x\in\mathcal X_u$, let $D_C(x)$ be the canonical final-event
+deletions, $\Lambda_x=\sum_j jx_j$, and
+$\kappa_x=\sum_{c\in D_C(x)}c_c$. For $b\in B_u$, set
+\[
+ s_b^x=|\{c\in C_u\setminus D_C(x):t(b)<t(c)\}|.
+\]
+The two-walk loss inside this branch is exactly
+\begin{equation}
+ \Lambda_x+\sum_{b\in D_0\cap B_u}s_b^x.
+ \label{eq:disjointloss}
+\end{equation}
+This is disjoint accounting: first remove pairs ending at deleted $C$ events;
+then remove pairs with deleted $B$ events and retained $C$ events. It remains
+correct when both events of a baseline pair are deleted.
+
+
+\subsection{Why unfinished configurations cannot be merged by scalar counts}
+
+\begin{proposition}[Equal current statistics, different exact continuations]
+\label{prop:unfinished}
+There is a ten-event instance with two final-event deletion configurations
+that have the same deletion cost, two-walk loss, and current three-walk count,
+but for which retaining only either one as a representative prevents recovery
+of the complete minimum-cost profile.
+\end{proposition}
+
+\begin{proof}
+Use one root child $u$ and four children $v_1,\ldots,v_4$ of $u$.
+Retain $B_i:v_i\to u$ at time $2i$, for $1\le i\le4$.
+Make $C_j:u\to z$ at time $2j+1$ optional, for $1\le j\le4$.
+There are two optional first events, $A_2:s_2\to v_2$ and
+$A_4:s_4\to v_4$, both at time one. All costs are one. The baseline counts
+are $(N_2,N_3)=(10,4)$. Set $T_0=5$, so $R=5$.
+
+The final-event degrees are $1,2,3,4$. Consider
+$D_{14}=\{C_1,C_4\}$ and $D_{23}=\{C_2,C_3\}$, before either first event
+has been deleted. Both cost two, lose five two-walks, and leave two
+three-walks. Their suffix-count vectors on $B_1,\ldots,B_4$ are respectively
+$(2,2,1,0)$ and $(2,1,1,1)$. Completing the optional $A$ decisions gives:
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Final-event context & Cost at $W_3=2$ & Cost at $W_3=1$ & Cost at $W_3=0$\\
+\midrule
+$D_{14}$ & 2 & $\infv$ & 3\\
+$D_{23}$ & 2 & 3 & 4\\
+Pointwise minimum & 2 & 3 & 3\\
+\bottomrule
+\end{tabular}
+\end{center}
+Costs include final-event deletions. Since all middle events must survive,
+exact two-walk loss five can arise only from the degree subsets $1+4$ and
+$2+3$. First-event deletions change no two-walk count. Keeping only $D_{14}$
+loses the attainable coordinate $W_3=1$; keeping only $D_{23}$ gives an
+incorrect minimum cost at $W_3=0$. These are the only two relevant final
+contexts at that exact loss, proving the claim.
+\end{proof}
+
+This example rules out the stated one-representative compression. It is not
+a lower bound on all possible state representations or algorithms. In the
+algorithm below, each final-event configuration remains fixed until its child
+tables are complete; pointwise minimization is then safe.
+
+\section{An exact chronological dynamic program}\label{sec:dp}
+
+Fix one branch configuration $x$ and a child $v$. Sort $A_v\cup B_v$ by time,
+processing \emph{all $B$ events before all $A$ events at the same timestamp}.
+Let $J_i(q,\ell,w)$ be the minimum optional deletion cost among decisions on
+the first $i$ events such that:
+\begin{itemize}
+\item $q$ is the number of retained $A_v$ events processed so far;
+\item $\ell$ is the sum of $s_b^x$ over processed deleted $B_v$ events;
+\item $w$ is the number of triples contributed by processed retained $B_v$
+events, using retained $C_u\setminus D_C(x)$ events.
+\end{itemize}
+An unattainable state has value $\infv$. Initialize only $J_0(0,0,0)=0$.
+Every transition writes to a fresh layer. The four possible transitions are
+listed below; a deletion is allowed only for an optional event.
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+Event & Decision & New state & Added cost\\
+\midrule
+$a\in A_v$ & retain & $(q+1,\ell,w)$ & $0$\\
+$a\in A_v$ & delete & $(q,\ell,w)$ & $c_a$\\
+$b\in B_v$ & retain & $(q,\ell,w+q s_b^x)$ & $0$\\
+$b\in B_v$ & delete & $(q,\ell+s_b^x,w)$ & $c_b$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Reject a transition with $\ell>R-\Lambda_x$. All $w$ values remain distinct.
+There is no rule that discards a larger $w$ because a smaller value was found
+at the same or a lower cost. The final child table is
+\[
+ Q_{v,x}(\ell,w)=\min_q J_{|A_v|+|B_v|}(q,\ell,w).
+\]
+Each finite state stores one attaining original-ID deletion mask alongside
+its cost. A keep transition preserves the mask; a deletion adds that event's
+bit; a lower-cost replacement replaces both value and witness.
+
+\begin{lemma}[Exactness of the child table]\label{lem:dp}
+For fixed $x$, the recurrence computes the minimum optional $A_v\cup B_v$
+deletion cost for every attainable exact pair $(\ell,w)$ with
+$0\le\ell\le R-\Lambda_x$, with a valid witness.
+\end{lemma}
+
+\begin{proof}
+Use induction on the chronological position. For an $A$ event, retention adds
+one to the retained prefix count and deletion adds its cost. It affects no
+root-ending two-walk. For a $B$ event, the tie rule ensures that exactly $q$
+retained $A$ events have strictly earlier timestamps. Retaining it contributes
+exactly $q s_b^x$ triples. Deleting it destroys precisely its $s_b^x$ remaining
+pairs, as in~\eqref{eq:disjointloss}. Forced-retained events have only the keep
+transition. These cases cover all legal decisions and each has the stated
+effect.
+
+At a fixed processing position, histories with the same $(q,\ell,w)$ have
+identical possible future decisions and effects. Every previously processed
+retained $A$ event precedes every future eligible $B$ event. Within a shared
+timestamp, no $A$ event has been processed before its tied $B$ events, so this
+claim also covers ties. Only the number of past retained $A$ events is needed
+for a future prefix; past $B$ contributions have already been included in $w$.
+Future event costs and forced statuses are fixed by the input and position.
+Consequently, keeping only the minimum cost at an identical state is sound.
+All loss increments are nonnegative, so a discarded loss above the cap can
+never become feasible. The induction proves both attainability and minimum
+cost. At the end, no future event uses $q$, which justifies minimizing over it.
+Witness updates follow the same legal transitions.
+\end{proof}
+
+For two tables over disjoint event domains, define exact min-plus convolution
+by
+\begin{equation}
+ (P\otimes Q)(\ell,w)=
+ \min_{\substack{\ell_1+\ell_2=\ell\\w_1+w_2=w}}
+        \{P(\ell_1,w_1)+Q(\ell_2,w_2)\}.
+ \label{eq:convolution}
+\end{equation}
+Union the witnesses when a minimizing pair is chosen. For a fixed configuration,
+convolve its child tables, then shift loss by $\Lambda_x$ and cost by
+$\kappa_x$, and adjoin $D_C(x)$ to the witness. Take the pointwise minimum over
+configurations \emph{after} each
+configuration's complete branch table has been formed. Finally convolve
+the complete branch tables. Loss above $R$ may be discarded throughout.
+
+\begin{proof}[Correctness part of Theorem~\ref{thm:main}]
+Every table transition, shift, and convolution constructs a legal deletion
+set in disjoint original-event domains. Equations~\eqref{eq:identities}
+and~\eqref{eq:disjointloss} show that its reported counts and cost are exact.
+Thus every finite output entry has a valid attaining witness.
+
+Conversely, take a minimum-cost feasible deletion set for any count pair.
+Corollary~\ref{cor:canonical} replaces its final-event choices by canonical
+choices without changing either count and without increasing cost. Each
+branch's multiplicities occur in its enumerated family by
+Lemma~\ref{lem:partitions}. Lemma~\ref{lem:dp} represents every remaining
+child choice at no higher cost for its exact local counts. Children and
+branches have disjoint event domains, and every root-ending pair or triple
+belongs to one branch and one middle-event child. Therefore the corresponding
+convolutions include the chosen exact global pair. The output cannot cost
+more than its optimum, while its valid witness prevents it from costing less.
+Adding $F$ and its fixed cost once completes the result.
+\end{proof}
+
+\section{Running time, bit complexity, and space}\label{sec:complexity}
+
+Let $N=M+1$ and $S=(R+1)(N_3+1)$. Then $S=O(N^5)$ because $R\le M^2$
+and $N_3\le M^3$. A child layer contains at most $NS$ states. Processing an
+event uses a constant number of transitions per state. A table convolution
+uses at most $S^2$ candidate pairs, even without an optimized convolution
+algorithm. Minimizing over terminal $q$ uses at most $NS$ work per child.
+
+There are at most $M$ events, children, and branches in their respective
+disjoint collections. Each branch is processed for at most $\Ppart$
+configurations. Consequently the complete recurrence uses
+\begin{equation}
+ O\!\left(\Ppart\,N[NS+S^2]\right)
+ \label{eq:ops}
+\end{equation}
+table, arithmetic, and comparison operations, plus polynomial preprocessing
+and configuration bookkeeping. The enumeration bound in
+Lemma~\ref{lem:partitions} and the sum of the numbers of present groups keep
+the same single factor $\Ppart$. Sorting timestamps and computing suffix
+counts never enumerate the timestamp universe. Formula~\eqref{eq:ops} is at
+most $O(\Ppart N^{11})$ operations; it is a conservative bound, not a practical
+speed estimate.
+
+Every finite cost is a sum of at most $M$ input costs and therefore has
+$O(L)$ bits. Count indices have $O(\log(M+1))$ bits, and an original-ID witness
+mask has $M$ bits. On a bit-cost random-access model, the arithmetic,
+comparisons, and mask operations used here admit an $O(L+1)$ bound per
+operation. Including polynomial preprocessing gives the deliberately loose
+bound $O(\Ppart(L+1)^{12})$. Other conventional machine models may add a
+polynomial factor without changing the $2^{O(\sqrt R)}\poly(L)$ conclusion.
+There is no state dimension or loop up to the monetary budget or total cost.
+Large costs affect the length of arithmetic, not the number of profile keys.
+
+Process configurations sequentially and discard an individual configuration's
+working tables after merging it into the branch aggregate. Retain only two
+child layers, a current child table, current convolution tables, the aggregate
+branch table, and the aggregate global table. A depth-first configuration
+generator keeps polynomially many frames. Storing a witness mask in each
+finite table entry therefore uses polynomial space. Output itself is also
+polynomially bounded. This completes the complexity proof of
+Theorem~\ref{thm:main}.
+
+\input{hardness_main.tex}
+
+\section{Exact classifier optimization and its boundary}\label{sec:classifier}
+
+\subsection{Predicates of the two counts}
+
+\begin{corollary}[Count-based acceptance]\label{cor:classifier}
+Let $g(W_2,W_3,z_0)$ be an acceptance predicate, where $z_0$ is proven invariant
+under every allowed deletion, including forced deletions. After computing
+$C$, minimum-cost acceptance is obtained by selecting the cheapest finite
+entry with $g(N_2-\ell,w,z_0)=\mathrm{true}$. If one evaluation takes $t_g$
+time, the additional bit time is $O(S(t_g+L+1))$, including cost comparisons.
+In particular, a polynomial-time
+predicate with polynomially encoded model data preserves the parameterized
+bound, with those encodings included in the input length.
+\end{corollary}
+
+\begin{proof}
+All legal deletion sets with a fixed count pair have the same acceptance
+value. Replacing one by the minimum-cost witness at that pair preserves
+acceptance. Completeness of the table then reduces the optimum to a scan
+over its finite entries. A total monetary cap can be checked during the scan.
+\end{proof}
+
+For a classifier counterfactual, first compute the factual prediction on the
+\emph{original history $E$}, before forced deletions. Set acceptance to the
+desired class, which must differ from that factual class. A class change
+already caused by mandatory deletions is legitimate and has the fixed forced
+cost. The post-forced baseline is an algorithmic normalization, not a new
+factual observation.
+
+The predicate may be nonmonotone and may be implemented by a decision tree or
+an ensemble. Its other features must actually be invariant. Replaying one
+minimum-cost witness per pair through a model with additional dynamic features
+can establish that witness's feasibility, but not full-model optimality:
+another witness at the same pair can have different dynamic feature values.
+A feature computed on the full history also cannot generally be obtained
+by adding a constant to a windowed walk count, because a deleted event may
+participate in a walk that crosses the window boundary. The present theorem
+does not establish exactness for a classifier whose additional inputs change
+under the allowed deletions.
+
+\subsection{An elementary amount-feature obstruction}
+
+Binary deletion costs are handled as minimized values. Binary-encoded dynamic
+features are a different extension, because their attained values can define
+the acceptance constraint.
+
+\begin{proposition}[One additive dynamic feature can be hard at $R=0$]
+\label{prop:amount}
+If acceptance may additionally depend on the sum of retained binary-encoded
+amounts on optional $A$ events, deciding whether a desired class is attainable
+is NP-complete even when the collapsed static graph is a single depth-three
+path, with $R=0$, unit deletion
+costs, and a three-leaf classifier whose thresholds are part of the input.
+\end{proposition}
+
+\begin{proof}
+Reduce from Subset Sum with positive integers $a_1,\ldots,a_n$ and target
+$k$, restricted to $0<k\le S_a=\sum_i a_i$; trivial targets can be decided
+before reduction. The standard source problem and its numerical input
+dependence are discussed by Bringmann~\citep{bringmann2017}.
+
+Use four vertices $r\to v\to u\to z$. Create $n$ optional parallel $A$ events
+$r\to v$ at time zero, one forced-retained $B$ event $v\to u$ at time one,
+and one forced-retained $C$ event $u\to z$ at time two. Give every optional
+deletion cost one. Set $T=1$. Every legal choice has $W_2=1$, so $R=0$.
+If an upper quota or budget is desired, $W_3\le n$ and budget $n$ are
+nonbinding. Attach amount $a_i$ to optional event $i$ and define the dynamic
+feature
+\[
+ H(D)=\sum_{i:\,A_i\notin D}a_i.
+\]
+The classifier accepts exactly when $H(D)=S_a-k$. A three-leaf tree implements
+this on integer inputs using thresholds $S_a-k-\tfrac12$ and
+$S_a-k+\tfrac12$, accepting only the middle interval. Its rational threshold
+encodings have polynomial length. The original history has $H=S_a$ and is
+rejected, since $k>0$.
+
+A deletion set is accepted precisely when its deleted amounts sum to $k$.
+The graph, events, amounts, and tree all have polynomial encoding length.
+Membership in NP follows by checking a deletion witness, its walk counts,
+the amount sum, and the tree output in polynomial time.
+\end{proof}
+
+This is an elementary Subset Sum boundary, not a claim of a new reduction
+technique. The argument does not establish strong NP-hardness, does not give
+a hardness result for the precise saved application model, and does not
+contradict Theorem~\ref{thm:main}. It rules out an unrestricted $R$-only FPT
+extension to this extra feature unless $\mathrm{P}=\mathrm{NP}$.
+
+\section{Worked examples}\label{sec:examples}
+
+All examples below use the original root-ending definition. Their standalone
+JSON files are in the accompanying study artifact's
+\texttt{implementation/examples} directory; the manuscript-source archive
+contains the typesetting files.
+
+\subsection{A nonmonotone target needs the complete profile}
+
+On one path, put optional $A$ events at times $0$ and $2$, both of cost one;
+force retention of $B$ events at times $1$ and $3$ and a $C$ event at time $4$.
+Set $T=2$. The baseline has $(W_2,W_3)=(2,3)$ and $R=0$.
+
+\begin{center}
+\begin{tabular}{cccl}
+\toprule
+$W_2$ & $W_3$ & Minimum cost & Optional deletion witness\\
+\midrule
+2 & 3 & 0 & none\\
+2 & 2 & 1 & later $A$ event at time 2\\
+2 & 1 & 1 & earlier $A$ event at time 0\\
+2 & 0 & 2 & both $A$ events\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Consider a hypothetical classifier whose desired class occurs only at
+$W_3=2$, implemented by thresholds $1.5$ and $2.5$. The cheapest desired-class
+change deletes the later $A$ event for cost one. An earliest-$A$ exchange
+minimizes $W_3$ for a fixed number of unit-cost deletions, but selects the
+other event at deletion count one. An algorithm that retains only that
+minimum-$W_3$ value loses the accepting state. This example explains the
+need for the exact $w$ coordinate. It is an illustrative classifier, not a
+reported result on any trained model.
+
+\subsection{Weighted decisions and mandatory deletions}
+
+With optional $A$ events at times $0$ and $2$ of costs $100$ and $1$, and
+retained $B,C$ events at times $3,4$, preserving $W_2=1$ gives $W_3$ values
+$2,1,0$ at minimum costs $0,1,101$. The cheapest way to attain $W_3=1$
+deletes the later event; a unit-cost earliest-event exchange is invalid here.
+
+For the final-event exchange, retain $A$ at time $0$ and $B$ events at times
+$1,3$, and make two $C$ events at time $4$ optional with costs $100,1$.
+Both have degree two. With $T=2$, the attainable pairs are $(4,4)$ at cost
+zero and $(2,2)$ at cost one. Canonicalization must select the cheap final
+identity, even if an arbitrary identifier order lists the expensive one first.
+
+Finally, retain $A$ at time $0$, force deletion of $B$ at time $1$ for cost
+seven, and leave $C$ at time $2$ optional with cost three. Set $T=0$. The original counts
+are $(1,1)$, the normalized baseline counts are $(0,0)$, and the minimum
+profile has total cost seven with only the mandatory $B$ deletion. The
+surviving $A$ event retains its original depth-three role. Deleting the now
+degree-zero $C$ event cannot improve the minimum cost.
+
+\section{Related work and parameter transfers}\label{sec:prior}
+\input{temporal_related_work.tex}
+\input{gdp_related_work.tex}
+
+\subsection{General representations and optimization frameworks}
+Courcelle and Durand's fly-automata framework computes satisfying assignments,
+cardinality spectra and related functions (Theorem 23), and develops minimizing
+algebras and weighted cardinality optimization in Section 3.2.3
+\citep{courcelle2016}. It is a direct precedent for retaining sufficient
+attainable information and optimizing within states. Its complexity discussion
+requires bounds on the chosen automata and representations. A transfer needs
+an explicit representation preserving shared event decisions and exact
+counters, together with bounds implying the stated running time. The quotient and enumeration in Sections~3--4 provide one such construction. A suitable application to
+this class could provide another presentation of the algorithm.
+
+Del Pia proves polynomial solvability for factorized binary polynomial
+optimization with fixed structural parameters, with explicit dependence on
+the factorization in Theorems 1--2 and a conversion result in Proposition 2
+\citep{delpia2026}. This framework can express the weighted profile search.
+The issue is the parameter transfer, not expressibility. The following direct
+encoding makes that distinction concrete.
+
+For an exact target pair $(p,q)$ and a trial optional monetary cap $b$, use
+one Boolean deletion variable per optional event. Substitute forced statuses
+and express $W_2(x)$ and $W_3(x)$ as sums of retained-pair and retained-triple
+monomials in $(1-x_e)$. Let $C_O=\sum_{e\in O}c_e$, take $0\le b\le C_O$, and
+encode a nonnegative slack $\sigma$ using enough binary digits to represent
+every integer through $C_O$ (no digits are needed if $C_O=0$). Maximize
+\begin{equation}
+ -\left[(W_2(x)-p)^2+(W_3(x)-q)^2+
+      \left(b-\sum_{e\in O}c_ex_e-\sigma\right)^2\right].
+ \label{eq:penalty}
+\end{equation}
+Its maximum is zero exactly when the pair is attainable within cap $b$.
+After Boolean multilinearization, the degree is at most six and the expanded
+representation has polynomial size and coefficient bit length. First test
+$b=C_O$ to detect an unattainable coordinate. For an attainable one, binary
+search over $b$ requires only $O(1+\log(C_O+1))$ calls, including the zero-cost
+case. If a polynomial format omits constants, carry the known offset into
+the comparison threshold; constant or purely linear cases can be solved
+directly. The encoding above is a derivation for the temporal problem;
+the cited paper does not state this transfer. A fixed degree
+does not by itself give a bounded number of factors. The cited runtime's
+factor-dependent input exponents therefore do not, without another bound,
+yield $2^{O(\sqrt R)}\poly(L)$ for this transfer.
+
+Kundu and coauthors' Theorem 1.7 concerns constrained, class-based MaxSAT with a true-variable
+budget and a randomized approximation guarantee \citep{kundu2026}. Unit-cost
+quota encodings can introduce event-deletion variables and pair-loss variables;
+their budget includes both the deletion allowance and $R$. For integral
+class totals, sufficiently small approximation error makes a successful
+returned solution meet the original targets exactly, retaining the theorem's
+success probability of at least $1-1/e$. The resulting dependencies need not
+be bounded by $R$: the deletion allowance and objective target can grow already
+at $R=0$. The weighted exact-profile extension also needs an explicit monetary
+constraint encoding. The unit-cost budget argument cannot simply be relabeled
+as arbitrary event-cost support.
+
+Khouna and coauthors formulate optimal tree-ensemble counterfactual search
+using a desired prediction, a cost, and plausibility/actionability constraints
+(Section 2, Equation 1), then compare exact solution paradigms
+\citep{khouna2026}. Thus targeting an actual class and minimizing a change cost
+are not new objectives. The classifier corollary applies the specialized temporal-profile algorithm
+only when the model depends on the supported counts and invariant inputs.
+It does not introduce desired-class optimization or a general framework for
+counterfactual search.
+
+
+\subsection{Scope of the comparison}
+
+The inspected results supply important counting, representation, and
+optimization tools. The GDP construction in Appendix~\ref{app:gdp}
+establishes a semantic transfer for the unit-cost formulation and gives an
+explicit weighted ILP extension. It does not analyze the time needed to
+solve those encoded instances as a function of preservation loss.
+An algorithmic transfer yielding Theorem~\ref{thm:main} must preserve the
+shared original-event decisions and exact output contract, and its
+representation size and parameter dependence must together imply
+$2^{O(\sqrt R)}\poly(L)$ time and polynomial space, including the complete
+input encoding and an absolute polynomial exponent.
+
+The direct proof supplies this guarantee for the stated temporal class.
+The comparison does not prove that no alternative derivation or earlier
+result can imply the theorem. Exact profiles, weighted minima, integer
+partitions, min-plus convolution, and terminal predicate filtering are not
+claimed as new general techniques.
+
+\section{Implementation and validation}\label{sec:validation}
+\input{validation.tex}
+\input{batch_evaluation.tex}
+
+\section{Discussion and conclusion}\label{sec:conclusion}
+
+Preservation loss bounds the structural choices of deleted final events even
+when the deletion budget, cost magnitudes, and number of branches are not
+parameter-bounded. The continuation equivalence of final events makes those
+choices enumerable by integer partitions. Conditional chronological states
+then recover exact minimum-cost profiles, and branchwise aggregation avoids
+multiplying configuration families. The full proof yields an absolute
+polynomial exponent and polynomial space, including original-event witnesses.
+
+The GDP encoding clarifies the scope of this result. Simultaneous exact
+count requirements and a complete table of count optima fit a broader
+optimization framework; the structural state, charging argument, and
+preservation-loss complexity bound are the contribution proved here.
+The weighted ILP formulation provides another exact representation of the
+same feasible event choices. Neither that encoding nor the fractional
+example in Appendix~\ref{app:gdp} rules out stronger formulations or
+another derivation through existing methods.
+
+The budget-hardness result concerns a different parameter and establishes no
+tight lower bound for the square-root dependence on $R$. The algorithm's
+polynomial factor is deliberately conservative; the finite checker is a
+correctness artifact rather than an efficiency experiment. A practical
+comparison with a generic exact ILP baseline should use the same event
+identities, costs, forced statuses, and full profile output, with controlled
+variation in $R$. Such a runtime comparison is not part of the present
+evaluation.
+
+The supported model has explicit events, fixed depth at most three, strict
+timestamps, nonnegative deletion costs, and root-ending walk counts. Negative
+costs, compressed event multiplicities, deeper temporal structures, or extra
+dynamic feature constraints require separate analysis. An independent
+cardinality cap in addition to arbitrary costs is not encoded in the current
+table. These boundaries leave precise questions for further work while keeping
+the present theorem and its classifier corollary fully specified.
+
+\appendix
+\input{hardness_appendix.tex}
+\input{counting_transfer.tex}
+
+\section{Reference implementation and local use}
+
+\begin{minipage}{\linewidth}
+The implementation exports two functions:
+\begin{lstlisting}
+solve_profiles(instance)
+select_profile(result, accept, max_cost=None)
+\end{lstlisting}
+\end{minipage}
+
+Its chronological state is exactly $(q,\ell,w)$; values are cost/mask pairs.
+Its branch aggregation uses exact min-plus convolution. Sparse dictionaries
+avoid materializing impossible states; no dominance rule across different
+count coordinates is used. Cost ties may choose any valid minimum-cost witness.
+
+The JSON result distinguishes \texttt{original} and \texttt{baseline} counts,
+reports normalized \texttt{min\_w2} and \texttt{R}, and lists profiles sorted by
+\texttt{(loss,w3)}. Each entry contains \texttt{w2}, \texttt{w3},
+\texttt{optional\_cost}, \texttt{total\_cost}, and sorted
+\texttt{deleted\_ids}. Invalid schemas or original graphs raise
+\texttt{ValueError}; a quota above the baseline returns an infeasible result.
+Unknown extra JSON fields are ignored; they do not become new features or
+constraints. The CLI permits arbitrary-length integer decimal encodings by
+temporarily disabling the interpreter's decimal-conversion limit when that
+setting exists. Importing the module does not change interpreter settings.
+
+The implementation uses the Python standard library and supports Python
+3.8 or newer. From the repository's \texttt{temporal-profiles/implementation}
+directory, run:
+\begin{lstlisting}
+python3 demo.py
+python3 profile_solver.py examples/nonmonotone.json --output result.json
+\end{lstlisting}
+The implementation archive documents how to run the exhaustive checker and
+reports the results. These examples run locally with the Python standard library.
+
+\input{reproducibility_appendix.tex}
+\input{gdp_appendix.tex}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+\end{document}
