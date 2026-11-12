@@ -19,9 +19,11 @@ jobs:
     name: Verify on ${{ matrix.os }} / Python ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          # Python 3.9 builds are provided for Ubuntu 24.04, not Ubuntu 26.04.
+          - os: ubuntu-24.04
             python: '3.9'
           - os: macos-latest
             python: '3.12'
