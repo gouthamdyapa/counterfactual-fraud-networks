@@ -1,0 +1,11 @@
+{
+  "root": "z",
+  "min_w2": 2,
+  "events": [
+    {"id": "a_early", "source": "leaf", "target": "v", "time": 0, "cost": 1, "status": "optional"},
+    {"id": "a_late", "source": "leaf", "target": "v", "time": 2, "cost": 1, "status": "optional"},
+    {"id": "b_early", "source": "v", "target": "u", "time": 1, "cost": 1, "status": "keep"},
+    {"id": "b_late", "source": "v", "target": "u", "time": 3, "cost": 1, "status": "keep"},
+    {"id": "c", "source": "u", "target": "z", "time": 4, "cost": 1, "status": "keep"}
+  ]
+}

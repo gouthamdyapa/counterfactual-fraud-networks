@@ -1,0 +1,330 @@
+{
+  "classifier_caveat": "The classifier in the first example is hypothetical: it is negative exactly when W3 == 2. It is not a trained classifier or a full application pipeline. Terminal selection covers rules that depend only on the reported W2 and W3 counts and genuinely invariant auxiliary data. A factual class is evaluated on original counts, before mandatory deletions.",
+  "count_definition": "W_h counts ordered h-event tuples with chained endpoints, strictly increasing timestamps, and final target equal to the designated root.",
+  "examples": [
+    {
+      "explanation": "Deleting a_late leaves W3=2; deleting a_early leaves W3=1. Both cost 1, but the hypothetical classifier accepts only W3=2.",
+      "input_file": "examples/nonmonotone.json",
+      "name": "nonmonotone",
+      "result": {
+        "R": 0,
+        "baseline": {
+          "w2": 2,
+          "w3": 3
+        },
+        "forced_cost": 0,
+        "min_w2": 2,
+        "original": {
+          "w2": 2,
+          "w3": 3
+        },
+        "profiles": [
+          {
+            "deleted_ids": [
+              "a_early",
+              "a_late"
+            ],
+            "loss": 0,
+            "optional_cost": 2,
+            "total_cost": 2,
+            "w2": 2,
+            "w3": 0
+          },
+          {
+            "deleted_ids": [
+              "a_early"
+            ],
+            "loss": 0,
+            "optional_cost": 1,
+            "total_cost": 1,
+            "w2": 2,
+            "w3": 1
+          },
+          {
+            "deleted_ids": [
+              "a_late"
+            ],
+            "loss": 0,
+            "optional_cost": 1,
+            "total_cost": 1,
+            "w2": 2,
+            "w3": 2
+          },
+          {
+            "deleted_ids": [],
+            "loss": 0,
+            "optional_cost": 0,
+            "total_cost": 0,
+            "w2": 2,
+            "w3": 3
+          }
+        ],
+        "reason": null,
+        "stats": {
+          "baseline_events": 5,
+          "branches": 1,
+          "c_configurations": 1,
+          "child_dp_layers": 4,
+          "child_terminal_states": 4,
+          "children": 1,
+          "convolution_pairs": 8,
+          "convolution_relaxations": 8,
+          "dp_relaxations": 12,
+          "dp_states_processed": 9,
+          "dp_transition_attempts": 12,
+          "events": 5,
+          "forced_deleted_events": 0,
+          "max_child_dp_states": 4,
+          "max_profile_states": 4,
+          "optional_c_degree_zero": 0,
+          "optional_c_over_loss_cap": 0,
+          "profile_relaxations": 8
+        },
+        "status": "ok"
+      },
+      "selection": {
+        "baseline_class": "positive",
+        "desired_class": "negative",
+        "original_factual_class": "positive",
+        "profile": {
+          "deleted_ids": [
+            "a_late"
+          ],
+          "loss": 0,
+          "optional_cost": 1,
+          "total_cost": 1,
+          "w2": 2,
+          "w3": 2
+        },
+        "rule": "hypothetical_classifier(w2, w3) == 'negative'"
+      },
+      "title": "An intermediate exact W3 value can be the desired class"
+    },
+    {
+      "explanation": "Both A events precede the only B event. Either single deletion leaves W3=1; deleting a_late_cheap costs 1 instead of 100.",
+      "input_file": "examples/weighted_a.json",
+      "name": "weighted_a",
+      "result": {
+        "R": 0,
+        "baseline": {
+          "w2": 1,
+          "w3": 2
+        },
+        "forced_cost": 0,
+        "min_w2": 1,
+        "original": {
+          "w2": 1,
+          "w3": 2
+        },
+        "profiles": [
+          {
+            "deleted_ids": [
+              "a_early_expensive",
+              "a_late_cheap"
+            ],
+            "loss": 0,
+            "optional_cost": 101,
+            "total_cost": 101,
+            "w2": 1,
+            "w3": 0
+          },
+          {
+            "deleted_ids": [
+              "a_late_cheap"
+            ],
+            "loss": 0,
+            "optional_cost": 1,
+            "total_cost": 1,
+            "w2": 1,
+            "w3": 1
+          },
+          {
+            "deleted_ids": [],
+            "loss": 0,
+            "optional_cost": 0,
+            "total_cost": 0,
+            "w2": 1,
+            "w3": 2
+          }
+        ],
+        "reason": null,
+        "stats": {
+          "baseline_events": 4,
+          "branches": 1,
+          "c_configurations": 1,
+          "child_dp_layers": 3,
+          "child_terminal_states": 3,
+          "children": 1,
+          "convolution_pairs": 6,
+          "convolution_relaxations": 6,
+          "dp_relaxations": 8,
+          "dp_states_processed": 6,
+          "dp_transition_attempts": 9,
+          "events": 4,
+          "forced_deleted_events": 0,
+          "max_child_dp_states": 3,
+          "max_profile_states": 3,
+          "optional_c_degree_zero": 0,
+          "optional_c_over_loss_cap": 0,
+          "profile_relaxations": 6
+        },
+        "status": "ok"
+      },
+      "selection": {
+        "profile": {
+          "deleted_ids": [
+            "a_late_cheap"
+          ],
+          "loss": 0,
+          "optional_cost": 1,
+          "total_cost": 1,
+          "w2": 1,
+          "w3": 1
+        },
+        "rule": "w3 == 1"
+      },
+      "title": "The cheaper A identity can occur later in time"
+    },
+    {
+      "explanation": "The two C copies have identical timestamps and B neighborhoods. Deleting c_second_cheap leaves (W2,W3)=(2,2) at cost 1.",
+      "input_file": "examples/weighted_c.json",
+      "name": "weighted_c",
+      "result": {
+        "R": 2,
+        "baseline": {
+          "w2": 4,
+          "w3": 4
+        },
+        "forced_cost": 0,
+        "min_w2": 2,
+        "original": {
+          "w2": 4,
+          "w3": 4
+        },
+        "profiles": [
+          {
+            "deleted_ids": [],
+            "loss": 0,
+            "optional_cost": 0,
+            "total_cost": 0,
+            "w2": 4,
+            "w3": 4
+          },
+          {
+            "deleted_ids": [
+              "c_second_cheap"
+            ],
+            "loss": 2,
+            "optional_cost": 1,
+            "total_cost": 1,
+            "w2": 2,
+            "w3": 2
+          }
+        ],
+        "reason": null,
+        "stats": {
+          "baseline_events": 5,
+          "branches": 1,
+          "c_configurations": 2,
+          "child_dp_layers": 6,
+          "child_terminal_states": 2,
+          "children": 1,
+          "convolution_pairs": 4,
+          "convolution_relaxations": 4,
+          "dp_relaxations": 6,
+          "dp_states_processed": 6,
+          "dp_transition_attempts": 6,
+          "events": 5,
+          "forced_deleted_events": 0,
+          "max_child_dp_states": 1,
+          "max_profile_states": 2,
+          "optional_c_degree_zero": 0,
+          "optional_c_over_loss_cap": 0,
+          "profile_relaxations": 4
+        },
+        "status": "ok"
+      },
+      "selection": {
+        "profile": {
+          "deleted_ids": [
+            "c_second_cheap"
+          ],
+          "loss": 2,
+          "optional_cost": 1,
+          "total_cost": 1,
+          "w2": 2,
+          "w3": 2
+        },
+        "rule": "w2 == 2 and w3 == 2"
+      },
+      "title": "Equal-degree C events use the cheapest deletion identity"
+    },
+    {
+      "explanation": "Deleting b_forced disconnects the surviving A event. Original counts are (1,1), baseline counts are (0,0), and total cost is 7.",
+      "input_file": "examples/forced_baseline.json",
+      "name": "forced_baseline",
+      "result": {
+        "R": 0,
+        "baseline": {
+          "w2": 0,
+          "w3": 0
+        },
+        "forced_cost": 7,
+        "min_w2": 0,
+        "original": {
+          "w2": 1,
+          "w3": 1
+        },
+        "profiles": [
+          {
+            "deleted_ids": [
+              "b_forced"
+            ],
+            "loss": 0,
+            "optional_cost": 0,
+            "total_cost": 7,
+            "w2": 0,
+            "w3": 0
+          }
+        ],
+        "reason": null,
+        "stats": {
+          "baseline_events": 2,
+          "branches": 1,
+          "c_configurations": 1,
+          "child_dp_layers": 1,
+          "child_terminal_states": 1,
+          "children": 1,
+          "convolution_pairs": 2,
+          "convolution_relaxations": 2,
+          "dp_relaxations": 1,
+          "dp_states_processed": 1,
+          "dp_transition_attempts": 1,
+          "events": 3,
+          "forced_deleted_events": 1,
+          "max_child_dp_states": 1,
+          "max_profile_states": 1,
+          "optional_c_degree_zero": 1,
+          "optional_c_over_loss_cap": 0,
+          "profile_relaxations": 2
+        },
+        "status": "ok"
+      },
+      "selection": {
+        "profile": {
+          "deleted_ids": [
+            "b_forced"
+          ],
+          "loss": 0,
+          "optional_cost": 0,
+          "total_cost": 7,
+          "w2": 0,
+          "w3": 0
+        },
+        "rule": "w2 == 0 and w3 == 0"
+      },
+      "title": "Mandatory deletion preserves original roles and pays its cost once"
+    }
+  ],
+  "format_version": 1
+}

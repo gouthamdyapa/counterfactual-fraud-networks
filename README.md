@@ -17,6 +17,14 @@ The pipeline combines wallet history, strictly prior neighbor information, graph
 **Author:** Goutam Dyapa  
 **Status:** Submitted to IEEE BigData 2026
 
+## Related temporal-profile study
+
+The separate [Minimum-Cost Temporal Walk Profiles study](temporal-profiles/README.md)
+contains Goutam Dyapa's current theory manuscript, exact deletion-profile solver,
+Mac reproduction instructions, and completed synthetic IBM AML batch results.
+Its mathematical model and results are documented within `temporal-profiles/`;
+the prediction metrics below belong to the Elliptic++ fraud-network study.
+
 ## Overview
 
 Fraud in transaction networks is both temporal and relational. A wallet's predicted risk may depend not only on its own behavior, but also on its historical relationships with other wallets.

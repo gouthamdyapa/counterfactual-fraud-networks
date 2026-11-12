@@ -1,0 +1,62 @@
+% Companion hardness section.
+% Assumes amsmath, amssymb, amsthm, and the theorem/lemma/proof environments.
+% No custom macros. Construction labels are prefixed hard:.
+% The appended classical corollary uses the label full:np-complete.
+% The complete-construction subsection can be moved to an appendix unchanged.
+
+\section{Hardness parameterized by the deletion budget}
+\label{hard:section}
+
+The deletion budget and the preservation slack lead to different
+parameterized complexity statements. The following companion result holds for the all-optional, unit-cost model. An original event is an
+individually identified temporal contact; different contacts may have the
+same endpoints and timestamp. Let \(E\) be the event set. For a retained
+set \(S\subseteq E\), the quantity \(W_j(S)\) counts \(j\)-event walks
+using events in \(S\), ending at the root, whose timestamps increase
+strictly. Deleting \(D\) therefore leaves count \(W_j(E\setminus D)\).
+
+\begin{theorem}[Hardness in the deletion budget]
+\label{hard:budget}
+Given an explicitly listed temporal in-arborescence of depth at most three,
+deciding whether
+\[
+ |D|\le b,\qquad W_2(E\setminus D)\ge T_2,\qquad
+ W_3(E\setminus D)\le T_3
+\]
+is \(\mathrm{W}[1]\)-hard parameterized by \(b\), even when every original
+event is optional and has unit deletion cost. The restriction remains hard
+with a single depth-one vertex and exactly one incoming depth-three event,
+at timestamp zero, at each depth-two vertex that has such a predecessor.
+
+The reduction from unweighted bipartite partial vertex cover with side
+budgets \(a,q\) has \(b=a+2q\). Composed with the published reduction from
+\(t\)-Clique, this gives \(b=t^2\).
+\end{theorem}
+
+\begin{proof}
+The source is unweighted bipartite partial vertex cover with two separate
+side budgets \cite[Definition~5 and Theorem~10]{mkrtchyan2024}.
+The journal theorem states \(\mathrm{W}[1]\)-hardness for either side
+budget; its displayed reduction from regular \(t\)-Clique uses
+\(a=t\) and \(q=\binom{t}{2}\). Since both budgets are functions of
+\(t\), that reduction also establishes hardness parameterized by
+\(a+q\). The conference version is \cite[Theorem~6]{mkrtchyan2020}.
+The regularization in the proof of Corollary~\ref{full:np-complete}
+also preserves clique size, so the reduction may start from ordinary Clique.
+The construction below has three steps.
+Isolated rows and a pair of columns per source right vertex enforce the
+two side budgets using the two temporal quotas.
+Lemma~\ref{hard:retained-equivalence} proves this equivalence when the
+middle events are temporarily required to survive.
+Lemma~\ref{hard:replication} replaces that requirement by explicitly listed,
+optional unit-cost events. Lemma~\ref{hard:size} proves polynomial encoded
+size and the asserted parameter maps. These facts give a parameterized
+many-one reduction and prove the theorem.
+\end{proof}
+
+
+The complete construction is in Appendix~\ref{hard:construction}.
+Corollary~\ref{full:np-complete} gives NP-completeness of this decision
+problem. It is a special case of the profile task: use unit costs, no
+forced statuses, and select an entry with $w\le T_3$ and cost at most $b$.
+The hardness parameter is $b$; no lower bound in preservation loss $R$ follows.

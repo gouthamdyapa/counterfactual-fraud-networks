@@ -1,0 +1,19 @@
+{
+  "case_statuses": {
+    "q0000": "evaluated",
+    "q0001": "unsupported_structure",
+    "q0002": "evaluated",
+    "q0003": "evaluated_with_limits",
+    "q0004": "empty_context"
+  },
+  "coverage": {
+    "completed_profile_tables": 2,
+    "empty_contexts": 1,
+    "extractions_completed": 5,
+    "ineligible_contexts": 1,
+    "nonempty_eligible_contexts": 3,
+    "oracle_agreement_tables": 2
+  },
+  "planned_queries": 5,
+  "recorded_queries": 5
+}

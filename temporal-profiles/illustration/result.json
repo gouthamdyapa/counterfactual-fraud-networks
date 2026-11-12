@@ -1,0 +1,316 @@
+{
+  "all_admissible_profile_entries_checked": 23,
+  "all_returned_witnesses_checked": 23,
+  "baseline": [
+    10,
+    4
+  ],
+  "candidate_result": {
+    "R": 5,
+    "baseline": {
+      "w2": 10,
+      "w3": 4
+    },
+    "forced_cost": 0,
+    "min_w2": 5,
+    "original": {
+      "w2": 10,
+      "w3": 4
+    },
+    "profiles": [
+      {
+        "deleted_ids": [
+          "A2",
+          "A4"
+        ],
+        "loss": 0,
+        "optional_cost": 2,
+        "total_cost": 2,
+        "w2": 10,
+        "w3": 0
+      },
+      {
+        "deleted_ids": [
+          "A2"
+        ],
+        "loss": 0,
+        "optional_cost": 1,
+        "total_cost": 1,
+        "w2": 10,
+        "w3": 1
+      },
+      {
+        "deleted_ids": [
+          "A4"
+        ],
+        "loss": 0,
+        "optional_cost": 1,
+        "total_cost": 1,
+        "w2": 10,
+        "w3": 3
+      },
+      {
+        "deleted_ids": [],
+        "loss": 0,
+        "optional_cost": 0,
+        "total_cost": 0,
+        "w2": 10,
+        "w3": 4
+      },
+      {
+        "deleted_ids": [
+          "A2",
+          "A4",
+          "C1"
+        ],
+        "loss": 1,
+        "optional_cost": 3,
+        "total_cost": 3,
+        "w2": 9,
+        "w3": 0
+      },
+      {
+        "deleted_ids": [
+          "A2",
+          "C1"
+        ],
+        "loss": 1,
+        "optional_cost": 2,
+        "total_cost": 2,
+        "w2": 9,
+        "w3": 1
+      },
+      {
+        "deleted_ids": [
+          "A4",
+          "C1"
+        ],
+        "loss": 1,
+        "optional_cost": 2,
+        "total_cost": 2,
+        "w2": 9,
+        "w3": 3
+      },
+      {
+        "deleted_ids": [
+          "C1"
+        ],
+        "loss": 1,
+        "optional_cost": 1,
+        "total_cost": 1,
+        "w2": 9,
+        "w3": 4
+      },
+      {
+        "deleted_ids": [
+          "A2",
+          "A4",
+          "C2"
+        ],
+        "loss": 2,
+        "optional_cost": 3,
+        "total_cost": 3,
+        "w2": 8,
+        "w3": 0
+      },
+      {
+        "deleted_ids": [
+          "A2",
+          "C2"
+        ],
+        "loss": 2,
+        "optional_cost": 2,
+        "total_cost": 2,
+        "w2": 8,
+        "w3": 1
+      },
+      {
+        "deleted_ids": [
+          "A4",
+          "C2"
+        ],
+        "loss": 2,
+        "optional_cost": 2,
+        "total_cost": 2,
+        "w2": 8,
+        "w3": 2
+      },
+      {
+        "deleted_ids": [
+          "C2"
+        ],
+        "loss": 2,
+        "optional_cost": 1,
+        "total_cost": 1,
+        "w2": 8,
+        "w3": 3
+      },
+      {
+        "deleted_ids": [
+          "A2",
+          "A4",
+          "C3"
+        ],
+        "loss": 3,
+        "optional_cost": 3,
+        "total_cost": 3,
+        "w2": 7,
+        "w3": 0
+      },
+      {
+        "deleted_ids": [
+          "A2",
+          "C3"
+        ],
+        "loss": 3,
+        "optional_cost": 2,
+        "total_cost": 2,
+        "w2": 7,
+        "w3": 1
+      },
+      {
+        "deleted_ids": [
+          "A4",
+          "C3"
+        ],
+        "loss": 3,
+        "optional_cost": 2,
+        "total_cost": 2,
+        "w2": 7,
+        "w3": 2
+      },
+      {
+        "deleted_ids": [
+          "C3"
+        ],
+        "loss": 3,
+        "optional_cost": 1,
+        "total_cost": 1,
+        "w2": 7,
+        "w3": 3
+      },
+      {
+        "deleted_ids": [
+          "A2",
+          "C4"
+        ],
+        "loss": 4,
+        "optional_cost": 2,
+        "total_cost": 2,
+        "w2": 6,
+        "w3": 0
+      },
+      {
+        "deleted_ids": [
+          "A2",
+          "C1",
+          "C3"
+        ],
+        "loss": 4,
+        "optional_cost": 3,
+        "total_cost": 3,
+        "w2": 6,
+        "w3": 1
+      },
+      {
+        "deleted_ids": [
+          "C4"
+        ],
+        "loss": 4,
+        "optional_cost": 1,
+        "total_cost": 1,
+        "w2": 6,
+        "w3": 2
+      },
+      {
+        "deleted_ids": [
+          "C1",
+          "C3"
+        ],
+        "loss": 4,
+        "optional_cost": 2,
+        "total_cost": 2,
+        "w2": 6,
+        "w3": 3
+      },
+      {
+        "deleted_ids": [
+          "A2",
+          "C1",
+          "C4"
+        ],
+        "loss": 5,
+        "optional_cost": 3,
+        "total_cost": 3,
+        "w2": 5,
+        "w3": 0
+      },
+      {
+        "deleted_ids": [
+          "A4",
+          "C2",
+          "C3"
+        ],
+        "loss": 5,
+        "optional_cost": 3,
+        "total_cost": 3,
+        "w2": 5,
+        "w3": 1
+      },
+      {
+        "deleted_ids": [
+          "C2",
+          "C3"
+        ],
+        "loss": 5,
+        "optional_cost": 2,
+        "total_cost": 2,
+        "w2": 5,
+        "w3": 2
+      }
+    ],
+    "reason": null,
+    "stats": {
+      "baseline_events": 10,
+      "branches": 1,
+      "c_configurations": 9,
+      "child_dp_layers": 54,
+      "child_terminal_states": 54,
+      "children": 4,
+      "convolution_pairs": 100,
+      "convolution_relaxations": 99,
+      "dp_relaxations": 90,
+      "dp_states_processed": 72,
+      "dp_transition_attempts": 90,
+      "events": 10,
+      "forced_deleted_events": 0,
+      "max_child_dp_states": 2,
+      "max_profile_states": 23,
+      "optional_c_degree_zero": 0,
+      "optional_c_over_loss_cap": 0,
+      "profile_relaxations": 76
+    },
+    "status": "ok"
+  },
+  "contexts": {
+    "D14": {
+      "0": 3,
+      "2": 2
+    },
+    "D23": {
+      "0": 4,
+      "1": 3,
+      "2": 2
+    }
+  },
+  "global_loss_5": {
+    "0": 3,
+    "1": 3,
+    "2": 2
+  },
+  "legal_subsets_enumerated": 64,
+  "protocol_sha256": "02aef361e7940342d890ea875ea04cbc314e4ca9bd6c9709d32ab71cd0ef9810",
+  "scope": "One separately frozen ten-event explanatory instance; not added to the 375-history suite.",
+  "solver_sha256": "a9f8f2c9f276055ab570940d784244192d177c16299f7a295ad75c481de7f4ba",
+  "status": "passed"
+}
