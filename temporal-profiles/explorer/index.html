@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore verified minimum-cost deletion profiles for small temporal transaction histories, by Goutam Dyapa.">
+  <title>Temporal Profile Explorer · Goutam Dyapa</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#explorer">Skip to the explorer</a>
+  <header class="site-header">
+    <div class="identity"><span class="brand-mark" aria-hidden="true">τ</span><span>GOUTAM DYAPA<span class="identity-sub">TEMPORAL NETWORK RESEARCH</span></span></div>
+    <a class="paper-link" href="https://github.com/gouthamdyapa/counterfactual-fraud-networks/blob/main/temporal-profiles/manuscript/Goutam_Dyapa_Temporal_Walk_Profiles.pdf" target="_blank" rel="noopener">Read the paper <span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">AN INTERACTIVE WORKED EXAMPLE</p><h1 id="page-title">Temporal Profile <em>Explorer</em></h1><p class="intro-copy">What is the least costly way to change a transaction chain? Choose a target, preserve shorter walks, and examine the exact deletion choices.</p></div>
+      <div class="intro-note"><span class="status-dot" aria-hidden="true"></span><strong>Small examples. Exact answers.</strong><span>Explore precomputed solver outputs.<br>Everything runs locally in your browser.</span></div>
+    </section>
+    <div id="load-error" class="load-error" role="alert" hidden></div>
+    <section class="workspace" id="explorer" aria-label="Temporal profile explorer">
+      <aside class="controls-panel" aria-label="Example and target controls">
+        <div class="section-label"><span>01</span> CHOOSE A HISTORY</div>
+        <label for="example-select">Worked example</label><select id="example-select"></select>
+        <p id="example-description" class="muted control-description"></p>
+        <div class="control-divider"></div>
+        <div class="section-label"><span>02</span> SET THE REQUIREMENTS</div>
+        <label for="min-w2">Minimum two-event walks <span class="symbol">W2</span></label>
+        <div class="number-control"><input id="min-w2" type="number" min="0" step="1" inputmode="numeric" aria-describedby="quota-help"><span>must remain</span></div>
+        <p class="field-help" id="quota-help"></p>
+        <fieldset class="target-mode"><legend>Three-event target <span class="symbol">W3</span></legend><div class="segmented"><label><input type="radio" name="target-mode" value="exact" checked><span>Exactly</span></label><label><input type="radio" name="target-mode" value="upper"><span>At most</span></label></div></fieldset>
+        <div class="number-control"><label class="sr-only" for="target-w3">Target three-event walk count</label><input id="target-w3" type="number" min="0" step="1" inputmode="numeric"><span>three-event walks</span></div>
+        <label class="checkbox-label" for="budget-enabled"><input id="budget-enabled" type="checkbox"><span>Limit total deletion cost</span></label>
+        <div class="number-control"><label class="sr-only" for="cost-budget">Total deletion cost limit</label><input id="cost-budget" type="number" value="3" min="0" step="1" inputmode="numeric" disabled><span>cost units</span></div>
+        <p class="field-help">The total includes any mandatory deletions.</p>
+        <button class="button secondary reset-button" id="reset-example" type="button">Reset this example <span aria-hidden="true">↺</span></button>
+        <div class="lesson"><span class="eyebrow">WHAT TO NOTICE</span><p id="example-lesson"></p></div>
+      </aside>
+      <div class="exploration-panel">
+        <div id="result-status" class="result-status" role="status" aria-live="polite"><span class="result-icon" aria-hidden="true">✓</span><div><h2 id="status-title">Loading the examples…</h2><p id="status-description"></p></div></div>
+        <section class="graph-panel" aria-labelledby="graph-heading">
+          <div class="panel-heading"><div><p class="eyebrow" id="view-label">MINIMUM-COST TARGET PROFILE</p><h2 id="graph-heading">The history, event by event</h2></div><div class="view-toggle" aria-label="Graph view"><button id="view-original" type="button" aria-pressed="false">Original</button><button id="view-witness" type="button" aria-pressed="true">Deletions</button></div></div>
+          <div class="metrics" aria-label="Walk counts and deletion cost"><div class="metric"><span>Two-event walks <b>W2</b></span><strong id="metric-w2">—</strong><small id="original-w2"></small></div><div class="metric"><span>Three-event walks <b>W3</b></span><strong id="metric-w3">—</strong><small id="original-w3"></small></div><div class="metric cost-metric"><span>Total deletion cost</span><strong id="metric-cost">—</strong><small id="cost-breakdown"></small></div></div>
+          <p class="baseline-note" id="baseline-note" hidden></p>
+          <div class="inspection-note" id="inspection-note" hidden><span id="inspection-copy"></span><button id="return-selection" type="button">Return to target result</button></div>
+          <div id="graph-container" class="graph-container"><svg id="transaction-graph" role="img" aria-labelledby="graph-title graph-desc"><title id="graph-title">Temporal transaction graph</title><desc id="graph-desc">An event history directed toward a root account.</desc></svg></div>
+          <div class="graph-legend" aria-label="Graph legend"><span><i class="legend-line retained"></i>Retained</span><span><i class="legend-line protected"></i>Protected</span><span><i class="legend-line deleted"></i>Deleted</span><span><i class="legend-line forced"></i>Mandatory deletion</span></div>
+          <p class="graph-caption" id="graph-caption"></p>
+        </section>
+        <section class="profiles-panel" aria-labelledby="profiles-heading"><div class="panel-heading"><div><p class="eyebrow">EXPLORE THE COMPLETE TABLE</p><h2 id="profiles-heading">Attainable count pairs <span id="profile-count" class="count-badge"></span></h2></div><button class="button primary" id="download-result" type="button">Export result <span aria-hidden="true">↓</span></button></div><p class="table-help">Each row gives the minimum cost and one deletion witness for that exact pair. Inspecting a row does not change your target.</p><div class="table-scroll"><table class="profiles-table"><thead><tr><th scope="col">W2</th><th scope="col">W3</th><th scope="col">Min. cost</th><th scope="col">Target</th><th scope="col">Budget</th><th scope="col"><span class="sr-only">Inspect profile</span></th></tr></thead><tbody id="profiles-body"></tbody></table></div><p id="profiles-empty" class="empty-state" hidden></p></section>
+      </div>
+    </section>
+    <section class="details-row" aria-label="Explanation and event details">
+      <div class="reading-guide"><p class="eyebrow">READING THE GRAPH</p><h2>A walk is a sequence<br> that respects time.</h2><p>A two-event walk follows two transactions into the root account. A three-event walk follows three. In both cases, every timestamp must be <strong>strictly later</strong> than the one before it.</p><p>Parallel transactions are separate events. Two events at the same time cannot follow each other in one walk. Protected events stay; mandatory deletions always count toward the cost.</p><a class="text-link" href="https://github.com/gouthamdyapa/counterfactual-fraud-networks/tree/main/temporal-profiles" target="_blank" rel="noopener">Method, code &amp; reproduction instructions <span aria-hidden="true">↗</span></a></div>
+      <section class="events-panel" aria-labelledby="events-heading"><div class="panel-heading"><div><p class="eyebrow">ORIGINAL EVENT IDENTITIES</p><h2 id="events-heading">Event inventory</h2></div><span id="event-count" class="count-badge"></span></div><div class="table-scroll"><table class="events-table"><thead><tr><th scope="col">Event</th><th scope="col">Route</th><th scope="col">Time</th><th scope="col">Cost</th><th scope="col">Constraint / view</th></tr></thead><tbody id="events-body"></tbody></table></div></section>
+    </section>
+    <footer class="site-footer"><div><strong>Goutam Dyapa</strong><span>Minimum-Cost Temporal Walk Profiles on Depth-Three In-Arborescences</span></div><div class="verification-note"><span id="verification-summary"></span><span>Precomputed illustrative histories; these are not fraud-prediction or IBM batch results.</span></div></footer>
+  </main>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
