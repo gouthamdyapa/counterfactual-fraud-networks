@@ -1,0 +1,72 @@
+{
+  "protocol_id": "IBM_HI_SMALL_QUOTA_APPLICABILITY_V1",
+  "frozen_before_new_cohort_measurements": true,
+  "date": "2026-10-30",
+  "timezone": "America/Chicago",
+  "purpose": "Descriptive application-fit audit for a newly specified incoming-structure quota sensitivity task; no classifier-flip or causal claim.",
+  "dataset": {
+    "handle": "ealtman2019/ibm-transactions-for-anti-money-laundering-aml/versions/8",
+    "file": "HI-Small_Trans.csv",
+    "sha256": "b19d39f515523373f991b689c07e11e7b0b95c17a2c27a87d91584ae16c5b040",
+    "synthetic": true,
+    "patterns_file": "Not used: newly retrieved bytes do not match the prior notebook's expected hash."
+  },
+  "identity": {
+    "event_id": "Zero-based original CSV data-row position, stable across sorting; identical rows remain distinct.",
+    "account_id": "Tuple of canonical nonnegative decimal bank ID and unchanged account string; no account-only joins.",
+    "timestamp": "Exact source minute parsed with YYYY/MM/DD HH:MM; integer minutes since Unix epoch without assigning an unprovided source timezone.",
+    "strictness": "All events at the target minute are excluded. Walk extension requires strictly increasing original timestamps."
+  },
+  "cohort": {
+    "unit": "Distinct destination account and transaction-minute pair",
+    "sample_size": 1024,
+    "seed": 20261030,
+    "selection": "Lowest SplitMix64 hash of packed account/time key xor seed, breaking hash ties by packed key, from all pairs with a complete 24-hour lookback.",
+    "labels_used": false,
+    "eligibility_used": false,
+    "window_minutes": 1440,
+    "include_interval": "cutoff-1440 <= event_time < cutoff",
+    "dependence": "Queries may share accounts/events; descriptive query rates are not independent trial estimates or account-uniform prevalence."
+  },
+  "query_variants": [
+    {"name": "all_transactions", "primary": true, "filter": "None: all payment formats and self-transactions retained."},
+    {"name": "nonself_transactions", "primary": false, "filter": "Exclude source==destination before neighborhood construction. This changes the task and is reported separately; it is not an equivalent reduction of the primary query."}
+  ],
+  "context": {
+    "semantic_history": "All qualifying dataset transactions in the lookback window.",
+    "candidate_vertices": "Root plus every account with directed static distance at most three to the root in the semantic history.",
+    "candidate_events": "Every original qualifying event with both endpoints in candidate_vertices, including loops and crossedges.",
+    "exactness": "Every root-ending length-two or length-three tuple lies in this induced context. This preserves the two quota features for all deletion sets; it does not preserve arbitrary classifier features.",
+    "temporal_core": "All original event IDs participating in any factual strict root-ending length-two or length-three tuple. Never choose one tree, discard a conflicting relevant edge, or clone role decisions.",
+    "resource_limits": {"max_context_vertices": 10000, "max_context_events": 100000},
+    "limit_policy": "Mark incomplete and include in the total cohort denominator; never truncate a context and report it as eligible."
+  },
+  "eligibility": ["root has no outgoing event", "no self-loop", "each other account has one distinct successor", "all endpoints reach root", "depth at most three"],
+  "diagnostics": [
+    "Induced-context and exact-core structural eligibility, each also conditional on W3>0",
+    "All completion and exclusion counts, overlapping structural violation categories",
+    "W2, W3, event counts, role overlap, context/core event retention",
+    "R=floor(W2/20) and floor(W2/10), explicitly induced by diagnostic 95% and 90% preservation policies",
+    "Post-selection event labels: core counts, all-unlabelled and any-labelled root-ending tuple counts; no assumption that touching a labelled event identifies a coherent laundering pattern"
+  ],
+  "optimization_pilot": {
+    "selection": "First 32 nontrivial eligible all-transactions cores in frozen hash order. If fewer, use all. Secondary nonself cases are reported separately and capped at32 by the same rule.",
+    "nontrivial": "W3>0 and W2>0",
+    "budget": 3,
+    "forced_delete": [],
+    "forced_keep": [],
+    "W3_upper": "floor(3*W3/4)",
+    "W2_lower": ["W2", "ceil(19*W2/20)", "ceil(9*W2/10)", "0"],
+    "methods": ["Frozen preservation-slack DP", "Frozen compact-prefix MILP"],
+    "time_limit_seconds_per_method_query": 8,
+    "scope": "Feasibility, original-ID witness validation and whether preservation changes optimum/infeasibility within budget3. One run per method/query; no speedup or runtime-superiority claim.",
+    "statuses": "UNKNOWN or TIMEOUT never counts as INFEASIBLE."
+  },
+  "decisions": {
+    "no_application_claim_from_structure_alone": true,
+    "fraud_semantics_requires_separate_validation": true,
+    "historical_novelty_requires_separate_review": true,
+    "no_parameter_tuning_based_on_new_outcomes": true,
+    "preserve_old_results": true
+  }
+}

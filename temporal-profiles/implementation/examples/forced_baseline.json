@@ -1,0 +1,9 @@
+{
+  "root": "z",
+  "min_w2": 0,
+  "events": [
+    {"id": "a", "source": "leaf", "target": "v", "time": 0, "cost": 1, "status": "keep"},
+    {"id": "b_forced", "source": "v", "target": "u", "time": 1, "cost": 7, "status": "delete"},
+    {"id": "c", "source": "u", "target": "z", "time": 2, "cost": 3, "status": "optional"}
+  ]
+}

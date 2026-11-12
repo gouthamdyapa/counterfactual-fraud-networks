@@ -1,0 +1,74 @@
+\subsection{Comparison with exhaustive enumeration}
+
+For each small test instance, an exhaustive checker enumerates ordered pairs
+and triples of original events, requiring matching endpoints, strictly
+increasing timestamps, and a final endpoint at the root. For every legal
+deletion set, it counts the surviving tuples without calling the solver's
+counting, grouping, or optimization routines. At each quota it compares
+the attainable count pairs and their minimum costs with those returned by
+the solver, and checks every deletion witness directly. Tied optimal
+witnesses need not use the same event identifiers.
+
+The frozen corpus uses seed 20261104. It contains 20 named histories,
+all $3^5=243$ timestamp assignments from $\{0,1,2\}$ on a fixed five-event
+path, 80 seeded random histories, and 32 transformed histories. The
+transformations are input permutation, injective identifier renaming,
+order-preserving affine timestamp transformation, and positive cost scaling
+on eight selected histories. Named cases include zero costs, strict ties,
+parallel events, forced disconnection, multiple branches, and unequal costs
+within equal-degree final-event classes.
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+Check & Completed\\
+\midrule
+Frozen histories & 375\\
+Quota queries / valid-input solver calls & 1,863\\
+Feasible / infeasible quota queries & 1,062 / 801\\
+Queries with $R=0$ & 561\\
+Legal deletion subsets enumerated & 81,108\\
+Exact profile entries and witnesses checked across queries & 2,529\\
+Acceptance/budget-selection queries & 54,076\\
+Returned selection witnesses checked & 19,731\\
+Invalid inputs correctly rejected & 57\\
+Transformation relations checked & 32\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Selection tests use nine predicates, including intermediate exact counts,
+parity and disconnected count regions, and monetary caps at the optimum and
+adjacent values. Witness verification checks original identities, forced
+statuses, optional and total costs, both root-ending counts, and the quota.
+The largest history has 12 events and costs of up to 203 bits. Maximum
+baseline counts are $W_2=21$ and $W_3=6$. The profile total counts checks
+across quota queries, not necessarily distinct global coordinates.
+
+\subsection{Compatibility and native-run evidence}
+
+The original full suite passed on CPython 3.12.14 on Linux. A subsequent
+compatibility repair removed Python-version-sensitive dataclass and evaluated
+type-alias syntax. All 14 solver function abstract syntax trees were unchanged.
+Smoke checks covered CPython 3.8.20 and 3.9.25 on Linux, and the full frozen
+suite passed on CPython 3.9.25 with identical reference output digests.
+
+The macOS validation summary records a successful run of the same suite on
+4 November 2026 using CPython 3.9.6 on macOS 27.0.1 (ARM64).
+The SHA-256 hashes of the solver, validator, corpus, and protocol match
+those of the compatibility-corrected release. The output hashes recorded
+in the summary match those computed from the retained reference files.
+For this suite, the archive contains the macOS summary but not the
+full macOS outputs; those files could not be hashed separately.
+
+The implementation requires Python 3.8 or newer and the standard library.
+These are finite correctness and compatibility checks. No runtime-performance
+comparison is inferred from their elapsed times. The general result rests
+on the proof. The implementation archive also retains the initial root-endpoint
+specification correction, both frozen oracle versions, and their audit
+records; Appendix~\ref{app:reproducibility} explains the provenance.
+
+The ten-event illustration in Proposition~\ref{prop:unfinished} is archived
+separately with its stated expected profiles and a direct enumeration of all
+64 legal optional-deletion subsets. It is an explanatory check added with
+this manuscript and is not counted in the original 375-history suite.

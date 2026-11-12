@@ -1,0 +1,83 @@
+{
+  "directory": "/Users/goutam/Downloads/temporal_profiles_mac_fixed/validation_results/run_20261104T072510.770317Z_a9f8f2c9f276",
+  "summary": {
+    "candidate_implementation_inspected_by_oracle_author": false,
+    "candidate_path": "/Users/goutam/Downloads/temporal_profiles_mac_fixed/profile_solver.py",
+    "corpus_sha256": "9a6979e08652fb949fa8eb7ca9d9a432204142c24e954d6fa046c172b631e67c",
+    "counters": {
+      "candidate_invalid_calls": 57,
+      "candidate_solve_calls": 1863,
+      "histories_completed": 375,
+      "metamorphic_relations_checked": 32,
+      "profile_entries_compared": 2529,
+      "profile_witnesses_checked": 2529,
+      "selection_query_calls": 54076,
+      "selection_witnesses_checked": 19731,
+      "threshold_queries_completed": 1863
+    },
+    "coverage": {
+      "histories": 375,
+      "histories_with_forced_deletions": 56,
+      "histories_with_forced_keeps": 79,
+      "histories_with_zero_cost": 317,
+      "invalid_schema_or_graph_cases": 57,
+      "legal_deletion_subsets_enumerated": 81108,
+      "max_baseline_W2": 21,
+      "max_baseline_W3": 6,
+      "max_cost_bit_length": 203,
+      "max_events": 12,
+      "max_optional_events": 12,
+      "metamorphic_relations": 32,
+      "original_pair_tuples_enumerated": 406,
+      "original_triple_tuples_enumerated": 174,
+      "threshold_filtered_expected_entries": 2529,
+      "threshold_queries": 1863,
+      "unrestricted_exact_profile_entries": 879
+    },
+    "elapsed_validation_seconds": 1.488100459,
+    "environment": {
+      "implementation": "CPython",
+      "platform": "macOS-27.0.1-arm64-arm-64bit",
+      "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]"
+    },
+    "finished_at_utc": "2026-11-04T07:25:12.254023+00:00",
+    "output_files": {
+      "candidate_outputs.json": "faf9fc7f8960d46d81509ccbb711e83eb6c5a6657361b061113f7980131cad4a",
+      "selection_outputs.json": "133df11b935269866ea2766743a2b8037f0b88fd8b5be14bb2bf7743062e9f02"
+    },
+    "protocol_sha256": "bcca092b7e763b8781fbdd261d3fff91f90c0dcdb70a965898f878de025e7297",
+    "semantic_definition": "W_h counts strictly time-increasing directed original-event h-tuples whose final target equals the specified root.",
+    "semantic_endpoint_fixture": {
+      "case_id": "all_mandatory_keep",
+      "global_counts": {
+        "w2": 2,
+        "w3": 1
+      },
+      "global_pair_ids": [
+        [
+          "a",
+          "b"
+        ],
+        [
+          "b",
+          "c"
+        ]
+      ],
+      "root": "z",
+      "root_ending_counts": {
+        "w2": 1,
+        "w3": 1
+      },
+      "root_ending_pair_ids": [
+        [
+          "b",
+          "c"
+        ]
+      ]
+    },
+    "solver_sha256": "a9f8f2c9f276055ab570940d784244192d177c16299f7a295ad75c481de7f4ba",
+    "started_at_utc": "2026-11-04T07:25:10.824748+00:00",
+    "status": "passed",
+    "validator_sha256": "29ff8cfbe8df6f3aaedc9f7f0ae54c5a69a7081c805576a80d8f84760d5c8891"
+  }
+}

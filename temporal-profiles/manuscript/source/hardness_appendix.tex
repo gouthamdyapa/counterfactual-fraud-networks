@@ -1,0 +1,525 @@
+% BEGIN COMPLETE CONSTRUCTION: this block may be placed in an appendix.
+\section{Complete construction for budget hardness}
+\label{hard:construction}
+
+\paragraph{Source problem.}
+An instance of two-budget bipartite partial vertex cover consists of a
+simple bipartite graph \(H=(X,Y,E_H)\), nonnegative integer budgets \(a,q\),
+and an integer target \(\ell\). It asks for sets \(X'\subseteq X\) and
+\(Y'\subseteq Y\), with \(|X'|\le a\) and \(|Y'|\le q\), such that at least
+\(\ell\) edges have an endpoint in \(X'\cup Y'\).
+Write \(n_0=|X|\), \(m=|Y|\), and \(e=|E_H|\).
+The source is unweighted; the two budgets are separate cardinality caps.
+
+\paragraph{The regular-Clique source map.}
+\label{hard:clique-source}
+The following paragraphs detail the preceding reduction in the cited
+article and its boundary cases. Let \(G\) be a simple \(d\)-regular graph with \(N\)
+vertices, \(m_G\) edges, and nonnegative Clique target \(t\). Cases
+\(t<3\), \(t>N\), and \(t=N\) are decidable in polynomial time; the
+last case tests completeness. Cases \(d<t-1\) or
+\(m_G<\binom{t}{2}\) are no-instances. Map every directly decided case
+to the three-event temporal yes/no template below, carrying the numerical
+budget \(b=t^2\). It remains to consider
+\(3\le t<N\), \(d\ge t-1\), and \(m_G\ge\binom{t}{2}\).
+
+Make one vertex of \(X\) for each vertex of \(G\), and one vertex of
+\(Y\) for each edge of \(G\). Join \(v\in X\) to \(g\in Y\) exactly
+when \(v\) is not an endpoint of \(g\). This non-incidence graph has
+\(N+m_G\) vertices and \(e=(N-2)m_G\) edges. Set
+\[
+ a=t,\qquad q=\binom{t}{2},\qquad
+ \ell=t(m_G-d)+(N-t)q.
+\]
+Any source selection within these caps can be extended to exactly
+\(t\) left vertices and \(q\) right vertices without losing covered
+edges. For these saturated choices \(S\subseteq V(G)\) and
+\(J\subseteq E(G)\), let
+\(i(S,J)=\sum_{g\in J}|\operatorname{endpoints}(g)\cap S|\).
+Inclusion--exclusion gives the exact covered-edge count
+\begin{equation}
+\label{hard:clique-coverage}
+\begin{aligned}
+ C(S,J)
+ &=t(m_G-d)+q(N-2)-\bigl(tq-i(S,J)\bigr)\\
+ &=\ell-\bigl(2q-i(S,J)\bigr).
+\end{aligned}
+\end{equation}
+Since \(i(S,J)\le2q\), reaching \(\ell\) is equivalent to every edge
+of \(J\) having both endpoints in \(S\). A simple graph on \(t\)
+vertices has at most \(q=\binom{t}{2}\) edges, so every such \(S\) is a
+clique. Conversely, a \(t\)-clique and its internal
+edges attain equality. This is the reduction of
+\cite[Theorem~10]{mkrtchyan2024}, now with its at-most-to-exact step and
+coverage identity explicit. The construction is polynomial, both side
+budgets depend only on \(t\), and the temporal map below gives
+\(b=a+2q=t^2\). If the resulting partial-cover target exceeds \(e\),
+the following preprocessing correctly returns a no-instance.
+
+\paragraph{Trivial partial-cover instances.}
+The cases \(\ell\le0\) and \(\ell>e\) are immediate. If \(a\ge n_0\) or
+\(q\ge m\), selecting an entire side covers every edge. If \(q=0\), choose
+the \(a\) largest left degrees, or all left vertices when fewer are
+available: edges incident to different left vertices are distinct, so this
+maximizes coverage. Thus the construction may assume
+\begin{equation}
+\label{hard:source-range}
+ 0\le a\le n_0,\qquad 1\le q<m,\qquad 0\le\ell\le e.
+\end{equation}
+To preserve the exact formula \(b=a+2q\) on the directly decided cases as
+well, use the three-event path
+\(s\mathbin{\to}v\mathbin{\to}u\mathbin{\to}z\), at times \(0,1,2\),
+with the same numerical budget \(b=a+2q\). Set \((T_2,T_3)=(1,1)\)
+for a yes-instance and \((T_2,T_3)=(2,1)\) for a no-instance.
+The first accepts \(D=\varnothing\); the second is impossible because its
+undeleted two-walk count is one. Every event in either instance is
+optional.
+
+\paragraph{Rows, numerical constants, and columns.}
+Add \(h=2m+1\) isolated left vertices to \(H\), and number the resulting
+rows \(1,\ldots,n\). Define
+\begin{equation}
+\label{hard:constants}
+\begin{aligned}
+ n&=n_0+2m+1, & r&=n-a, & b&=a+2q,\\
+ \kappa&=e+1, & P&=4m^2+1,\\
+ \Lambda&=\bigl((\kappa+1)+r\kappa\bigr)mP+e+1 .
+\end{aligned}
+\end{equation}
+In particular,
+\begin{equation}
+\label{hard:gaps}
+\begin{gathered}
+ r>2m,\qquad \kappa>e,\qquad P>2m^2,\\
+ \Lambda+1>(\kappa+1)mP,\qquad
+ \Lambda>r\kappa mP+e.
+\end{gathered}
+\end{equation}
+The isolated rows have no source edges and require no additional budget.
+
+For each \(y_j\in Y\), introduce an original column of numerical weight
+\(j\) and a companion column of numerical weight \(P-j\).
+All \(2m\) weights are distinct: the original weights are \(1,\ldots,m\),
+and \(P-m>m\). Sort the columns by increasing weight and write their weights
+as \(\rho_1<\cdots<\rho_{2m}\). Their sum is \(mP\).
+These weights specify event counts in the construction; they are not event
+deletion costs.
+
+For row \(i\) and column \(t\), let \(N_{it}\) be the adjacency indicator
+of the padded graph when column \(t\) is original. Set \(N_{it}=0\) for
+companion columns and for padded rows. Let
+\(\sigma_t=\sum_{i=1}^n N_{it}\); hence \(0\le\sigma_t\le n_0\).
+
+\paragraph{The intermediate temporal instance.}
+Use the static arcs
+\[
+ s_i\longrightarrow v_i\longrightarrow u\longrightarrow z
+ \quad (1\le i\le n),\qquad v_0\longrightarrow u.
+\]
+The root is \(z\). There is a single depth-one vertex \(u\); the auxiliary
+depth-two vertex \(v_0\) has no predecessor. For each row \(i\), put one
+event \(A_i:s_i\to v_i\) at time zero. For every sorted column \(t\), put one
+event \(C_t:u\to z\) at time \(2t\).
+
+Prescribe the following cumulative numbers of middle events strictly
+before \(C_t\):
+\begin{equation}
+\label{hard:prefixes}
+ \mu_{it}=\Lambda+\kappa\rho_t+N_{it}
+ \quad(1\le i\le n),\qquad
+ \mu_{0t}=n+n\rho_t-\sigma_t .
+\end{equation}
+Set \(\mu_{i0}=0\) for \(0\le i\le n\).
+For each \(t\), put exactly \(\mu_{it}-\mu_{i,t-1}\) distinct events
+on \(v_i\to u\), all at time \(2t-1\), for every \(0\le i\le n\).
+Call these the \(B\)-events.
+
+All these multiplicities are nonnegative integers. The initial prefixes
+are positive. For consecutive columns after the first, their increments
+are bounded below by
+\[
+ \kappa(\rho_t-\rho_{t-1})+(N_{it}-N_{i,t-1})
+ \ge\kappa-1\ge0
+\]
+on a productive row, and by
+\[
+ n(\rho_t-\rho_{t-1})-(\sigma_t-\sigma_{t-1})
+ \ge n-n_0>0
+\]
+on the auxiliary row. The times \(2t-1\) and \(2t\) realize precisely the
+prefixes in \eqref{hard:prefixes}, with strict temporal inequalities.
+All contacts, including contacts sharing endpoints and a timestamp, receive
+distinct IDs.
+
+For the moment, \(B\)-events must survive, while \(A\)- and \(C\)-events are
+optional. This is an intermediate construction only; the final instance
+will make every event optional.
+
+\begin{lemma}[Exact counts in the intermediate instance]
+\label{hard:counts}
+Let \(I\subseteq\{1,\ldots,n\}\) be the retained \(A\)-rows and
+\(J\subseteq\{1,\ldots,2m\}\) the retained \(C\)-columns. Put
+\[
+ p=|I|,\qquad s=|J|,\qquad
+ \omega=\sum_{t\in J}\rho_t,\qquad
+ N(I,J)=\sum_{\substack{i\in I\\t\in J}}N_{it}.
+\]
+When all \(B\)-events survive, the counts and deletion cost are
+\begin{equation}
+\label{hard:identities}
+\begin{aligned}
+ W_2^\circ(I,J)
+   &=n\bigl[s(\Lambda+1)+(\kappa+1)\omega\bigr],\\
+ W_3^\circ(I,J)
+   &=p\bigl[s\Lambda+\kappa\omega\bigr]+N(I,J),\\
+ |D_{AC}|&=(n-p)+(2m-s).
+\end{aligned}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Each two-walk ending at \(z\) consists of a \(B\)-event followed by a
+retained \(C_t\). Its contribution at column \(t\) is
+\[
+ \sum_{i=1}^n\mu_{it}+\mu_{0t}
+ =n\Lambda+n\kappa\rho_t+\sigma_t
+    +n+n\rho_t-\sigma_t
+ =n\bigl[(\Lambda+1)+(\kappa+1)\rho_t\bigr].
+\]
+An \(A\)-event cannot belong to a two-walk ending at the root.
+Each three-walk consists of \(A_i,B,C_t\), with \(i\in I\), \(t\in J\),
+and the \(B\)-event counted by \(\mu_{it}\). The unique \(A_i\) precedes
+every \(B\)-event on its row. The auxiliary row contributes no three-walks.
+Summing \(\mu_{it}\) over \(I\times J\) proves the second identity. The last
+identity counts the deleted optional IDs.
+\end{proof}
+
+Define the target retained-column count and target weight by
+\[
+ s_\star=2(m-q),\qquad \omega_\star=(m-q)P.
+\]
+They satisfy \(s_\star\ge2\), \(\omega_\star>0\), and
+\(n+2m-b=r+s_\star\). Set the intermediate quotas to
+\begin{equation}
+\label{hard:intermediate-quotas}
+\begin{aligned}
+ T^\circ
+   &=n\bigl[s_\star(\Lambda+1)+(\kappa+1)\omega_\star\bigr],\\
+ U^\circ
+   &=r\bigl[s_\star\Lambda+\kappa\omega_\star\bigr]+e-\ell.
+\end{aligned}
+\end{equation}
+
+\begin{lemma}[The two quotas enforce the budget allocation]
+\label{hard:allocation}
+An \(A/C\) deletion set of cost at most \(b\) satisfies
+\(W_2^\circ\ge T^\circ\) and \(W_3^\circ\le U^\circ\) if and only if
+\begin{equation}
+\label{hard:forced-values}
+ p=r,\qquad s=s_\star,\qquad \omega=\omega_\star,\qquad
+ N(I,J)\le e-\ell.
+\end{equation}
+Every feasible intermediate deletion set has cost exactly \(b\).
+\end{lemma}
+
+\begin{proof}
+Suppose the two quotas hold. Since \(0\le\omega\le mP\), if
+\(s<s_\star\) then
+\[
+ \frac{W_2^\circ-T^\circ}{n}
+ =(s-s_\star)(\Lambda+1)
+     +(\kappa+1)(\omega-\omega_\star)
+ \le-(\Lambda+1)+(\kappa+1)mP<0,
+\]
+contradicting the lower quota. Therefore \(s\ge s_\star\).
+
+Suppose instead that \(s=s_\star+d\), where \(d\ge1\).
+The deletion budget gives \(p+s\ge r+s_\star\), so \(p\ge r-d\).
+Since \(d\le s\le2m<r\), the latter lower bound is positive. Moreover,
+\[
+ ps\ge(r-d)(s_\star+d)
+    =rs_\star+d(r-s)\ge rs_\star+1.
+\]
+All terms in the formula for \(W_3^\circ\) are nonnegative. It follows that
+\[
+\begin{aligned}
+ W_3^\circ
+ &\ge (rs_\star+1)\Lambda\\
+ &>rs_\star\Lambda+r\kappa mP+e\\
+ &\ge rs_\star\Lambda+r\kappa\omega_\star+e-\ell
+   =U^\circ,
+\end{aligned}
+\]
+a contradiction. Consequently \(s=s_\star\).
+
+The budget now gives \(p\ge r\), and the lower quota gives
+\(\omega\ge\omega_\star\). Subtracting the base term of \(U^\circ\)
+from the triple count yields
+\[
+\begin{aligned}
+ W_3^\circ-r(s_\star\Lambda+\kappa\omega_\star)
+  ={}&(p-r)(s_\star\Lambda+\kappa\omega_\star)\\
+    &+p\kappa(\omega-\omega_\star)+N(I,J).
+\end{aligned}
+\]
+All three terms on the right are nonnegative, and their sum is at most
+\(e-\ell\le e\). If \(p>r\), the first term is at least
+\(s_\star\Lambda\ge2\Lambda>e\). If \(\omega>\omega_\star\), integrality
+makes the second term at least \(r\kappa>e\).
+Thus \(p=r\), \(\omega=\omega_\star\), and the remaining inequality is
+\(N(I,J)\le e-\ell\). Conversely, substituting
+\eqref{hard:forced-values} into \eqref{hard:identities} verifies both quotas.
+The same substitution gives cost \((n-r)+(2m-s_\star)=a+2q=b\).
+\end{proof}
+
+\begin{lemma}[Companion balance]
+\label{hard:balance}
+If \(s=s_\star\) and \(\omega=\omega_\star\), exactly \(m-q\) original
+columns and \(m-q\) companion columns survive.
+\end{lemma}
+
+\begin{proof}
+Let \(c\) be the number of retained companion columns. Their weights and
+the original-column weights give
+\[
+ \omega=cP+\delta,\qquad
+ \delta=\sum_{\substack{j:\ \text{original }j\\\text{survives}}}j
+       -\sum_{\substack{j:\ \text{companion }j\\\text{survives}}}j.
+\]
+There are at most \(2m\) summands, each of absolute value at most \(m\),
+so \(|\delta|\le2m^2<P\). As \(\omega=(m-q)P\), the integer
+\((m-q-c)P=\delta\) can only be zero. Hence \(c=m-q\);
+the remaining \(s_\star-c=m-q\) retained columns are original.
+The argument does not require matching identities for retained originals
+and companions.
+\end{proof}
+
+\begin{lemma}[Equivalence with retained middle events]
+\label{hard:retained-equivalence}
+The source partial-cover instance is feasible if and only if the
+intermediate temporal instance admits a deletion set of cost at most
+\(b\), with \(W_2^\circ\ge T^\circ\) and \(W_3^\circ\le U^\circ\).
+\end{lemma}
+
+\begin{proof}
+First take a source cover \(X',Y'\). Extend its selected left vertices to
+exactly \(a\) rows of the padded graph, and extend \(Y'\) to exactly \(q\)
+right vertices. Both extensions are possible and preserve coverage.
+Delete the corresponding \(a\) events \(A_i\). For every selected right
+vertex \(y_j\), delete its original \(C\)-event and its matching companion
+\(C\)-event. This uses exactly \(a+2q\) deletions.
+The retained columns consist of \(m-q\) pairs, each of weight \(P\).
+Thus \(p=r\), \(s=s_\star\), and \(\omega=\omega_\star\).
+The quantity \(N(I,J)\) is exactly the number of source edges not covered
+by the extended selections, so it is at most \(e-\ell\).
+Lemma~\ref{hard:allocation} gives the two temporal quotas.
+
+Conversely, consider a feasible intermediate deletion set.
+Lemma~\ref{hard:allocation} gives exactly \(a\) deleted \(A\)-events, and
+Lemma~\ref{hard:balance} gives exactly \(q\) deleted original \(C\)-events
+and \(q\) deleted companion \(C\)-events. Select the original left vertices
+whose \(A\)-events were deleted, omitting any deleted padded rows, and
+select the right vertices whose original \(C\)-events were deleted.
+These selections use at most \(a\) left vertices and exactly \(q\) right
+vertices. Only original columns and original rows can have nonzero
+\(N_{it}\). Therefore \(N(I,J)\) counts precisely the source edges with
+neither endpoint selected. Since \(N(I,J)\le e-\ell\), the selections
+cover at least \(\ell\) edges.
+\end{proof}
+
+\paragraph{Removing every retention requirement.}
+Set
+\begin{equation}
+\label{hard:replication-parameters}
+ Q=2mb+1,\qquad T_2=QT^\circ,\qquad T_3=QU^\circ.
+\end{equation}
+Replace each intermediate \(B\)-event by \(Q\) distinct optional events
+with the same endpoints and timestamp. Keep the \(A\)- and \(C\)-events
+unchanged, and retain budget \(b\). All final events are original input
+IDs with unit deletion cost. The intermediate instance is used only to
+prove this final construction; it imposes no retention restriction on the
+final input.
+
+\begin{lemma}[Optional replication]
+\label{hard:replication}
+The all-optional final instance is feasible if and only if the
+intermediate instance is feasible. In fact, every feasible final deletion
+set deletes no \(B\)-event.
+\end{lemma}
+
+\begin{proof}
+Fix the \(A/C\) choices of an arbitrary final deletion set \(D\) with
+\(|D|\le b\), and let \(w_j\) be the intermediate count with those
+choices and all middle events retained. Restoring every deleted \(B\)
+copy in the final instance gives exactly \(Qw_j\) surviving \(j\)-walks,
+for \(j=2,3\).
+
+A \(B\) copy belongs to at most \(2m\) surviving three-walks: its row has
+at most one \(A\)-event, and there are at most \(2m\) final \(C\)-events.
+An auxiliary copy belongs to none. Each triple contains exactly one
+\(B\) copy, so the triple loss caused by all deleted \(B\) copies is at
+most
+\[
+ 2m\,|D\cap B|\le2mb=Q-1.
+\]
+If \(w_3>U^\circ\), integrality would therefore imply
+\[
+ W_3(E\setminus D)\ge Q(U^\circ+1)-(Q-1)=QU^\circ+1>T_3,
+\]
+contrary to feasibility. Hence \(w_3\le U^\circ\).
+Restoring middle events can only increase the two-walk count; consequently
+\[
+ Qw_2\ge W_2(E\setminus D)\ge QT^\circ,
+\]
+and \(w_2\ge T^\circ\).
+The \(A/C\) part of \(D\) alone costs at most \(b\), so it is a feasible
+intermediate solution. By Lemma~\ref{hard:allocation}, that part already
+uses exactly \(b\) deletions. Thus \(D\) contains no deleted \(B\) copy.
+
+Conversely, a feasible intermediate \(A/C\) deletion set can be used in
+the final instance while deleting no \(B\) copy. The two counts are then
+exactly \(Qw_2\) and \(Qw_3\), and both final quotas hold.
+\end{proof}
+
+\begin{lemma}[Encoded size and parameter map]
+\label{hard:size}
+The nontrivial construction contains exactly
+\begin{equation}
+\label{hard:event-count}
+ M=n+2m+Qn\bigl[\Lambda+(\kappa+1)P-\kappa\bigr]
+\end{equation}
+explicitly listed events, uses timestamps in \(\{0,\ldots,4m\}\), and
+has size polynomial in the explicit source input length.
+Its deletion budget is \(b=a+2q\), and the composition with the
+\(t\)-Clique reduction in \cite[Theorem~10]{mkrtchyan2024} has \(b=t^2\).
+\end{lemma}
+
+\begin{proof}
+The last column has weight \(P-1\) and is a companion; hence all its
+adjacency indicators and its \(\sigma\)-value are zero. Each productive
+row contains \(\Lambda+\kappa(P-1)\) intermediate \(B\)-events, and the
+auxiliary row contains \(nP\). Their total is
+\[
+ n\bigl[\Lambda+\kappa(P-1)\bigr]+nP
+   =n\bigl[\Lambda+(\kappa+1)P-\kappa\bigr].
+\]
+Multiplying by \(Q\) and adding \(n\) events of type \(A\) and \(2m\)
+of type \(C\) gives \eqref{hard:event-count}.
+The static tree has \(2n+3\) vertices and depth three. Its only
+depth-one vertex is \(u\). Replication changes neither the static tree
+nor any timestamp.
+
+Put \(S_H=n_0+m\). In the range \eqref{hard:source-range},
+\[
+\begin{gathered}
+ e=O(S_H^2),\quad n,r,b=O(S_H),\quad
+ \kappa,P,Q=O(S_H^2),\\
+ \Lambda=O(S_H^6),\quad M=O(S_H^9).
+\end{gathered}
+\]
+Moreover \(T^\circ,U^\circ=O(S_H^8)\), so \(T_2,T_3=O(S_H^{10})\).
+Event IDs, endpoints, timestamps, budgets, and quotas therefore need
+only \(O(\log S_H)\) bits per numerical field. In particular, an explicit
+event list has length \(O(S_H^9\log S_H)\). Every contact is written out;
+the construction uses no binary-encoded multiplicities.
+The directly decided cases have constant-size temporal event lists and
+retain the binary encoding of \(b=a+2q\).
+
+The parameter bound \(b=a+2q\le2(a+q)\) is independent of \(n_0,m,e\).
+The source theorem uses budgets
+\(a=t\) and \(q=\binom{t}{2}\) in its reduction from regular
+\(t\)-Clique. Thus the composed budget is
+\[
+ b=t+2\binom{t}{2}=t^2.
+\]
+This identity also holds if a directly decided source case uses the
+three-event template described above.
+\end{proof}
+
+\paragraph{Why the preservation-slack algorithm is consistent with this result.}
+For the nontrivial construction, the final instance has no mandatory
+deletions and \(T_2>0\).
+Its preservation slack \(R=W_2(E)-T_2\) is exactly
+\begin{equation}
+\label{hard:slack}
+ R=Qnq\bigl[2(\Lambda+1)+(\kappa+1)P\bigr].
+\end{equation}
+Indeed, the full retained column set has \(s=2m\) and weight \(mP\);
+subtracting \(QT^\circ\) from the first identity in
+\eqref{hard:identities}, scaled by \(Q\), gives \eqref{hard:slack}.
+This quantity is unbounded in the source graph size even with fixed
+budgets. For example, fix \(a=q=1\), \(m=2\), \(e=\ell=1\), and increase
+the number of isolated left vertices. Then \(b=3\) is fixed, whereas
+\(n\), \(\Lambda\), and \(R\) grow.
+Thus this reduction does not bound \(R\) by a function of \(b\).
+It is consistent with a \(2^{O(\sqrt R)}\operatorname{poly}(|\mathcal I|)\)
+algorithm parameterized by preservation slack. The conclusion is
+\(\mathrm{W}[1]\)-hardness in \(b\); no \(\mathrm{W}[1]\)-membership claim
+or ETH exponent lower bound is asserted.
+% END COMPLETE CONSTRUCTION.
+
+\subsection{Classical complexity consequence}
+
+The explicit construction also yields the following classical consequence.
+The proof is included for completeness, without a historical-priority claim
+for this corollary or the elementary regularization used below.
+
+\begin{corollary}[Classical NP-completeness]
+\label{full:np-complete}
+The decision problem in Theorem~\ref{hard:budget} is NP-complete, even with
+all events optional and of unit cost, one depth-one vertex, and exactly
+one time-zero \(A\) event at each productive depth-two vertex.
+\end{corollary}
+
+\begin{proof}
+Membership in NP follows from an original-event deletion bit vector.
+Its budget and forced statuses, when present, can be checked directly.
+Enumerating ordered retained event pairs and triples, and testing their
+endpoints and strict timestamp inequalities, computes the required counts
+using \(O(M^3)\) candidate tuples. Endpoint and timestamp comparisons,
+comparison with the encoded quotas, and validation of the structural
+restrictions all take polynomial time in the complete input length.
+
+Classical hardness follows by a polynomial chain of reductions from ordinary Clique.
+Let \(G\) have \(N\) vertices and maximum degree \(\Delta\), with target
+\(t\). Cases \(t<3\), \(t>N\), or \(\Delta=0\) are directly decidable.
+Otherwise make \(2\Delta\) disjoint copies of \(G\), named \(L_i,R_i\)
+for \(i\in\mathbb Z_\Delta\). For every original vertex \(v\) of degree
+\(d(v)\), join its copy in \(L_i\) to its copies in \(R_{i+j}\), for
+\(0\le j<\Delta-d(v)\), with indices modulo \(\Delta\).
+Each copied vertex receives exactly its degree deficit, on both sides,
+so the resulting simple graph is \(\Delta\)-regular. No added edge lies
+in a triangle: its endpoints have the same original label in different
+copies; a vertex of another label can be an internal neighbor of at most
+one endpoint, while all edges among copies of the same label are
+bipartite. Thus every clique of size at least three remains within an
+original copy, preserving the existence of a \(t\)-clique.
+The regularization has \(2N\Delta=O(N^2)\) vertices and
+\(N\Delta^2=O(N^3)\) edges and is polynomial.
+
+The regularized graph has \(N'=2N\Delta>t\), so the strict source-size
+condition is automatic. Apply the regular-Clique prechecks and source-map
+argument above. For its \(N'\) vertices, \(m'\) edges, and degree \(d\),
+the non-incidence construction in \cite[Theorem~10]{mkrtchyan2024}
+uses one source-side vertex per vertex and one per edge, with
+\[
+ a=t,\qquad q=\binom{t}{2},\qquad
+ \ell=(N'-t)\binom{t}{2}+t(m'-d).
+\]
+The graph has \(N'+m'\) vertices and at most \(N'm'\) edges, so this
+step is polynomial. Apply the temporal construction above.
+Its side-size sum satisfies \(S_H=O(N^3)\); hence
+Lemma~\ref{hard:size} gives polynomial encoded output size, even with
+the loose event bound \(O(N^{27})\). Directly decided source cases use
+the stated constant-event yes/no templates. The output has the promised
+structural restrictions, and its budget is
+\(b=t+2\binom{t}{2}=t^2\).
+This polynomial many-one reduction proves NP-hardness and completes
+the proof.
+\end{proof}
+
+Consequently, an exact polynomial-time algorithm for every instance of
+this full model would imply \(\mathrm P=\mathrm{NP}\). This consequence
+does not rule out a simpler or faster algorithm parameterized by
+preservation slack \(R\), and it supplies no matching lower bound for
+the square-root exponent.

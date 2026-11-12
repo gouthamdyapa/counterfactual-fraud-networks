@@ -1,0 +1,94 @@
+\subsection{Exact targets in synthetic transaction histories}\label{sec:batch}
+
+The file \texttt{HI-Small\_Trans.csv} from version~8 of IBM's synthetic
+anti-money-laundering dataset~\citep{altman2023} contains 5,078,345 transactions.
+The sampling unit was a destination
+account and transaction minute. An earlier audit fixed 1,024 queries by
+seeded hash order from the 3,854,758 distinct units with a full 24-hour
+lookback, without using labels or structural eligibility. These queries
+contain 1,023 distinct roots. Each context includes every transaction in
+$[t-1440,t)$ between accounts within incoming static distance three of the
+root in that window. The extraction retained all such events, including loops, tied
+times and parallel contacts; no conflicting edge was removed to make a
+context eligible. The cohort had been studied previously, and queries may
+share events. The results describe these queries rather than independent
+trials or an unseen test set.
+
+\paragraph{Coverage.}
+All 1,024 contexts were extracted and their baseline counts determined.
+The structural check was applied to the original induced context.
+Table~\ref{tab:batch-coverage} retains empty, unsupported, and
+resource-limited queries in the denominator. Of 232 queries with
+baseline $W_3>0$, 77 fit the model and 68 received complete profiles.
+The nine skipped eligible positive queries had a median of 91 events
+compared with 12 for the 68 profiled queries.
+
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+Query disposition & $W_3=0$ & $W_3>0$ & Total\\
+\midrule
+Empty context & 179 & 0 & 179\\
+Outside the required tree structure & 125 & 155 & 280\\
+Eligible, above the 32-event cap & 34 & 9 & 43\\
+Eligible, all requested profiles completed & 454 & 68 & 522\\
+\midrule
+Total & 792 & 232 & 1,024\\
+\bottomrule
+\end{tabular}
+\refstepcounter{table}\label{tab:batch-coverage}\\[3pt]
+{\small Table \thetable. Disposition of all sampled account/minute queries.}
+\end{center}
+
+\paragraph{Two questions asked of the same profile.}
+Every event was optional with unit deletion cost. Given baseline counts
+$N_2,N_3$, set $T=\lceil pN_2/100\rceil$ for $p\in\{100,95,90\}$ and
+$U=\lfloor 3N_3/4\rfloor$. For each $T$, the evaluation compared the goals $W_3\le U$ and
+$W_3=U$, both subject to $W_2\ge T$. Budgets 0, 1 and 3 were applied to
+the minimum deletion cost. The 454 profiled queries with $N_3=0$ satisfy
+both goals without intervention; the comparison below therefore concerns
+the 68 profiled queries with $N_3>0$.
+
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+ & \multicolumn{2}{c}{Attainable within three deletions}
+ & Unattainable at any cost\\
+\cmidrule(lr){2-3}\cmidrule(l){4-4}
+Preservation & $W_3\le U$ & $W_3=U$ & $W_3=U$\\
+\midrule
+$100\%$ & 68 & 13 & 55\\
+$95\%$  & 68 & 14 & 54\\
+$90\%$  & 68 & 15 & 53\\
+\bottomrule
+\end{tabular}
+\refstepcounter{table}\label{tab:batch-goals}\\[3pt]
+{\small Table \thetable. Each row refers to the same 68 positive, fully profiled queries.}
+\end{center}
+
+At full preservation, the least cost for the upper bound was one deletion in
+59 queries, two in eight, and three in one. In 55 of the 68, no deletion set
+could attain the exact same target while preserving every pair, even without
+a deletion budget. At $R=0$, every middle or final event belonging to a
+baseline pair must survive. Deleting a first event then removes all triples
+extending it as one group; different first events remove disjoint groups.
+Attainable triple losses are sums of these group sizes, so some intermediate
+integer losses can be absent. For example, in the preidentified pilot
+query \texttt{q0011}, preserving seven pairs permits either two triples at
+cost zero or zero triples at cost one. Exactly one triple is unattainable.
+Rounding also matters: on 50 of the 68 positive queries all three
+percentages require the same integer $T$. The rows of
+Table~\ref{tab:batch-goals} are paired comparisons, not 204 independent
+observations.
+
+\paragraph{Verification and scope.}
+Deduplicating equal values of $T$ gave 653 planned tables among the 565
+eligible nonempty queries. The 32-event cap excluded 90 tables before
+optimization; these have unknown outcomes. There were no solver or oracle
+timeouts. The Mac run reported witness replay for all 935 returned entries
+across the 563 completed tables. For 528 of those tables (at most 16
+optional events), exhaustive enumeration agreed on every attainable pair
+and its minimum cost. The other 35 had witness replay but no exhaustive
+comparison. The run provides evidence about local count sensitivity and
+model coverage on synthetic transactions. It does not measure classification
+accuracy, changes in fraud decisions, or comparative runtime.

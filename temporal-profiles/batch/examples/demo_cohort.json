@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "selected": 5,
+    "synthetic_demo": true
+  },
+  "queries": [
+    {
+      "cutoff_text": "2022-09-01 10:00",
+      "query_id": "q0000",
+      "root_account": "TARGET",
+      "root_bank": "4"
+    },
+    {
+      "cutoff_text": "2022-09-01 10:00",
+      "query_id": "q0001",
+      "root_account": "BAD",
+      "root_bank": "14"
+    },
+    {
+      "cutoff_text": "2022-09-01 10:00",
+      "query_id": "q0002",
+      "root_account": "ZERO",
+      "root_bank": "24"
+    },
+    {
+      "cutoff_text": "2022-09-01 10:00",
+      "query_id": "q0003",
+      "root_account": "BIG",
+      "root_bank": "34"
+    },
+    {
+      "cutoff_text": "2022-09-01 10:00",
+      "query_id": "q0004",
+      "root_account": "NONE",
+      "root_bank": "44"
+    }
+  ]
+}

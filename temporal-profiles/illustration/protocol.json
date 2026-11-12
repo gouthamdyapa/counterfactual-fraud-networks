@@ -1,0 +1,14 @@
+{
+  "scope": "new manuscript proposition illustration only",
+  "frozen_before_execution": true,
+  "frozen_utc": "2026-11-04T07:45:01.143067+00:00",
+  "expected_legal_subsets": 64,
+  "oracle": "literal ordered event pair/triple enumeration and all six-optional-event subsets",
+  "comparison": "all admissible profile keys/costs and returned witnesses; specified final-context profiles",
+  "frozen_sha256": {
+    "instance.json": "3f6c425b2c096c13349420cd6aa030c3added9c8bfd9a4f40e54661d37e45ec6",
+    "expected.json": "c9eef01a4755858aa014ae27326ae0a2c84eeadabfc99143d1e578fe2bac1d74",
+    "check_illustration.py": "57b13a5206ca5e5c40709510d3e6af3eb912bf4fff3bff8e6865fe70f3a914fb"
+  },
+  "solver_sha256": "a9f8f2c9f276055ab570940d784244192d177c16299f7a295ad75c481de7f4ba"
+}

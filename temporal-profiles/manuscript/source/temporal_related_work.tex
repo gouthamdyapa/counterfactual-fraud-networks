@@ -1,0 +1,108 @@
+\subsection{Temporal reachability, counting, and cut problems}
+
+Molter, Renken, and Zschoche~\citep[Theorem 14]{molter2024} give
+polynomial-time algorithms for minimizing temporal reachability by deleting
+or delaying time-edges when the underlying graph is a forest. Their
+Lemma 2 transfers deletion to delay while preserving the forest property.
+The stronger weighted forest delay formulation
+\citep[Theorem 15, pp.~10--12]{molter2024} permits nonnegative weights on
+reached vertices and undelayable time-edges, with a cardinality bound on
+the modified time-edges. Its dynamic program records a vertex, a delay
+budget, its first arrival time, and whether that arrival is supplied from
+inside or outside its rooted subtree; a table entry minimizes the total
+weight of reached vertices. The underlying temporal graph is undirected,
+and the forest result allows arbitrary nonnegative traversal times,
+including the strict convention with traversal time one. Thus tree
+structure, strictness, and protected contacts alone are not novelty
+distinctions, and the source's vertex weights must not be confused with
+arbitrary event-deletion costs.
+
+The final journal version also gives a $4^x|G|^{O(1)}$ algorithm for both
+reachability problems in the non-strict setting, where $x$ is the timed
+feedback vertex number~\citep[Theorem 16]{molter2024}. This parameter is
+zero on underlying forests. The output contract here instead requires
+minimum original-event deletion cost at every attainable exact pair of
+root-ending two- and three-event tuple counts, subject to the preservation
+quota and shared event decisions. A derivation from the reachability
+results must therefore supply an encoding or sufficient state for these
+multiplicities, costs, and constraints, as well as the claimed dependence
+on preservation loss. Appendix~\ref{app:reachability} gives a direct-summary
+counterexample: the same reached sets and earliest arrivals can coexist
+with different tuple counts. It does not exclude richer states or auxiliary
+reductions. The journal article extends the earlier conference version
+\citep{molter2021}. The comparison above uses the final journal
+statements and proofs, with their journal theorem numbering.
+
+Enright, Meeks, and Molter~\citep[Theorem 2]{enright2025counting} count temporal
+paths on forests in $O(|V|\tau^2)$ time, where $\tau$ is the lifetime. Their
+Theorems 6--7 treat further structural parameters. Fixed-deletion counting
+does transfer to the present setting: Appendix~\ref{app:counting} gives a single
+normalization preserving strict ties, event identities, and both counts
+under every deletion subset, with lifetime at most $M$. Thus strictness,
+orientation, and parallel contacts do not obstruct that counting transfer.
+The additional task here is to choose one shared deletion set and compute
+minimum costs for the entire attainable profile with the stated dependence
+on preservation loss.
+
+Robust Temporal Cut~\citep{enright2026robust} removes contacts so that no
+source--target temporal path survives even after bounded timestamp
+perturbations. For undirected temporal graphs, its stated tractability
+parameters include timed vertex
+cover, vertex cover plus solution size, and temporal neighborhood diversity
+plus solution size. This is a related temporal-deletion problem with a
+different feasibility condition. The existence of those algorithms does not
+itself supply an exact reduction for two simultaneous multiplicity counts.
+Any proposed transfer must also preserve its controlling parameters.
+
+\subsection{Cover formulations and the parameters they retain}
+
+There is a direct exact set-system representation. Each baseline two-walk is
+a red element, each baseline three-walk is a blue element, and each optional
+event supplies the set of elements containing its original identifier.
+Selecting event sets incurs their deletion costs. A profile entry
+$C(\ell,w)$ requires red union coverage exactly $\ell$ and blue union
+coverage exactly $N_3-w$. An upper quota on surviving triples instead
+requires a partial blue target. Shared incidences matter: a walk destroyed
+by several deletions is still counted once.
+
+This representation relates the problem to red--blue set cover. Abidha and
+Ashok~\citep[Theorem 6 in the author preprint]{abidha2024} give an exact
+fixed-dimensional hyperplane algorithm parameterized by red coverage for
+covering all blue points. The temporal witness incidence admits a
+three-dimensional coordinate-plane representation, but the compared
+feasible family has no independent charge for selected planes and freely
+selects red-free sets. First-event choices in the temporal model can be red-free and still
+cost money. The partial-blue approximation setting of
+Chlamt\'a\v{c}, Makarychev, and Vakilian~\citep[Appendix A]{chlamtac2023}
+is another close precedent for the benefit--damage formulation; its
+approximation guarantee does not by itself decide exact profile feasibility
+and minimum event cost.
+
+Madireddy, Nandy, and Pandit~\citep[Theorems 1--2]{madireddy2025} give exact
+algorithms for intervals and for a restricted axis-parallel-line case. The
+direct temporal witness representation need not be an interval system.
+With one first event $a$, two middle events $b_1,b_2$, and two final events
+$c_1,c_2$, all temporally compatible, the four triples $q_{ij}=(a,b_i,c_j)$
+induce the event sets
+\[
+ \{q_{11},q_{12}\},\quad \{q_{21},q_{22}\},\quad
+ \{q_{11},q_{21}\},\quad \{q_{12},q_{22}\}.
+\]
+An interval order would need four distinct adjacent pairs on four blue
+points, which have only three adjacencies. The restricted line algorithm
+also relies on disjoint red incidences, whereas a temporal red pair belongs
+to both its middle and final events. These observations concern the direct
+representation and do not rule out another exact encoding.
+
+The bipartite partial-cover framework of
+Mkrtchyan and coauthors~\citep{mkrtchyan2024} includes a selected-vertex cost
+budget and covered-edge profit targets. Their hardness theorem with two side budgets
+provides the starting problem for the reduction in Appendix~A. For the positive comparisons,
+neither selected cost nor covered profit is inherently bounded by the preservation loss $R$.
+For example, take $n$ optional unit-cost first events before one retained
+middle/final pair and require preservation of that pair. Then $R=0$ while
+destroying all triples requires $n$ deletions. A target leaving at most
+$\lfloor n/2\rfloor$ triples makes both the destroyed-triple target and the
+surviving-triple allowance grow at $R=0$. An algorithm controlled by those
+quantities therefore needs an additional parameter argument to yield the bound in Theorem~\ref{thm:main}. This is a statement about the indicated transfer, not about all
+possible reductions.

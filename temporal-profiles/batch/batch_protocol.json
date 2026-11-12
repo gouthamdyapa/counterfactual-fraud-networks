@@ -1,0 +1,66 @@
+{
+  "cohort": {
+    "query_count": 1024,
+    "sha256": "7da306dda2c5f99c598b1ab91b9f5470f5a62d9c7794dd7dd81d7d34c83a5ca1",
+    "source_sampling_protocol_sha256": "9b88efe848c8fd05fbf9ccefde9bfce3f7ba534b55e0b9b349cb80efc58fe29c"
+  },
+  "dataset": {
+    "expected_rows": 5078345,
+    "expected_sha256": "b19d39f515523373f991b689c07e11e7b0b95c17a2c27a87d91584ae16c5b040",
+    "synthetic": true
+  },
+  "interpretation": {
+    "cohort_history": "All 1024 queries were selected in the earlier audit without labels or structural/solver outcomes. Their outcomes have been studied before; this is not held-out evaluation.",
+    "context": "All original induced events in the incoming static distance-at-most-three vertex set, in [cutoff-1440, cutoff). No core trimming or tree projection.",
+    "limits": "Caps and timeouts are incomplete computation, not mathematical impossibility. Oracle timeouts/skips do not count as agreement.",
+    "optimality_scope": "Minimum deletion cost per attainable (W2,W3) pair on complete supported contexts only. No full-classifier prediction-change or fraud-effectiveness claim.",
+    "policy_extension": "100%,95%,90% preservation and target floor(3*B3/4) reuse earlier formulas. Exact-target lookup and full profile checking are declared extensions motivated by the worked example. Unrestricted T=0 is omitted.",
+    "rate_scope": "Queries may share accounts and events. Report descriptive destination-account/minute query rates with explicit missing/incomplete denominators; not population fraud rates or independent trials.",
+    "selection": "Original complete cohort and hash order retained. No query omitted based on structural eligibility, counts, cost, or runtime."
+  },
+  "limits": {
+    "invocation_time_limit_seconds": 1800,
+    "max_R": 8,
+    "max_context_events": 5000,
+    "max_discovery_events": 200000,
+    "max_profile_coordinates": 100000,
+    "max_solver_events": 32,
+    "max_vertices": 5000,
+    "oracle_max_optional_events": 16,
+    "oracle_timeout_seconds": 20,
+    "solver_timeout_seconds": 15
+  },
+  "policies": {
+    "budgets": [
+      0,
+      1,
+      3
+    ],
+    "comparators": [
+      "at_most",
+      "exact"
+    ],
+    "preservation_percentages": [
+      100,
+      95,
+      90
+    ],
+    "target_fraction": {
+      "denominator": 4,
+      "numerator": 3
+    }
+  },
+  "protocol_id": "MAC_COMPLETE_CONTEXT_PROFILES_V1",
+  "reference_anchor": {
+    "context_events": 9,
+    "exact_target_at_full_preservation": "unattainable",
+    "minimum_cost_at_full_preservation": 1,
+    "query_id": "q0011",
+    "vertices": 5,
+    "w2": 7,
+    "w3": 2
+  },
+  "study_label": "Native Mac complete-context profile evaluation on the previously audited IBM cohort",
+  "version": 1,
+  "window_minutes": 1440
+}

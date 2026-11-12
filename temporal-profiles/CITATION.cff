@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "Please cite the temporal-profile working manuscript when using this artifact."
+type: software
+title: "Minimum-Cost Temporal Walk Profiles: Research Artifact"
+authors:
+  - family-names: Dyapa
+    given-names: Goutam
+repository-code: "https://github.com/gouthamdyapa/counterfactual-fraud-networks"
+preferred-citation:
+  type: unpublished
+  title: "Minimum-Cost Temporal Walk Profiles on Depth-Three In-Arborescences"
+  authors:
+    - family-names: Dyapa
+      given-names: Goutam
+  year: 2026
+  month: 11
+  notes: "Working manuscript dated 5 November 2026; see temporal-profiles/manuscript/."

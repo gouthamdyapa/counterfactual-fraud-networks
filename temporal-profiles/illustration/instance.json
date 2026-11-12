@@ -1,0 +1,86 @@
+{
+  "root": "z",
+  "min_w2": 5,
+  "events": [
+    {
+      "id": "A2",
+      "source": "s2",
+      "target": "v2",
+      "time": 1,
+      "cost": 1,
+      "status": "optional"
+    },
+    {
+      "id": "A4",
+      "source": "s4",
+      "target": "v4",
+      "time": 1,
+      "cost": 1,
+      "status": "optional"
+    },
+    {
+      "id": "B1",
+      "source": "v1",
+      "target": "u",
+      "time": 2,
+      "cost": 1,
+      "status": "keep"
+    },
+    {
+      "id": "B2",
+      "source": "v2",
+      "target": "u",
+      "time": 4,
+      "cost": 1,
+      "status": "keep"
+    },
+    {
+      "id": "B3",
+      "source": "v3",
+      "target": "u",
+      "time": 6,
+      "cost": 1,
+      "status": "keep"
+    },
+    {
+      "id": "B4",
+      "source": "v4",
+      "target": "u",
+      "time": 8,
+      "cost": 1,
+      "status": "keep"
+    },
+    {
+      "id": "C1",
+      "source": "u",
+      "target": "z",
+      "time": 3,
+      "cost": 1,
+      "status": "optional"
+    },
+    {
+      "id": "C2",
+      "source": "u",
+      "target": "z",
+      "time": 5,
+      "cost": 1,
+      "status": "optional"
+    },
+    {
+      "id": "C3",
+      "source": "u",
+      "target": "z",
+      "time": 7,
+      "cost": 1,
+      "status": "optional"
+    },
+    {
+      "id": "C4",
+      "source": "u",
+      "target": "z",
+      "time": 9,
+      "cost": 1,
+      "status": "optional"
+    }
+  ]
+}
